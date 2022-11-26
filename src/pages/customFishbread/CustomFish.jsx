@@ -1,16 +1,24 @@
 import CustomMessage from './CustomMessage';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useAxios from '../../hooks/useAxios';
+import CustomDone from './CustomDone';
 
 function CustomFish() {
   const tabs = ['customFish', 'customMessage'];
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [inputs, setInputs] = useState({
-    dough: '',
+    dough: '밀가루',
     sediment: '',
     nickname: '',
     content: '',
   });
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { requestApi } = useAxios();
+
+  const navigate = useNavigate();
 
   // 커스텀 반죽/앙금 선택
   const onClcikCustom = (type, value) => {
@@ -29,11 +37,45 @@ function CustomFish() {
     }));
   };
 
-  return (
+  const exitCustomPage = () => {
+    if (window.confirm('붕어빵 만들기를 취소하시겠습니까?')) {
+      navigate('/');
+    }
+  };
+
+  const onClickedSave = async () => {
+    if (inputs.content === '') {
+      alert('내용을 입력해주세요');
+      return;
+    }
+
+    setIsLoading(true);
+
+    const { status, data } = await requestApi('post', '', {
+      ...inputs,
+      nickname: inputs.nickname ? inputs.nickname : '익명',
+    });
+
+    if (status === 201) {
+      navigate('/');
+    } else {
+      // error 처리
+    }
+  };
+
+  const onClickReset = () => {
+    setInputs({ dough: '밀가루', sediment: '', nickname: '', content: '' });
+  };
+
+  console.log(inputs);
+
+  return isLoading ? (
+    <CustomDone />
+  ) : (
     <div>
       {activeTab === tabs[0] && (
         <>
-          <Link to="/">이전</Link>
+          <button onClick={exitCustomPage}>이전</button>
           <button type="button" onClick={() => setActiveTab(tabs[1])}>
             다음
           </button>
@@ -53,6 +95,7 @@ function CustomFish() {
               {dough}
             </button>
           ))}
+          <button onClick={onClickReset}>refresh</button>
           {sediments.map((sediment) => (
             <button
               type="button"
@@ -64,7 +107,13 @@ function CustomFish() {
           ))}
         </div>
       )}
-      {activeTab === tabs[1] && <CustomMessage inputs={inputs} onChangeMessage={onChangeMessage} />}
+      {activeTab === tabs[1] && (
+        <CustomMessage
+          inputs={inputs}
+          onChangeMessage={onChangeMessage}
+          onClickedSave={onClickedSave}
+        />
+      )}
     </div>
   );
 }

@@ -1,13 +1,20 @@
 import styled from 'styled-components';
 import CustomDone from './CustomDone';
 
-function CustomMessage({ inputs, onChangeMessage }) {
+function CustomMessage({ inputs, onChangeMessage, onClickedSave }) {
   return (
     <div>
-      <Content name="content" onChange={onChangeMessage} />
-      <input name="nickname" onChange={onChangeMessage} />
+      <Content name="content" onChange={onChangeMessage} value={inputs.content} />
+      <input
+        name="nickname"
+        onChange={onChangeMessage}
+        placeholder="익명"
+        value={inputs.nickname}
+      />
 
       <Content value={inputs.content} readOnly />
+
+      <button onClick={onClickedSave}>확인</button>
     </div>
   );
 }
