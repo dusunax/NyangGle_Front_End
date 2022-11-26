@@ -1,5 +1,5 @@
 function List() {
-    return <div>index</div>;
+    return <div>list</div>;
   }
   
   export default List;
