@@ -7,87 +7,66 @@ const BREAD_DATA = {
   content: [
     {
       id: 1,
-      Type: 0,
-      status: 'unread',
-      message: 'asdasdasd',
-      createdAt: '',
+      Type: '팥/앙금',
+      status: 'UNREAD',
       senderNickname: 'nick1',
     },
     {
       id: 2,
-      Type: 0,
-      status: 'unread',
-      message: 'afasasfasdadad',
-      createdAt: '',
+      Type: '팥/앙금',
+      status: 'UNREAD',
       senderNickname: 'nick2',
     },
     {
       id: 3,
-      Type: 0,
-      status: 'unread',
-      message: 'asfasdasdads',
-      createdAt: '',
+      Type: '팥/앙금',
+      status: 'UNREAD',
       senderNickname: 'nick3',
     },
     {
       id: 4,
-      Type: 0,
-      status: 'unread',
-      message: 'asdad',
-      createdAt: '',
+      Type: '팥/앙금',
+      status: 'UNREAD',
       senderNickname: 'nick4',
     },
     {
       id: 5,
-      Type: 0,
-      status: 'unread',
-      message: 'asdasd',
-      createdAt: '',
+      Type: '팥/앙금',
+      status: 'UNREAD',
       senderNickname: 'nick5',
     },
     {
       id: 6,
-      Type: 0,
-      status: 'unread',
-      message: 'sdsdsd',
-      createdAt: '',
+      Type: '팥/앙금',
+      status: 'UNREAD',
       senderNickname: 'nick6',
     },
     {
       id: 7,
-      Type: 0,
-      status: 'unread',
-      message: 'sdsdsdssd',
-      createdAt: '',
+      Type: '팥/앙금',
+      status: 'UNREAD',
       senderNickname: 'nick7',
     },
     {
       id: 8,
-      Type: 0,
-      status: 'unread',
-      message: 'asdasdasdad',
-      createdAt: '',
+      Type: '팥/앙금',
+      status: 'UNREAD',
       senderNickname: 'nick8',
     },
     {
       id: 9,
-      Type: 0,
-      status: 'unread',
-      message: 'asdasdasdad',
-      createdAt: '',
+      Type: '팥/앙금',
+      status: 'UNREAD',
       senderNickname: 'nick9',
     },
     {
       id: 10,
-      Type: 0,
-      status: 'unread',
-      message: 'asfasdasdasd',
-      createdAt: '',
+      Type: '팥/앙금',
+      status: 'UNREAD',
       senderNickname: 'nick10',
     },
   ],
   totalPages: 2,
-  number: 1,
   last: true,
   first: true,
 };
@@ -106,10 +85,10 @@ function List() {
   const [readingData, setReadingData] = useState();
   const { requestApi } = useAxios();
   const navigate = useNavigate();
-  const uid = useParams().uid;
+  const { uid } = useParams();
   const tapList = [
     ['전체 붕어빵', 'All'],
-    ['안읽은 붕어빵', 'Unread'],
+    ['안읽은 붕어빵', 'UNREAD'],
     ['읽은 붕어빵', 'Read'],
   ];
 
@@ -122,18 +101,18 @@ function List() {
       if (status === 'Read') {
         url = `url?id=${lastId}&page=${currentPage}&callType=next&status=READ`;
       }
-      if (status === 'Unread') {
+      if (status === 'UNREAD') {
         url = `url?id=${lastId}&page=${currentPage}&callType=next&status=UNREAD`;
       }
     }
     if (callingType === 'Prev') {
       if (status === 'All') {
         url = `url?id=${prevId}&page=${currentPage}&callType=prev`;
-      }
+      } 
       if (status === 'Read') {
         url = `url?id=${prevId}&page=${currentPage}&callType=prev&status=READ`;
       }
-      if (status === 'Unread') {
+      if (status === 'UNREAD') {
         url = `url?id=${prevId}&page=${currentPage}&callType=prev&status=UNREAD`;
       }
     }
