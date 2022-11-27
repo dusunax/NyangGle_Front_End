@@ -71,6 +71,13 @@ const BREAD_DATA = {
   first: true,
 };
 
+const BREAD_DATA_ID = {
+  Type: '팥/앙금',
+  message: 'string',
+  createdAt: '',
+  senderNickname: 'nick1',
+};
+
 function List() {
   const [breadList, setBreadList] = useState([]);
   const [pageData, setPageData] = useState();
@@ -82,7 +89,8 @@ function List() {
   const [callingType, setCallingType] = useState();
   const [isRefetch, setIsRefetch] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
-  const [readingData, setReadingData] = useState();
+  const [readingData, setReadingData] = useState([]);
+  const [readingId, setReadingId] = useState();
   const { requestApi } = useAxios();
   const navigate = useNavigate();
   const { uid } = useParams();
@@ -108,7 +116,7 @@ function List() {
     if (callingType === 'Prev') {
       if (status === 'All') {
         url = `url?id=${prevId}&page=${currentPage}&callType=prev`;
-      } 
+      }
       if (status === 'Read') {
         url = `url?id=${prevId}&page=${currentPage}&callType=prev&status=READ`;
       }
@@ -131,6 +139,19 @@ function List() {
       setPageData({ totalPages, number, last, first });
       setCurrentIndex(0);
     }
+  }, []);
+
+  const getBreadDetail = useCallback(async (id) => {
+    console.log('fetching...');
+    //const {data, status} = await requestApi("get", `url/${id}`);
+    const data = BREAD_DATA_ID;
+    setReadingData((state) => [
+      ...state,
+      {
+        id,
+        ...data,
+      },
+    ]);
   }, []);
 
   const onClickNext = () => {
@@ -162,19 +183,20 @@ function List() {
   };
 
   const onClickBread = (id) => {
-    if(isOpened) return;
+    if (isOpened) return;
     setIsOpened(true);
-    const readingData = breadList[currentIndex].find((e) => e.id === id);
-    setReadingData(readingData);
+    setReadingId(id);
+    const hasReadingData = readingData.find((e) => e.id === id);
+    hasReadingData ?? getBreadDetail(id);
   };
 
   const onClickLocation = () => {
-    navigate(`/${uid}`)
-  }
+    navigate(`/${uid}`);
+  };
 
   const closeModal = () => {
     setIsOpened(false);
-  }
+  };
 
   useEffect(() => {
     getBreadList();
@@ -209,7 +231,7 @@ function List() {
           </button>
         )}
       </div>
-      {isOpened && <DetailModal data={readingData} closeModal={closeModal}/>}
+      {isOpened && <DetailModal data={readingData} closeModal={closeModal} id={readingId} />}
     </>
   );
 }

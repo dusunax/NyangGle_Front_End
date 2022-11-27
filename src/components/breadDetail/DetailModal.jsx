@@ -1,20 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const BREAD_DATA = {
-  Type: '팥/앙금',
-  message: 'string',
-  createdAt: '',
-  senderNickname: 'nick1'
-}
-
-function DetailModal({ data, closeModal }) {
-    
+function DetailModal({ data, closeModal, id }) {
+  const readingData = data.find((e) => e.id === id);
   const onClickClose = () => closeModal();
 
   return (
     <div>
       <div onClick={onClickClose}>닫기</div>
-      {data.message}
+      {readingData.message}
+      {readingData.id}
     </div>
   );
 }
