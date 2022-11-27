@@ -2,19 +2,23 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
+import useFetchContentSize from '../../hooks/useFetchContentSize';
+import { useRedirectPage } from '../../hooks/useRedirectPage';
+import { setCookie, getCookie, deleteCookie } from '../../utils/cookie';
 
 function Member() {
   const navigate = useNavigate();
   const copyUrlRef = useRef();
+  const [setPage] = useRedirectPage();
   const [isEditMode, setIsEditMode] = useState(false);
 
   const [displayFish, setDisplayFish] = useState([]);
+  const [activeHamburger, setActiveHamburger] = useState(false);
 
   // 리코일으로 전역 변수 가져와서 사용
   const [userName, setUserName] = useState('유저 네임');
   const [newUserName, setNewUserName] = useState();
   const [isLoggedUser, setIsLoggedUser] = useState(false);
-  // const [isLoggedUser, setIsLoggedUser] = useState(false);
   const uid = window.location.pathname.slice(1);
 
   // 쿠키에 uid 가져와서
@@ -35,37 +39,10 @@ function Member() {
 
   // 붕어빵 갯수 가져오기
   const fetchSizeAll = async () => {
-    try {
-      // const countSize = await requestAxios('/??')
+    // {success: boolean / sizeAll: number[] }
+    const fetchedContentSize = await useFetchContentSize(6);
 
-      // 붕어빵 갯수 request
-      const countSize = 2;
-      if (countSize <= 6) {
-        setDisplayFish([...new Array(countSize).keys()]);
-      } else {
-        setDisplayFish([...new Array(6).keys()]);
-      }
-    } catch (e) {
-      console.log(e);
-      alert('알 수 없는 에러가 발생했습니다.😭');
-      navigate('/');
-    }
-  };
-
-  const onClickCustomFishButton = () => {
-    navigate(`/customFish/${uid}`);
-  };
-
-  const onClickGoToListButton = () => {
-    navigate(`/list/${uid}`);
-  };
-
-  const onClickGoToMyOwnPage = () => {
-    navigate(`/member/${myUid}`);
-  };
-
-  const onClickGoToLoginPage = () => {
-    navigate(`/`);
+    setDisplayFish(fetchedContentSize.sizeAll);
   };
 
   const onSubmit = async (event) => {
@@ -101,6 +78,26 @@ function Member() {
     setIsEditMode(true);
   };
 
+  const onClickHamburgerButton = () => {
+    setActiveHamburger(!activeHamburger);
+  };
+
+  const onClickKakaoLogoutButton = async () => {
+    try {
+      // api에 로그아웃을 요청
+      // const response = await requestAxios('/~~~')
+      // if(response.isSucccess){
+
+      // 쿠키 토큰을 삭제
+      // deleteCookie('token')
+      navigate('/');
+      // }
+    } catch (e) {
+      console.log(e);
+      alert('로그아웃에 실패하였습니다.');
+    }
+  };
+
   useEffect(() => {
     if (uid === myUid) setisMatchUid(true);
     fetchSizeAll();
@@ -109,8 +106,16 @@ function Member() {
   return (
     <MemberWrap>
       {/* 타이틀 */}
-
       <MemberTitle>
+        <HamburgerWarp>
+          <div className="hambuger" onClick={onClickHamburgerButton}>
+            🍔
+          </div>
+          <ul className={activeHamburger ? 'hambugerMenu active' : 'hambugerMenu'}>
+            <li onClick={onClickKakaoLogoutButton}>로그아웃</li>
+          </ul>
+        </HamburgerWarp>
+
         <NickNameChangeForm onSubmit={onSubmit} onClick={onClickNickName}>
           {isEditMode ? (
             <input
@@ -145,7 +150,7 @@ function Member() {
 
           <FishBreadConatiner
             className={isMyPage ? 'clickable' : ''}
-            onClick={isMyPage ? onClickGoToListButton : null}
+            onClick={isMyPage ? setPage.bind(this, `/list/${uid}`) : null}
           >
             {displayFish.map((idx) => (
               <li key={idx + 'fish'}>붕어</li>
@@ -153,19 +158,19 @@ function Member() {
           </FishBreadConatiner>
         </FishBreadTruck>
 
-        {isMyPage && <button onClick={onClickGoToListButton}>내 봉투 가기</button>}
+        {isMyPage && <button onClick={setPage.bind(this, `/list/${uid}`)}>내 봉투 가기</button>}
 
         {isLoggedUser && !isMatchUid && (
           <>
-            <button onClick={onClickGoToMyOwnPage}>내 트럭 가기</button>
-            <button onClick={onClickCustomFishButton}>붕어빵 만들기</button>
+            <button onClick={setPage.bind(this, `/member/${myUid}`)}>내 트럭 가기</button>
+            <button onClick={setPage.bind(this, `/customFish/${uid}`)}>붕어빵 만들기</button>
           </>
         )}
 
         {!isLoggedUser && (
           <>
-            <button onClick={onClickCustomFishButton}>붕어빵 만들기</button>
-            <button onClick={onClickGoToLoginPage}>내 봉투 만들기</button>
+            <button onClick={setPage.bind(this, `/customFish/${uid}`)}>붕어빵 만들기</button>
+            <button onClick={setPage.bind(this, `/`)}>내 봉투 만들기</button>
           </>
         )}
       </FishBreadTruckWrap>
@@ -177,6 +182,55 @@ export default Member;
 
 const MemberWrap = styled.div`
   padding: 20px 0;
+`;
+
+const HamburgerWarp = styled.div`
+  margin-right: 20px;
+  position: relative;
+  align-self: flex-end;
+
+  cursor: pointer;
+
+  .hambugerMenu {
+    height: 0;
+    width: 100px;
+
+    position: absolute;
+    top: 100%;
+    right: 0;
+
+    transition: all 0.2s;
+    overflow: hidden;
+
+    z-index: 99;
+    cursor: pointer;
+
+    li {
+      padding: 0px;
+      text-align: center;
+
+      border: 1px solid #aaa;
+      background-color: #fff;
+    }
+  }
+
+  .hambugerMenu.active {
+    // 메뉴 높이
+    height: 23px;
+
+    position: absolute;
+    top: 100%;
+
+    .hambugerMenu.active li {
+      cursor: pointer;
+      padding: 10px 0;
+    }
+  }
+`;
+
+const MemberTitle = styled.div`
+  display: flex;
+  flex-flow: column;
 `;
 
 const FishBreadTruckWrap = styled.div`
@@ -234,11 +288,6 @@ const CopyUrlWrap = styled.div`
 
     text-overflow: ellipsis;
   }
-`;
-
-const MemberTitle = styled.div`
-  display: flex;
-  justify-content: center;
 `;
 
 const NickNameChangeForm = styled.form`

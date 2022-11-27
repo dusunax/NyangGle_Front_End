@@ -3,7 +3,7 @@ import { REST_API_KEY, REDIRECT_URI, CLIENT_SECRET } from './OAuth';
 
 function Login() {
   const onClickKakaoLoginButton = () => {
-    //
+    // requestAxios('/로그인 요청 보낼api')
   };
 
   return (
