@@ -1,24 +1,22 @@
 import CustomMessage from './CustomMessage';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import useAxios from '../../hooks/useAxios';
 import CustomDone from './CustomDone';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAxios from '../../hooks/useAxios';
 
 function CustomFish() {
+  const navigate = useNavigate();
+  const { requestApi } = useAxios();
   const tabs = ['customFish', 'customMessage'];
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [inputs, setInputs] = useState({
     dough: '밀가루',
+    message: '',
     sediment: '',
-    nickname: '',
-    content: '',
+    senderIp: '',
+    senderNickname: '',
   });
-
   const [isLoading, setIsLoading] = useState(false);
-
-  const { requestApi } = useAxios();
-
-  const navigate = useNavigate();
 
   // 커스텀 반죽/앙금 선택
   const onClcikCustom = (type, value) => {
@@ -51,16 +49,19 @@ function CustomFish() {
 
     setIsLoading(true);
 
-    const { status, data } = await requestApi('post', '', {
+    const { status, data } = await requestApi('post', `/fishbread/1`, {
       ...inputs,
-      nickname: inputs.nickname ? inputs.nickname : '익명',
+      type: `${inputs.dough}/${inputs.sediment}`,
+      senderNickname: inputs.senderNickname ? inputs.senderNickname : '익명',
     });
 
-    if (status === 201) {
-      navigate('/');
-    } else {
-      // error 처리
-    }
+    console.log(status, data);
+
+    // if (status === 201) {
+    //   navigate('/');
+    // } else {
+    //   // error 처리
+    // }
   };
 
   const onClickReset = () => {
@@ -68,6 +69,20 @@ function CustomFish() {
   };
 
   console.log(inputs);
+
+  const getIp = async () => {
+    const { data, status } = await requestApi('get', 'https://api.ipify.org?format=json');
+    if (status >= 200 && status < 400) {
+      setInputs((prev) => ({
+        ...prev,
+        senderIp: data.ip,
+      }));
+    }
+  };
+
+  useEffect(() => {
+    getIp();
+  }, []);
 
   return isLoading ? (
     <CustomDone />
