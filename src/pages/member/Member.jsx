@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import * as sizeImage from './sizeImage.json';
 
 import styled from 'styled-components';
+
 import useFetchContentSize from '../../hooks/useFetchContentSize';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
 import { setCookie, getCookie, deleteCookie } from '../../utils/cookie';
@@ -12,7 +14,8 @@ function Member() {
   const [setPage] = useRedirectPage();
   const [isEditMode, setIsEditMode] = useState(false);
 
-  const [displayFish, setDisplayFish] = useState([]);
+  const [fishSizeAll, setFishSizeAll] = useState();
+  const [displayFishImage, setDisplayFishImage] = useState();
   const [activeHamburger, setActiveHamburger] = useState(false);
 
   // 리코일으로 전역 변수 가져와서 사용
@@ -39,10 +42,13 @@ function Member() {
 
   // 붕어빵 갯수 가져오기
   const fetchSizeAll = async () => {
+    const { fetchContentSize } = await useFetchContentSize();
     // {success: boolean / sizeAll: number[] }
-    const fetchedContentSize = await useFetchContentSize(6);
+    const fetchedContents = await fetchContentSize();
+    const fishCount = fetchedContents.sizeAllCount;
 
-    setDisplayFish(fetchedContentSize.sizeAll);
+    setDisplayFishImage(sizeImage.default[fishCount - 1].imageURL);
+    setFishSizeAll(fishCount);
   };
 
   const onSubmit = async (event) => {
@@ -129,7 +135,7 @@ function Member() {
           )}
           <div className="nickNameChangeButton">🖍</div>
           <br />
-          붕어빵이 <span className="sizeAll">{displayFish.length}</span>개 있습니다냥.
+          붕어빵이 <span className="sizeAll">{fishSizeAll}</span>개 있습니다냥.
         </NickNameChangeForm>
       </MemberTitle>
 
@@ -152,9 +158,7 @@ function Member() {
             className={isMyPage ? 'clickable' : ''}
             onClick={isMyPage ? setPage.bind(this, `/list/${uid}`) : null}
           >
-            {displayFish.map((idx) => (
-              <li key={idx + 'fish'}>붕어</li>
-            ))}
+            <img src={displayFishImage} alt="붕어빵 매대입니다." />
           </FishBreadConatiner>
         </FishBreadTruck>
 

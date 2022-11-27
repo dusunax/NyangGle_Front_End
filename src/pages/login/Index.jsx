@@ -1,9 +1,15 @@
 import styled from 'styled-components';
 import { REST_API_KEY, REDIRECT_URI, CLIENT_SECRET } from './OAuth';
+import useAxios from '../../hooks/useAxios';
 
 function Login() {
-  const onClickKakaoLoginButton = () => {
-    // requestAxios('/로그인 요청 보낼api')
+  const { requestApi } = useAxios();
+  const onClickKakaoLoginButton = async () => {
+    try {
+      // requestApi('get', '/보낼 api주소');
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
