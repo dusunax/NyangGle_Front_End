@@ -50,18 +50,13 @@ function CustomFish() {
     setIsLoading(true);
 
     const { status, data } = await requestApi('post', `/fishbread/1`, {
-      ...inputs,
+      message: inputs.message,
       type: `${inputs.dough}/${inputs.sediment}`,
+      senderIp: inputs.senderIp,
       senderNickname: inputs.senderNickname ? inputs.senderNickname : '익명',
     });
 
     console.log(status, data);
-
-    // if (status === 201) {
-    //   navigate('/');
-    // } else {
-    //   // error 처리
-    // }
   };
 
   const onClickReset = () => {

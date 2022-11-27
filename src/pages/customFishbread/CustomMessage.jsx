@@ -4,15 +4,15 @@ import CustomDone from './CustomDone';
 function CustomMessage({ inputs, onChangeMessage, onClickedSave }) {
   return (
     <div>
-      <Content name="content" onChange={onChangeMessage} value={inputs.content} />
+      <Content name="message" onChange={onChangeMessage} value={inputs.message} />
       <input
-        name="nickname"
+        name="senderNickname"
         onChange={onChangeMessage}
         placeholder="익명"
-        value={inputs.nickname}
+        value={inputs.senderNickname}
       />
 
-      <Content value={inputs.content} readOnly />
+      <Content value={inputs.message} readOnly />
 
       <button onClick={onClickedSave}>확인</button>
     </div>
