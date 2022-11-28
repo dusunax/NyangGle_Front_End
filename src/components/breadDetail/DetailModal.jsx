@@ -36,6 +36,7 @@ const ModalWrapper = styled.div`
   justify-content: center;
   align-items: center;
   font-family: 'Room703';
+  z-index: 2;
 `;
 
 const ModalBackground = styled.div`

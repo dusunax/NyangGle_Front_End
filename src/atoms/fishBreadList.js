@@ -18,3 +18,8 @@ export const readingDataList = atom({
   key: 'readingDataList',
   default: [],
 });
+
+export const tapIndexState = atom({
+  key: 'tapIndexState',
+  default: 0,
+});

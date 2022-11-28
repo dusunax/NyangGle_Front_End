@@ -50,6 +50,6 @@ export const getBreadListData = async (
 };
 
 export const getBreadDetailData = async (baseUrl, id, token) => {
-  const result = await callApi(`${baseUrl}/${id}`, token);
+  const result = await callApi(`${baseUrl}fishbread/${id}`, token);
   return result;
 };
