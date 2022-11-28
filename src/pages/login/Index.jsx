@@ -43,7 +43,7 @@ const LoginWrap = styled.div`
 
   .contents_area {
     height: 100%;
-    max-width: 400px;
+    max-width: 450px;
 
     margin: 0 auto;
     padding: 0 32px;

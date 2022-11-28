@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import * as countFishTruckImages from './countFishTruckImages.json';
 
 import styled from 'styled-components';
-
 import useFetchContentSize from '../../hooks/useFetchContentSize';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
 import { setCookie, getCookie, deleteCookie } from '../../utils/cookie';
@@ -13,10 +12,14 @@ function Member() {
   const copyUrlRef = useRef();
   const [setPage] = useRedirectPage();
   const [isEditMode, setIsEditMode] = useState(false);
-
-  const [fishSizeAll, setFishSizeAll] = useState();
-  const [displayFishImage, setDisplayFishImage] = useState('cat_truck_6.png');
   const [activeHamburger, setActiveHamburger] = useState(false);
+
+  // 매대의 붕어빵 갯수 관련
+  const [fishSizeAll, setFishSizeAll] = useState();
+  const [displayFishImage, setDisplayFishImage] = useState('cat_truck_0.png');
+
+  // 랜덤 말풍선
+  const [randomComment, setRandomCommnet] = useState();
 
   // 리코일으로 전역 변수 가져와서 사용
   const [userName, setUserName] = useState('유저 네임');
@@ -25,8 +28,8 @@ function Member() {
   const uid = window.location.pathname.slice(1);
 
   // 쿠키에 uid 가져와서
-  const [isMatchUid, setisMatchUid] = useState(false);
-  const myUid = 'testtest0';
+  const [isMatchUid, setisMatchUid] = useState(true);
+  const myUid = 'testtest';
   const isMyPage = isLoggedUser && isMatchUid;
 
   const copyUrl = () => {
@@ -51,6 +54,8 @@ function Member() {
 
       if (fishCount < 6) {
         setDisplayFishImage(countFishTruckImages.default[fishCount].imageURL);
+      } else {
+        setDisplayFishImage('cat_truck_6.png');
       }
       setFishSizeAll(fishCount);
     } else {
@@ -118,6 +123,37 @@ function Member() {
     fetchSizeAll();
   }, []);
 
+  const twoCatsRandomComment = [
+    '어서오라냥~',
+    '날마다 오는 붕어빵이 아니다냥',
+    '맛있는 붕어빵이 있다냥!',
+    '친구랑 나눠먹어도 맛있다냥',
+    '붕어빵 사가라냥!',
+    '붕어빵 만들지 않겠냥?',
+    '재료도 고를 수 있다냥!',
+    '천원도 카드 된다냥!',
+  ];
+
+  let timeout;
+  const refreshComment = () => {
+    let currentComment = (
+      <CatsComment>
+        {twoCatsRandomComment[Math.floor(Math.random() * twoCatsRandomComment.length)]}
+      </CatsComment>
+    );
+    setRandomCommnet(currentComment);
+
+    timeout = setTimeout(() => {
+      refreshComment();
+    }, 3000);
+  };
+
+  useEffect(() => {
+    refreshComment();
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <>
       <MemberWrap>
@@ -125,7 +161,7 @@ function Member() {
           {/* 타이틀 */}
           <SectionTitle>
             {/* 붕어빵이 n개 있습니다냥 */}
-            {isMyPage && (
+            {isMyPage ? (
               <NickNameChangeForm onSubmit={onSubmit} onClick={onClickNickName}>
                 {isEditMode ? (
                   <input
@@ -140,6 +176,8 @@ function Member() {
                 <br />
                 붕어빵이 <span className="sizeAll">{fishSizeAll}</span>개 있다냥
               </NickNameChangeForm>
+            ) : (
+              <TwoCatsCommentBubble>{randomComment}</TwoCatsCommentBubble>
             )}
 
             <div className="right">
@@ -219,7 +257,7 @@ const MemberWrap = styled.div`
 
   .contents_area {
     height: 100%;
-    max-width: 400px;
+    max-width: 450px;
 
     margin: 0 auto;
     padding: 0 32px;
@@ -373,7 +411,14 @@ const HamburgerWarp = styled.div`
   }
 `;
 
-// 트럭 시작
+const MemberTitle = styled.div`
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+
+  font-family: 'EF_jejudoldam';
+`;
+
 const FishBreadTruckWrap = styled.div`
   width: 100%;
   height: 50%;
@@ -512,6 +557,64 @@ const ButtonConatiner = styled.div`
       transform: translateY(-1px);
       opacity: 0.8;
       box-shadow: none;
+    }
+  }
+`;
+
+const TwoCatsCommentBubble = styled.div`
+  width: 100%;
+  height: 80px;
+
+  position: absolute;
+  bottom: 20px;
+
+  display: flex;
+  align-items: center;
+
+  background-color: #d4dde2;
+  border-radius: 10px;
+  overflow: hidden;
+
+  animation: up 0.5s 0.2s forwards;
+  opacity: 0;
+
+  @keyframes up {
+    0% {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+`;
+
+const CatsComment = styled.div`
+  width: 100%;
+  object-fit: cover;
+
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 700;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 18px;
+  text-align: center;
+
+  animation: fadeIn 0.5s forwards;
+  opacity: 0;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
     }
   }
 `;
