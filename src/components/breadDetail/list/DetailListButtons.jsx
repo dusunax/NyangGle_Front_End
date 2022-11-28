@@ -38,8 +38,8 @@ const Button = styled.div`
   cursor: pointer;
 
   ${({ call }) => css`
-    background: url('../../../../public/assets/images/breadDetail/${call}.png') no-repeat
-      center/contain;
+    //background: url('../../../../public/assets/images/breadDetail/${call}.png') no-repeat center/contain;
+    background: url('./assets/images/breadDetail/${call}.png') no-repeat center/contain;
   `}
 
   ${({ call }) =>

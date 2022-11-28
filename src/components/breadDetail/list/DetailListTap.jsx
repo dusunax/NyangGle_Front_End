@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
-import '../../../../public/assets/font/font.css';
+//import '../../../../public/assets/font/font.css';
+import './assets/font/font.css';
 import { tapIndexState } from '../../../atoms/fishBreadList';
 import { useRecoilValue } from 'recoil';
 
