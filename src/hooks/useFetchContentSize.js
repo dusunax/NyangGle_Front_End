@@ -13,8 +13,7 @@ export default async function useFetchContentSize() {
     try {
       // 붕어빵 갯수:number 가져오는 api
       // const responseSize = await requestApi('get', '/api주소')
-      let responseSize = 2;
-
+      let responseSize = 5;
       return (result = {
         success: true,
         sizeAllCount: responseSize,
