@@ -4,8 +4,9 @@ import DetailListItems from './DetailListItems';
 import DetailListTaps from './DetailListTaps';
 import DetailListButtons from './DetailListButtons';
 import useAxios from '../../../hooks/useAxios';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { dataList } from '../../../atoms/fishBreadList';
+import { getBreadListData } from '../../../utils/fetchBreadDetail';
 
 const BREAD_DATA = {
   content: [
@@ -90,41 +91,14 @@ function DetailList() {
   const { uid } = useParams();
 
   const baseUrl = 'url';
+  const token = '';
 
   const getBreadList = useCallback(async () => {
-    let url = '';
-    if (callingType === 'Next') {
-      if (status === 'All') {
-        url = `${baseUrl}?id=${lastId}&page=${currentPage}&callType=next`;
-      }
-      if (status === 'Read') {
-        url = `${baseUrl}?id=${lastId}&page=${currentPage}&callType=next&status=READ`;
-      }
-      if (status === 'UnRead') {
-        url = `${baseUrl}?id=${lastId}&page=${currentPage}&callType=next&status=UNREAD`;
-      }
-    }
-    if (callingType === 'Prev') {
-      if (status === 'All') {
-        url = `${baseUrl}?id=${prevId}&page=${currentPage}&callType=prev`;
-      }
-      if (status === 'Read') {
-        url = `${baseUrl}?id=${prevId}&page=${currentPage}&callType=prev&status=READ`;
-      }
-      if (status === 'UnRead') {
-        url = `${baseUrl}?id=${prevId}&page=${currentPage}&callType=prev&status=UNREAD`;
-      }
-    }
-    /*const { data, status } = await requestApi('get', url, {
-      withCredentials: true,
-      headers: {
-        'X-NYANG-AUTH-TOKEN': '',
-      },
-    });
+    /*const { data, callStatus } = await getBreadListData(baseUrl, callingType, status, token);
     const { content, totalPages, number, last, first } = data;*/
     const { content, totalPages, number, last, first } = BREAD_DATA,
-      status = 200;
-    if (status === 200) {
+      callStatus = 200;
+    if (callStatus === 200) {
       setLastId(content.at(-1).id);
       setPrevId(content[0].id);
       const dataSet = [];
@@ -178,7 +152,7 @@ function DetailList() {
     <div>
       <div onClick={onClickLocation}>돌아가기</div>
       <DetailListTaps onClickTap={onClickTap} />
-      <DetailListItems currentIndex={currentIndex} baseUrl={baseUrl} />
+      <DetailListItems currentIndex={currentIndex} baseUrl={baseUrl} token={token}/>
       {pageData && (
         <DetailListButtons
           currentIndex={currentIndex}

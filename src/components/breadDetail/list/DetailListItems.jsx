@@ -1,6 +1,7 @@
 import { dataList, readingDataList, modalState, idState } from '../../../atoms/fishBreadList';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { useCallback } from 'react';
+import { getBreadDetailData } from '../../../utils/fetchBreadDetail';
 
 const BREAD_DATA_ID = {
   Type: '팥/앙금',
@@ -9,20 +10,14 @@ const BREAD_DATA_ID = {
   senderNickname: 'nick1',
 };
 
-function DetailListItems({ currentIndex, baseUrl }) {
+function DetailListItems({ currentIndex, baseUrl, token }) {
   const breadList = useRecoilValue(dataList);
   const [readingData, setReadingData] = useRecoilState(readingDataList);
   const [isOpened, setIsOpened] = useRecoilState(modalState);
   const setReadingId = useSetRecoilState(idState);
 
   const getBreadDetail = useCallback(async (id) => {
-    console.log('fetching...');
-    /*const { data, status } = await requestApi('get', `${baseUrl}/${id}`, {
-      withCredentials: true,
-      headers: {
-        'X-NYANG-AUTH-TOKEN': '',
-      },
-    });*/
+    //const { data, status } = await getBreadDetailData(baseUrl, id, token);
     const data = BREAD_DATA_ID,
       status = 200;
     if (status === 200) {
