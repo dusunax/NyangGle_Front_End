@@ -235,6 +235,8 @@ const HamburgerWarp = styled.div`
 const MemberTitle = styled.div`
   display: flex;
   flex-flow: column;
+
+  font-family: 'EF_jejudoldam';
 `;
 
 const FishBreadTruckWrap = styled.div`
