@@ -2,16 +2,23 @@ import useAxios from '../hooks/useAxios';
 
 const callApi = (url, token) => {
   const { requestApi } = useAxios();
-  return  requestApi('get', url, {
+  return requestApi('get', url, {
     withCredentials: true,
     headers: {
       'X-NYANG-AUTH-TOKEN': token,
     },
   });
-}
+};
 
-export const getBreadListData = async (baseUrl, callingType, status, token) => {
-
+export const getBreadListData = async (
+  baseUrl,
+  token,
+  callingType,
+  status,
+  lastId,
+  prevId,
+  currentPage,
+) => {
   let url = '';
   if (callingType === 'Next') {
     if (status === 'All') {
@@ -41,6 +48,6 @@ export const getBreadListData = async (baseUrl, callingType, status, token) => {
 };
 
 export const getBreadDetailData = async (baseUrl, id, token) => {
-  const result = await callApi( `${baseUrl}/${id}`, token);
+  const result = await callApi(`${baseUrl}/${id}`, token);
   return result;
 };

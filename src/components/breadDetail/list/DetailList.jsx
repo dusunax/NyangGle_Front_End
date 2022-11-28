@@ -94,7 +94,15 @@ function DetailList() {
   const token = '';
 
   const getBreadList = useCallback(async () => {
-    /*const { data, callStatus } = await getBreadListData(baseUrl, callingType, status, token);
+    /*const { data, callStatus } = await getBreadListData(
+      baseUrl,
+      token,
+      callingType,
+      status,
+      lastId,
+      prevId,
+      currentPage,
+    );
     const { content, totalPages, number, last, first } = data;*/
     const { content, totalPages, number, last, first } = BREAD_DATA,
       callStatus = 200;
@@ -152,7 +160,7 @@ function DetailList() {
     <div>
       <div onClick={onClickLocation}>돌아가기</div>
       <DetailListTaps onClickTap={onClickTap} />
-      <DetailListItems currentIndex={currentIndex} baseUrl={baseUrl} token={token}/>
+      <DetailListItems currentIndex={currentIndex} baseUrl={baseUrl} token={token} />
       {pageData && (
         <DetailListButtons
           currentIndex={currentIndex}
