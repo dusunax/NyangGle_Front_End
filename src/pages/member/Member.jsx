@@ -118,6 +118,8 @@ function Member() {
     }
   };
 
+  const setUserInfo = () => {};
+
   useEffect(() => {
     if (uid === myUid) setisMatchUid(true);
     fetchSizeAll();
@@ -205,7 +207,7 @@ function Member() {
           <FishBreadTruckWrap>
             <FishBreadTruck>
               <img
-                src={`public/assets/images/member/${displayFishImage}`}
+                src={`./assets/images/member/${displayFishImage}`}
                 alt="고양이 트럭이다냥"
                 className={isMyPage ? 'catTruck clickable' : 'catTruck'}
                 onClick={isMyPage ? setPage.bind(this, `/list/${uid}`) : null}
