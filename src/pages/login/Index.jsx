@@ -15,14 +15,18 @@ function Login() {
 
   return (
     <LoginWrap>
-      <IntroTitle>냥냥편지</IntroTitle>
-      <img src="public/assets/images/intro/catTruck.png" alt="Cat Truck" />
-      <KakaoLogin onClick={onClickKakaoLoginButton}>
-        <KakaoLoginImage
-          src="public/assets/images/logos/kakao_login_large_wide.png"
-          alt="카카오 로그인 버튼"
-        />
-      </KakaoLogin>
+      <div className="contents_area">
+        <IntroTitle>냥냥편지</IntroTitle>
+        <div className="imageWrap">
+          <img className="catTruck" src="public/assets/images/intro/catTruck.png" alt="Cat Truck" />
+        </div>
+        <KakaoLogin onClick={onClickKakaoLoginButton}>
+          <KakaoLoginImage
+            src="public/assets/images/logos/kakao_login_large_wide.png"
+            alt="카카오 로그인 버튼"
+          />
+        </KakaoLogin>
+      </div>
     </LoginWrap>
   );
 }
@@ -30,36 +34,86 @@ function Login() {
 export default Login;
 
 const LoginWrap = styled.div`
-  position: relative;
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+
   background: linear-gradient(to bottom, #e3edf2 70%, #000 70%, #000 70.3%, #faeac7 70.3%);
-  & > img {
+
+  .contents_area {
+    height: 100%;
+    max-width: 400px;
+
+    margin: 0 auto;
+    padding: 0 32px;
+
+    position: relative;
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .imageWrap {
+    width: 100%;
+    height: 50vh;
+    position: relative;
+
+    margin-bottom: 5vh;
+  }
+
+  .catTruck {
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+
     position: absolute;
-    bottom: 21%;
-    object-fit: fill;
-    @media (min-width: 500px) {
-      transform: scale(1.2);
-    }
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
   }
 `;
 
 const IntroTitle = styled.h1`
-  position: absolute;
-  top: 86px;
+  margin-top: 5vh;
+  margin-bottom: 10vh;
+
   font-family: 'EF_jejudoldam';
-  color: #ed9a00;
   font-size: 80px;
+  text-align: center;
+
+  color: #ed9a00;
   text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+
+  @media (max-width: 500px) {
+    font-size: 60px;
+  }
+  @media (max-width: 400px) {
+    font-size: 50px;
+  }
+  @media (max-width: 300px) {
+    font-size: 42px;
+  }
+
+  animation: up 0.5s 0.2s forwards;
+  opacity: 0;
+
+  @keyframes up {
+    0% {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 `;
 
 const KakaoLogin = styled.button`
-  position: absolute;
   width: 100%;
-  bottom: 54px;
+  max-height: 50px;
+
+  margin-bottom: 55px;
   padding: 0;
   background-color: transparent;
   border: none;
@@ -67,6 +121,13 @@ const KakaoLogin = styled.button`
 `;
 
 const KakaoLoginImage = styled.img`
-  width: 80%;
-  height: 100%;
+  width: 100%;
+
+  transition: all 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0px 2px 0 4px rgba(55, 55, 55, 0.1);
+  }
 `;
