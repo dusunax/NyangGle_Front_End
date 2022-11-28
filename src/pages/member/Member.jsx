@@ -24,11 +24,11 @@ function Member() {
   // 리코일으로 전역 변수 가져와서 사용
   const [userName, setUserName] = useState('유저 네임');
   const [newUserName, setNewUserName] = useState();
-  const [isLoggedUser, setIsLoggedUser] = useState(false);
+  const [isLoggedUser, setIsLoggedUser] = useState(true);
   const uid = window.location.pathname.slice(1);
 
   // 쿠키에 uid 가져와서
-  const [isMatchUid, setisMatchUid] = useState(true);
+  const [isMatchUid, setisMatchUid] = useState(false);
   const myUid = 'testtest';
   const isMyPage = isLoggedUser && isMatchUid;
 
@@ -36,6 +36,8 @@ function Member() {
     if (!document.queryCommandSupported('copy')) {
       return alert('복사 기능이 지원되지 않는 브라우저입니다.');
     }
+
+    console.log(copyUrlRef.current);
 
     copyUrlRef.current.select();
     document.execCommand('copy');
@@ -62,8 +64,6 @@ function Member() {
       navigate('/');
     }
   };
-
-  console.log(displayFishImage);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -226,10 +226,10 @@ function Member() {
 
             {isLoggedUser && !isMatchUid && (
               <>
-                <button onClick={setPage.bind(this, `/member/${myUid}`)}>
-                  내 붕어빵 페이지 보기{' '}
-                </button>
                 <button onClick={setPage.bind(this, `/customFish/${uid}`)}>붕어빵 만들기</button>
+                <button onClick={setPage.bind(this, `/member/${myUid}`)} className="buttonLink">
+                  <span> 내 붕어빵 페이지 보기</span>
+                </button>
               </>
             )}
 
@@ -510,12 +510,13 @@ const CopyUrlWrap = styled.div`
 
   #copyUrl {
     display: block;
-    height: 0;
-    width: 0;
+    height: 1px;
+    width: 1px;
     position: absolute;
-    z-index: -9;
+    z-index: 99;
     border: none;
-    padding: 0;
+    color: transparent;
+    outline: none;
   }
 `;
 
