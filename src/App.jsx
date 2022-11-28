@@ -3,8 +3,8 @@ import GlobalStyle from './GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme';
 import { useEffect } from 'react';
-
 import Router from './pages/Router';
+import { CookiesProvider } from 'react-cookie';
 
 function App() {
   let vh = 0;
@@ -19,9 +19,11 @@ function App() {
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <RecoilRoot>
-          <main>
-            <Router />
-          </main>
+          <CookiesProvider>
+            <main>
+              <Router />
+            </main>
+          </CookiesProvider>
         </RecoilRoot>
       </ThemeProvider>
     </>
