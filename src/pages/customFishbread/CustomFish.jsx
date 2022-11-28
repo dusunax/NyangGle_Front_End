@@ -3,6 +3,7 @@ import CustomDone from './CustomDone';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
+import styled from 'styled-components';
 
 function CustomFish() {
   const navigate = useNavigate();
@@ -89,10 +90,8 @@ function CustomFish() {
     <div>
       {activeTab === tabs[0] && (
         <>
-          <button onClick={exitCustomPage}>이전</button>
-          <button type="button" onClick={() => setActiveTab(tabs[1])}>
-            다음
-          </button>
+          <Leftbtn onClick={exitCustomPage} />
+          <Rightbtn type="button" onClick={() => setActiveTab(tabs[1])} />
         </>
       )}
       {activeTab === tabs[1] && (
@@ -102,6 +101,7 @@ function CustomFish() {
           </button>
         </>
       )}
+
       {activeTab === tabs[0] && (
         <div>
           {doughs.map((dough) => (
@@ -119,6 +119,26 @@ function CustomFish() {
               {sediment}
             </button>
           ))}
+          <img
+            src="/assets/customfish/fishframe.svg"
+            style={{
+              position: 'absolute',
+              width: '100%',
+              left: '0',
+              top: '50%',
+              transform: 'translate(0, -25%)',
+              zIndex: '2',
+            }}
+          />
+          <img
+            src="/assets/customfish/bottom.svg"
+            style={{
+              position: 'absolute',
+              width: '100%',
+              left: '0',
+              bottom: '0',
+            }}
+          />
         </div>
       )}
       {activeTab === tabs[1] && (
@@ -134,5 +154,32 @@ function CustomFish() {
 
 export default CustomFish;
 
-const doughs = ['밀가루', '민트', '녹차'];
-const sediments = ['팥', '슈크림', '치즈김치'];
+const doughs = ['밀가루', '초코', '고구마', '녹차'];
+const sediments = ['팥', '슈크림', '마라', '민초'];
+
+const Leftbtn = styled.button`
+  background: none;
+  background: url('/assets/customfish/leftBtn.svg') no-repeat;
+  background-size: contain;
+  width: 36.25px;
+  height: 32.25px;
+  border: none;
+`;
+
+const Rightbtn = styled.button`
+  background-image: url('/assets/customfish/rightBtn.svg');
+  width: 36.25px;
+  height: 34px;
+  border: none;
+`;
+
+const Fishframe = styled.div`
+  background-image: url('/assets/customfish/fishframe.svg');
+  height: 395px;
+  width: 395px;
+`;
+const Palette = styled.div`
+  background-image: url('/assets/customfish/palette.svg');
+  height: 395px;
+  width: 395px;
+`;
