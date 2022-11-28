@@ -35,12 +35,19 @@ function CustomFish() {
     }));
   };
 
+  // 뒤로 나가기
   const exitCustomPage = () => {
     if (window.confirm('붕어빵 만들기를 취소하시겠습니까?')) {
       navigate('/');
     }
   };
 
+  // 초기화
+  const onClickReset = () => {
+    setInputs({ dough: '밀가루', sediment: '', senderNickname: '', message: '' });
+  };
+
+  // 저장
   const onClickedSave = async () => {
     if (inputs.content === '') {
       alert('내용을 입력해주세요');
@@ -49,22 +56,19 @@ function CustomFish() {
 
     setIsLoading(true);
 
-    const { status, data } = await requestApi('post', `/fishbread/1`, {
+    const { status } = await requestApi('post', `/fishbread/U18414f5037a0001`, {
       message: inputs.message,
       type: `${inputs.dough}/${inputs.sediment}`,
       senderIp: inputs.senderIp,
       senderNickname: inputs.senderNickname ? inputs.senderNickname : '익명',
     });
 
-    console.log(status, data);
+    if (status === 201) {
+      navigate('/');
+    }
   };
 
-  const onClickReset = () => {
-    setInputs({ dough: '밀가루', sediment: '', nickname: '', content: '' });
-  };
-
-  console.log(inputs);
-
+  // ip 가져오기
   const getIp = async () => {
     const { data, status } = await requestApi('get', 'https://api.ipify.org?format=json');
     if (status >= 200 && status < 400) {
@@ -105,7 +109,7 @@ function CustomFish() {
               {dough}
             </button>
           ))}
-          <button onClick={onClickReset}>refresh</button>
+          <button onClick={onClickReset}>reset</button>
           {sediments.map((sediment) => (
             <button
               type="button"
