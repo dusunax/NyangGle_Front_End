@@ -17,15 +17,11 @@ function Login() {
       <div className="contents_area">
         <IntroTitle>냥냥편지</IntroTitle>
         <div className="imageWrap">
-          <img
-            className="catTruck"
-            src="public/assets/images/intro/cat_truck.png"
-            alt="Cat Truck"
-          />
+          <img className="catTruck" src="./assets/images/intro/cat_truck.png" alt="Cat Truck" />
         </div>
         <KakaoLogin onClick={onClickKakaoLoginButton}>
           <KakaoLoginImage
-            src="public/assets/images/logos/kakao_login_large_wide.png"
+            src="./assets/images/logos/kakao_login_large_wide.png"
             alt="카카오 로그인 버튼"
           />
         </KakaoLogin>
@@ -115,7 +111,7 @@ const IntroTitle = styled.h1`
 
 const KakaoLogin = styled.button`
   width: 100%;
-  max-height: 50px;
+  max-height: 55px;
   border-radius: 5px;
   overflow: hidden;
 
@@ -126,6 +122,7 @@ const KakaoLogin = styled.button`
   cursor: pointer;
 
   transition: all 0.2s;
+  background-color: #fee500;
 
   &:hover {
     opacity: 0.9;
