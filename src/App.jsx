@@ -3,6 +3,7 @@ import GlobalStyle from './GlobalStyle';
 import Router from './pages/Router';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme';
+import { CookiesProvider } from 'react-cookie';
 
 function App() {
   return (
@@ -10,9 +11,11 @@ function App() {
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <RecoilRoot>
-          <main>
-            <Router />
-          </main>
+          <CookiesProvider>
+            <main>
+              <Router />
+            </main>
+          </CookiesProvider>
         </RecoilRoot>
       </ThemeProvider>
     </>

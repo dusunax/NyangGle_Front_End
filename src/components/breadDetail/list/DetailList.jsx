@@ -7,7 +7,7 @@ import useAxios from '../../../hooks/useAxios';
 import { useRecoilState } from 'recoil';
 import { dataList } from '../../../atoms/fishBreadList';
 import { getBreadListData } from '../../../utils/fetchBreadDetail';
-import { getCookie } from '../../../utils/cookie';
+import { Cookies } from 'react-cookie';
 
 const BREAD_DATA = {
   content: [
@@ -80,8 +80,8 @@ const BREAD_DATA = {
 function DetailList() {
   const [breadList, setBreadList] = useRecoilState(dataList);
   const [pageData, setPageData] = useState();
-  const [lastId, setLastId] = useState();
-  const [prevId, setPrevId] = useState();
+  const [lastId, setLastId] = useState(0);
+  const [prevId, setPrevId] = useState(0);
   const [status, setStatus] = useState('All');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,12 +90,13 @@ function DetailList() {
   const navigate = useNavigate();
   const { requestApi } = useAxios();
   const { uid } = useParams();
+  const cookies = new Cookies();
 
   const baseUrl = 'url';
-  const token = getCookie('X-NYANG-AUTH-TOKEN');
+  const token = cookies.get('X-NYANG-AUTH-TOKEN');
 
   const getBreadList = useCallback(async () => {
-    /*const { data, callStatus } = await getBreadListData(
+    const { data, callStatus } = await getBreadListData(
       baseUrl,
       token,
       callingType,
@@ -104,9 +105,9 @@ function DetailList() {
       prevId,
       currentPage,
     );
-    const { content, totalPages, number, last, first } = data;*/
-    const { content, totalPages, number, last, first } = BREAD_DATA,
-      callStatus = 200;
+    const { content, totalPages, number, last, first } = data;
+    /*const { content, totalPages, number, last, first } = BREAD_DATA,
+      callStatus = 200;*/
     if (callStatus === 200) {
       setLastId(content.at(-1).id);
       setPrevId(content[0].id);

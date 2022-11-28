@@ -22,25 +22,27 @@ export const getBreadListData = async (
   let url = '';
   if (callingType === 'Next') {
     if (status === 'All') {
-      url = `${baseUrl}?id=${lastId}&page=${currentPage}&callType=next`;
+      url = `${baseUrl}fishbread?id=${lastId}&page=${currentPage}&callType=next`;
     }
     if (status === 'Read') {
-      url = `${baseUrl}?id=${lastId}&page=${currentPage}&callType=next&status=READ`;
+      url = `${baseUrl}fishbread?id=${lastId}&page=${currentPage}&callType=next&status=READ`;
     }
     if (status === 'UnRead') {
-      url = `${baseUrl}?id=${lastId}&page=${currentPage}&callType=next&status=UNREAD`;
+      url = `${baseUrl}fishbread?id=${lastId}&page=${currentPage}&callType=next&status=UNREAD`;
     }
   }
   if (callingType === 'Prev') {
     if (status === 'All') {
-      url = `${baseUrl}?id=${prevId}&page=${currentPage}&callType=prev`;
+      url = `${baseUrl}fishbread?id=${prevId}&page=${currentPage}&callType=prev`;
     }
     if (status === 'Read') {
-      url = `${baseUrl}?id=${prevId}&page=${currentPage}&callType=prev&status=READ`;
+      url = `${baseUrl}fishbread?id=${prevId}&page=${currentPage}&callType=prev&status=READ`;
     }
     if (status === 'UnRead') {
-      url = `${baseUrl}?id=${prevId}&page=${currentPage}&callType=prev&status=UNREAD`;
+      url = `${baseUrl}fishbread?id=${prevId}&page=${currentPage}&callType=prev&status=UNREAD`;
     }
+  } else {
+    url = `${baseUrl}fishbread?id=${lastId}&page=${currentPage}`;
   }
 
   const result = await callApi(url, token);
