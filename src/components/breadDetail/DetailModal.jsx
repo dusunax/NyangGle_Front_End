@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { modalState, readingDataList, idState } from '../../atoms/fishBreadList';
+import '../../../public/assets/font/font703.css';
 
 function DetailModal() {
-  const setIsOpened = useSetRecoilState(modalState)
-  const readingId = useRecoilValue(idState)
+  const setIsOpened = useSetRecoilState(modalState);
+  const readingId = useRecoilValue(idState);
   const data = useRecoilValue(readingDataList);
   const readingData = data.find((e) => e.id === readingId);
 
@@ -34,6 +35,7 @@ const ModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Room703';
 `;
 
 const ModalBackground = styled.div`

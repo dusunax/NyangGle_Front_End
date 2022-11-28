@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'EF_jejudoldam';
+  font-display: fallback;
+
+  /* 
+  src: 사용할 폰트의 위치 및 형식 
+     Safari, Android, iOS => ttf
+     Modern Browsers => woff
+     IE6-IE8 => eot
+  */
+  src: url('./EF_jejudoldam.ttf') format('truetype'),
+    url('./EF_jejudoldam.eot?iefix') format('embedded-opentype'),
+    url('./EF_jejudoldam.woff') format('woff');
+}
