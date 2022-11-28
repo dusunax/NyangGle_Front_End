@@ -17,7 +17,11 @@ function Login() {
       <div className="contents_area">
         <IntroTitle>냥냥편지</IntroTitle>
         <div className="imageWrap">
-          <img className="catTruck" src="public/assets/images/intro/catTruck.png" alt="Cat Truck" />
+          <img
+            className="catTruck"
+            src="public/assets/images/intro/cat_truck.png"
+            alt="Cat Truck"
+          />
         </div>
         <KakaoLogin onClick={onClickKakaoLoginButton}>
           <KakaoLoginImage
@@ -35,7 +39,7 @@ export default Login;
 const LoginWrap = styled.div`
   height: calc(var(--vh, 1vh) * 100);
 
-  background: linear-gradient(to bottom, #e3edf2 70%, #000 70%, #000 70.3%, #faeac7 70.3%);
+  background: linear-gradient(to bottom, #e3edf2 68%, #000 68%, #000 68.3%, #faeac7 68.3%);
 
   .contents_area {
     height: 100%;
@@ -112,16 +116,14 @@ const IntroTitle = styled.h1`
 const KakaoLogin = styled.button`
   width: 100%;
   max-height: 50px;
+  border-radius: 5px;
+  overflow: hidden;
 
   margin-bottom: 55px;
   padding: 0;
   background-color: transparent;
   border: none;
   cursor: pointer;
-`;
-
-const KakaoLoginImage = styled.img`
-  width: 100%;
 
   transition: all 0.2s;
 
@@ -130,4 +132,8 @@ const KakaoLoginImage = styled.img`
     transform: translateY(-2px) scale(1.01);
     box-shadow: 0px 2px 4px rgba(55, 55, 55, 0.1);
   }
+`;
+
+const KakaoLoginImage = styled.img`
+  width: 100%;
 `;
