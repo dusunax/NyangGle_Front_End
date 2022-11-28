@@ -8,8 +8,9 @@ import styled from 'styled-components';
 function CustomFish() {
   const navigate = useNavigate();
   const { requestApi } = useAxios();
-  const tabs = ['customFish', 'customMessage'];
-  const [activeTab, setActiveTab] = useState(tabs[0]);
+  const tabs = ['붕어빵 커스텀', '메세지 작성'];
+  const [isActiveTab, setIsActiveTab] = useState(tabs[0]);
+  const [message, setMessage] = useState('앙금을 고르라냥');
   const [inputs, setInputs] = useState({
     dough: '밀가루',
     message: '',
@@ -17,62 +18,86 @@ function CustomFish() {
     senderIp: '',
     senderNickname: '',
   });
-  const [isLoading, setIsLoading] = useState(false);
   const [imgs, setImgs] = useState({
     dough: 'flour',
-    cat: '',
+    cat: 'cat1',
     message: 'flour',
     sediment: '',
   });
-  const [message, setMessage] = useState('앙금을 고르라냥');
+  const [isDone, setIsDone] = useState(false);
 
-  // 커스텀 반죽/앙금 선택
-  const onClcikCustom = (type, value) => {
+  /**
+   * @param {'붕어빵 커스텀' | '메세지 작성'} tab
+   * @param {'prev' | 'next'} direction
+   */
+
+  // 화살표 선택 시
+  const onClickNav = (tab, direction) => {
+    if (tab === '붕어빵 커스텀') {
+      if (direction === 'prev') {
+        if (window.confirm('붕어빵 만들기를 취소하시겠습니까?')) {
+          navigate('/');
+        }
+      } else {
+        if (!!!inputs.sediment) {
+          setMessage('앙금 먼저 고르라냥!');
+          return;
+        }
+        setIsActiveTab(tabs[1]);
+        setMessage('붕어빵에 전하고 싶은 말을 적으라냥');
+        setImgs((prev) => ({
+          ...prev,
+          cat: 'cat3',
+        }));
+      }
+    } else {
+      if (direction === 'prev') {
+        setIsActiveTab(tabs[0]);
+      } else {
+        onClickSave();
+      }
+    }
+  };
+
+  // 반죽/앙금 선택 시
+  const onClickType = (type, value) => {
+    // 메세지 변경
     if (type === 'dough' && !!!inputs.sediment) {
       setMessage('앙금을 고르라냥');
     } else {
-      setMessage('다 골랐으면 편지쓰러 가보자냥');
+      setMessage('다 골랐으면 편지 쓰러 가보자냥');
     }
 
+    // 이미지 변경
     setImgs((prev) => ({
       ...prev,
       [type]: value.img,
+      cat: 'cat2',
     }));
+
+    // inputs 변경
     setInputs((prev) => ({
       ...prev,
       [type]: value.label,
     }));
   };
 
-  // 닉네임, 컨텐츠 작성
+  // 닉네임, 메세지 작성
   const onChangeMessage = (e) => {
     const { value, name } = e.target;
+
     setInputs((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  // 뒤로 나가기
-  const exitCustomPage = () => {
-    if (window.confirm('붕어빵 만들기를 취소하시겠습니까?')) {
-      navigate('/');
-    }
-  };
-
-  // 초기화
-  const onClickReset = () => {
-    setInputs({ dough: '밀가루', sediment: '', senderNickname: '', message: '' });
-  };
-
   // 저장
-  const onClickedSave = async () => {
-    if (inputs.content === '') {
-      alert('내용을 입력해주세요');
+  const onClickSave = async () => {
+    if (!!!inputs.content) {
+      setMessage('내용을 입력해 주라냥');
       return;
     }
-
-    setIsLoading(true);
 
     const { status } = await requestApi('post', `/fishbread/U18414f5037a0001`, {
       message: inputs.message,
@@ -82,13 +107,14 @@ function CustomFish() {
     });
 
     if (status === 201) {
-      navigate('/');
+      setIsDone(true);
     }
   };
 
   // ip 가져오기
-  const getIp = async () => {
+  const getSenderIp = async () => {
     const { data, status } = await requestApi('get', 'https://api.ipify.org?format=json');
+
     if (status >= 200 && status < 400) {
       setInputs((prev) => ({
         ...prev,
@@ -98,90 +124,70 @@ function CustomFish() {
   };
 
   useEffect(() => {
-    getIp();
+    getSenderIp();
   }, []);
 
-  return isLoading ? (
+  console.log(inputs);
+
+  return isDone ? (
     <CustomDone />
   ) : (
     <Main>
       <Header>
-        {activeTab === tabs[0] && (
-          <>
-            <ArrowBtn onClick={exitCustomPage} />
-            <Rightbtn
-              type="button"
-              onClick={() => {
-                setActiveTab(tabs[1]);
-                setMessage('붕어빵에 전하고 싶은 말을 적어라냥');
-              }}
-            />
-          </>
-        )}
-        {activeTab === tabs[1] && <ArrowBtn type="button" onClick={() => setActiveTab(tabs[0])} />}
-        <h1>{message}</h1>
+        {tabs.map((tab, idx) => {
+          if (isActiveTab === tab) {
+            return (
+              <section className="btns" key={tab}>
+                <LeftBtn onClick={() => onClickNav(tabs[idx], 'prev')} />
+                <RightBtn
+                  onClick={() => {
+                    onClickNav(tab, 'next');
+                  }}
+                />
+              </section>
+            );
+          }
+        })}
+        <p className="message">{message}</p>
       </Header>
       <Contents>
-        {activeTab === tabs[0] && (
-          <div>
-            <FishFrame>
-              <img src={`/assets/customfish/${imgs.dough}.svg`} alt="반죽" />
-              {imgs.sediment && <img src={`/assets/customfish/${imgs.sediment}.svg`} alt="앙금" />}
+        <img src={`/assets/customfish/${imgs.cat}.svg`} alt="고양이" className="cat" />
+        {isActiveTab === tabs[0] && (
+          <FishFrame>
+            <img src={`/assets/customfish/${imgs.dough}.svg`} alt="반죽" className="dough" />
+            {imgs.sediment && (
               <img
-                src="/assets/customfish/fishframe.svg"
-                // style={{
-                //   position: 'absolute',
-                //   width: '100%',
-                //   left: '0',
-                //   top: '50%',
-                //   transform: 'translate(0, -25%)',
-                //   zIndex: '2',
-                // }}
+                src={`/assets/customfish/${imgs.sediment}.svg`}
+                alt="앙금"
+                className="sediment"
               />
-              {/* <img
-              src="/assets/customfish/bottom.svg"
-              // style={{
-              //   position: 'absolute',
-              //   width: '100%',
-              //   left: '0',
-              //   bottom: '0',
-              // }}
-            /> */}
-            </FishFrame>
+            )}
+            <img src="/assets/customfish/fishframe.svg" className="fishFrame" />
             <Types>
               <div>
                 {doughs.map((dough) => (
-                  <button
-                    type="button"
-                    key={dough.label}
-                    onClick={() => onClcikCustom('dough', dough)}
-                  >
+                  <button key={dough.label} onClick={() => onClickType('dough', dough)}>
                     <img src={`/assets/customfish/d_${dough.img}.svg`} />
-                    {dough.label}
+                    {dough.label} 반죽
                   </button>
                 ))}
               </div>
               <div>
-                {/* <button onClick={onClickReset}>reset</button> */}
                 {sediments.map((sediment) => (
-                  <button
-                    type="button"
-                    key={sediment.label}
-                    onClick={() => onClcikCustom('sediment', sediment)}
-                  >
+                  <button key={sediment.label} onClick={() => onClickType('sediment', sediment)}>
                     <img src={`/assets/customfish/s_${sediment.img}.svg`} />
-                    {sediment.label}
+                    {sediment.label} 앙금
                   </button>
                 ))}
               </div>
             </Types>
-          </div>
+          </FishFrame>
         )}
-        {activeTab === tabs[1] && (
+        {isActiveTab === tabs[1] && (
           <CustomMessage
             inputs={inputs}
             onChangeMessage={onChangeMessage}
-            onClickedSave={onClickedSave}
+            onClickSave={onClickSave}
           />
         )}
       </Contents>
@@ -193,64 +199,100 @@ export default CustomFish;
 
 const doughs = [
   {
-    label: '밀가루 반죽',
+    label: '밀가루',
     img: 'flour',
   },
   {
-    label: '초코 반죽',
+    label: '초코',
     img: 'choco',
   },
   {
-    label: '고구마 반죽',
+    label: '고구마',
     img: 'sweetpotato',
   },
   {
-    label: '녹차 반죽',
+    label: '녹차',
     img: 'greentea',
   },
 ];
 const sediments = [
   {
-    label: '팥 앙금',
+    label: '팥',
     img: 'redbeen',
   },
   {
-    label: '슈크림 앙금',
+    label: '슈크림',
     img: 'custard',
   },
   {
-    label: '마라 앙금',
+    label: '마라',
     img: 'mara',
   },
   {
-    label: '민초 앙금',
+    label: '민초',
     img: 'mincho',
   },
 ];
 
-const ArrowBtn = styled.button`
+const LeftBtn = styled.button`
   background: none;
   background: url('/assets/customfish/leftBtn.svg') no-repeat;
-  background-size: contain;
+  background-size: cover;
   width: 36.25px;
-  height: 32.25px;
+  height: 32.5px;
   border: none;
 `;
 
-const Rightbtn = styled(ArrowBtn)`
+const RightBtn = styled(LeftBtn)`
   background-image: url('/assets/customfish/rightBtn.svg');
 `;
 
-const Fishframe = styled.div`
-  background-image: url('/assets/customfish/fishframe.svg');
-  height: 395px;
-  width: 395px;
+const Main = styled.main`
+  ${({ theme }) => theme.flex.col}
 `;
 
-const Palette = styled.div`
-  background-image: url('/assets/customfish/palette.svg');
-  height: 395px;
-  width: 395px;
+const Header = styled.header`
+  padding: 20px;
+
+  .btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .message {
+    margin: 30px 0 10px;
+    padding: 30px;
+    background-color: #eee;
+    border-radius: 15px;
+    text-align: center;
+  }
+`;
+
+const Contents = styled.section`
+  flex: 1;
+  ${({ theme }) => theme.flex.col}
+  align-items: center;
+  position: relative;
+
+  .cat {
+    width: 150px;
+  }
+`;
+
+const FishFrame = styled.section`
+  flex: 1;
+  width: 100%;
+  background: linear-gradient(#fff, #8c8c8c);
+  .dough,
+  .sediment {
+    position: absolute;
+  }
+
+  .fishFrame {
+    width: 100%;
+  }
 `;
 
 const Types = styled.section`
@@ -272,11 +314,3 @@ const Types = styled.section`
     }
   }
 `;
-
-const FishFrame = styled.section``;
-
-const Main = styled.main``;
-
-const Header = styled.header``;
-
-const Contents = styled.section``;
