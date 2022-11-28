@@ -1,9 +1,6 @@
-import styled from 'styled-components';
-import { REST_API_KEY, REDIRECT_URI, CLIENT_SECRET } from './OAuth';
-import useAxios from '../../hooks/useAxios';
+import { REST_API_KEY, REDIRECT_URI } from './OAuth';
 import font from '../../../public/assets/font/font.css';
-import { useLocation } from 'react-router-dom';
-import qs from 'qs';
+import styled from 'styled-components';
 
 function Login() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;

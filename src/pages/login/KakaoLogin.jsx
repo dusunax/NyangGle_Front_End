@@ -1,22 +1,36 @@
-import { REST_API_KEY, REDIRECT_URI, CLIENT_SECRET } from './OAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'qs';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import useAxios from '../../hooks/useAxios';
+import axios from 'axios';
 
 const KakaoLogin = () => {
-  const { requestApi } = useAxios();
+  // const { requestApi } = useAxios();
   const location = useLocation();
   const navigate = useNavigate();
   const code = qs.parse(location.search, { ignoreQueryPrefix: true }).code;
-  console.log(code);
+  //   const { status } = await requestApi('post', `/fishbread/U18414f5037a0001`, {
+  //     message: inputs.message,
+  //     type: `${inputs.dough}/${inputs.sediment}`,
+  //     senderIp: inputs.senderIp,
+  //     senderNickname: inputs.senderNickname ? inputs.senderNickname : '익명',
+  //   });
+
+  //   if (status === 201) {
+  //     setIsDone(true);
+  //   }
+  // };
   const postKakaoAuthCode = async () => {
     try {
-      const response = await requestApi('post', '/oauth/login/kakao', {
-        code: code,
-      });
-      console.log(response.data);
+      // const { data } = await requestApi('post', '/oauth/login/kakao', {
+      //   code: code,
+      // });
+      const res = await axios
+        .post('http://localhost:8081/api/oauth/login/kakao', { code: code })
+        .then((result) => {
+          console.log(result);
+        });
     } catch (error) {
       console.log(error);
     }
