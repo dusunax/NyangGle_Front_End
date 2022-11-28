@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as sizeImage from './sizeImage.json';
-
 import styled from 'styled-components';
-
 import useFetchContentSize from '../../hooks/useFetchContentSize';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
 import { setCookie, getCookie, deleteCookie } from '../../utils/cookie';
@@ -25,8 +23,8 @@ function Member() {
   const uid = window.location.pathname.slice(1);
 
   // 쿠키에 uid 가져와서
-  const [isMatchUid, setisMatchUid] = useState(false);
-  const myUid = 'testtest0';
+  const [isMatchUid, setisMatchUid] = useState(true);
+  const myUid = 'testtest';
   const isMyPage = isLoggedUser && isMatchUid;
 
   const copyUrl = () => {
@@ -109,6 +107,20 @@ function Member() {
     fetchSizeAll();
   }, []);
 
+  const twoCatsRandomComment = [
+    '어서오라냥',
+    '날마다 오는 붕어빵이 아니다냥',
+    '맛있는 붕어빵이 있다냥!',
+    '친구랑 나눠먹어도 맛있다냥',
+    '붕어빵 사가라냥!',
+    '붕어빵 만들지 않겠냥?',
+    '재료도 고를 수 있다냥!',
+    '천원도 카드 된다냥!',
+  ];
+
+  const showRandomComment =
+    twoCatsRandomComment[Math.floor(Math.random() * twoCatsRandomComment.length)];
+
   return (
     <MemberWrap>
       {/* 타이틀 */}
@@ -121,22 +133,32 @@ function Member() {
             <li onClick={onClickKakaoLogoutButton}>로그아웃</li>
           </ul>
         </HamburgerWarp>
-
-        <NickNameChangeForm onSubmit={onSubmit} onClick={onClickNickName}>
-          {isEditMode ? (
-            <input
-              className="username"
-              defaultValue={userName}
-              onChange={onChange}
-              maxLength={10}
+        {isLoggedUser && uid === myUid ? (
+          <NickNameChangeForm onSubmit={onSubmit} onClick={onClickNickName}>
+            {isEditMode ? (
+              <input
+                className="username"
+                defaultValue={userName}
+                onChange={onChange}
+                maxLength={10}
+              />
+            ) : (
+              <span className="username">{userName}</span>
+            )}
+            <div className="nickNameChangeButton">🖍</div>
+            <br />
+            붕어빵이 <span className="sizeAll">{fishSizeAll}</span>개 있습니다냥.
+          </NickNameChangeForm>
+        ) : (
+          <TwoCatsCommentBubble>
+            <img
+              src="public/assets/images/member/gray_bubble.png"
+              alt="고양이들 말풍선"
+              style={{ width: '100%' }}
             />
-          ) : (
-            <span className="username">{userName}</span>
-          )}
-          <div className="nickNameChangeButton">🖍</div>
-          <br />
-          붕어빵이 <span className="sizeAll">{fishSizeAll}</span>개 있습니다냥.
-        </NickNameChangeForm>
+            <CatsComment>{showRandomComment}</CatsComment>
+          </TwoCatsCommentBubble>
+        )}
       </MemberTitle>
 
       {/* 푸드트럭 이미지 & 붕어빵 매대 */}
@@ -235,7 +257,7 @@ const HamburgerWarp = styled.div`
 const MemberTitle = styled.div`
   display: flex;
   flex-flow: column;
-
+  align-items: center;
   font-family: 'EF_jejudoldam';
 `;
 
@@ -326,4 +348,20 @@ const NickNameChangeForm = styled.form`
     right: 10px;
     top: 5px;
   }
+`;
+
+const TwoCatsCommentBubble = styled.div`
+  position: relative;
+  display: flex;
+  width: 80%;
+`;
+
+const CatsComment = styled.div`
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
 `;
