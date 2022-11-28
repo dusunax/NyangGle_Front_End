@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { REST_API_KEY, REDIRECT_URI, CLIENT_SECRET } from './OAuth';
 import useAxios from '../../hooks/useAxios';
-import font from '../../../public/assets/font/font.css';
 
 function Login() {
   const { requestApi } = useAxios();
@@ -58,6 +57,7 @@ const LoginWrap = styled.div`
     height: 50vh;
     position: relative;
 
+    margin-top: 5vh;
     margin-bottom: 5vh;
   }
 
@@ -74,8 +74,8 @@ const LoginWrap = styled.div`
 `;
 
 const IntroTitle = styled.h1`
-  margin-top: 5vh;
-  margin-bottom: 10vh;
+  margin-top: 8vh;
+  margin-bottom: 7vh;
 
   font-family: 'EF_jejudoldam';
   font-size: 80px;
@@ -128,6 +128,6 @@ const KakaoLoginImage = styled.img`
   &:hover {
     opacity: 0.9;
     transform: translateY(-2px) scale(1.01);
-    box-shadow: 0px 2px 0 4px rgba(55, 55, 55, 0.1);
+    box-shadow: 0px 2px 4px rgba(55, 55, 55, 0.1);
   }
 `;

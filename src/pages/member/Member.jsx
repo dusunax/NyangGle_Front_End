@@ -111,73 +111,76 @@ function Member() {
 
   return (
     <MemberWrap>
-      {/* 타이틀 */}
-      <MemberTitle>
-        <HamburgerWarp>
-          <div className="hambuger" onClick={onClickHamburgerButton}>
-            🍔
-          </div>
-          <ul className={activeHamburger ? 'hambugerMenu active' : 'hambugerMenu'}>
-            <li onClick={onClickKakaoLogoutButton}>로그아웃</li>
-          </ul>
-        </HamburgerWarp>
+      <div className="contents_area">
+        {/* 타이틀 */}
+        <SectionTitle>
+          <HamburgerWarp>
+            <div className="hambuger" onClick={onClickHamburgerButton}>
+              🍔
+            </div>
+            <ul className={activeHamburger ? 'hambugerMenu active' : 'hambugerMenu'}>
+              <li onClick={onClickKakaoLogoutButton}>로그아웃</li>
+            </ul>
+          </HamburgerWarp>
 
-        <NickNameChangeForm onSubmit={onSubmit} onClick={onClickNickName}>
-          {isEditMode ? (
-            <input
-              className="username"
-              defaultValue={userName}
-              onChange={onChange}
-              maxLength={10}
+          {/* 붕어빵이 n개 있습니다냥 */}
+          <NickNameChangeForm onSubmit={onSubmit} onClick={onClickNickName}>
+            {isEditMode ? (
+              <input
+                className="username"
+                defaultValue={userName}
+                onChange={onChange}
+                maxLength={10}
+              />
+            ) : (
+              <span className="username">{userName}</span>
+            )}
+            <br />
+            붕어빵이 <span className="sizeAll">{fishSizeAll}</span>개 있습니다냥.
+          </NickNameChangeForm>
+        </SectionTitle>
+
+        {/* 푸드트럭 이미지 & 붕어빵 매대 */}
+        <FishBreadTruckWrap>
+          {/* url 복사 */}
+          <CopyUrlWrap onClick={copyUrl}>
+            <input id="copyUrl" type="text" ref={copyUrlRef} defaultValue={window.location.href} />
+            <label htmlFor="copyUrl">🔗</label>
+          </CopyUrlWrap>
+
+          <FishBreadTruck>
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/4105/4105446.png"
+              alt="임시 이미지"
+              style={{ width: '300px' }}
             />
-          ) : (
-            <span className="username">{userName}</span>
+
+            <FishBreadConatiner
+              className={isMyPage ? 'clickable' : ''}
+              onClick={isMyPage ? setPage.bind(this, `/list/${uid}`) : null}
+            >
+              <img src={displayFishImage} alt="붕어빵 매대입니다." />
+            </FishBreadConatiner>
+          </FishBreadTruck>
+        </FishBreadTruckWrap>
+        <ButtonConatiner>
+          {isMyPage && <button onClick={setPage.bind(this, `/list/${uid}`)}>내 봉투 가기</button>}
+
+          {isLoggedUser && !isMatchUid && (
+            <>
+              <button onClick={setPage.bind(this, `/member/${myUid}`)}>내 트럭 가기</button>
+              <button onClick={setPage.bind(this, `/customFish/${uid}`)}>붕어빵 만들기</button>
+            </>
           )}
-          <div className="nickNameChangeButton">🖍</div>
-          <br />
-          붕어빵이 <span className="sizeAll">{fishSizeAll}</span>개 있습니다냥.
-        </NickNameChangeForm>
-      </MemberTitle>
 
-      {/* 푸드트럭 이미지 & 붕어빵 매대 */}
-      <FishBreadTruckWrap>
-        {/* url 복사 */}
-        <CopyUrlWrap onClick={copyUrl}>
-          <input id="copyUrl" type="text" ref={copyUrlRef} defaultValue={window.location.href} />
-          <label htmlFor="copyUrl">🔗</label>
-        </CopyUrlWrap>
-
-        <FishBreadTruck>
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/4105/4105446.png"
-            alt="임시 이미지"
-            style={{ width: '300px' }}
-          />
-
-          <FishBreadConatiner
-            className={isMyPage ? 'clickable' : ''}
-            onClick={isMyPage ? setPage.bind(this, `/list/${uid}`) : null}
-          >
-            <img src={displayFishImage} alt="붕어빵 매대입니다." />
-          </FishBreadConatiner>
-        </FishBreadTruck>
-
-        {isMyPage && <button onClick={setPage.bind(this, `/list/${uid}`)}>내 봉투 가기</button>}
-
-        {isLoggedUser && !isMatchUid && (
-          <>
-            <button onClick={setPage.bind(this, `/member/${myUid}`)}>내 트럭 가기</button>
-            <button onClick={setPage.bind(this, `/customFish/${uid}`)}>붕어빵 만들기</button>
-          </>
-        )}
-
-        {!isLoggedUser && (
-          <>
-            <button onClick={setPage.bind(this, `/customFish/${uid}`)}>붕어빵 만들기</button>
-            <button onClick={setPage.bind(this, `/`)}>내 봉투 만들기</button>
-          </>
-        )}
-      </FishBreadTruckWrap>
+          {!isLoggedUser && (
+            <>
+              <button onClick={setPage.bind(this, `/customFish/${uid}`)}>붕어빵 만들기</button>
+              <button onClick={setPage.bind(this, `/`)}>내 봉투 만들기</button>
+            </>
+          )}
+        </ButtonConatiner>
+      </div>
     </MemberWrap>
   );
 }
@@ -185,13 +188,120 @@ function Member() {
 export default Member;
 
 const MemberWrap = styled.div`
-  padding: 20px 0;
+  height: calc(var(--vh, 1vh) * 100);
+
+  background: linear-gradient(to bottom, #e3edf2 70%, #000 70%, #000 70.3%, #faeac7 70.3%);
+
+  .contents_area {
+    height: 100%;
+    max-width: 400px;
+
+    margin: 0 auto;
+    padding: 0 32px;
+
+    position: relative;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+  }
 `;
 
+const SectionTitle = styled.section`
+  display: flex;
+  flex-flow: column;
+`;
+
+const NickNameChangeForm = styled.form`
+  /* padding-top: 40px; */
+  margin-bottom: 10vh;
+
+  font-family: 'EF_jejudoldam';
+  text-align: center;
+  font-size: 22px;
+  line-height: 1.8;
+
+  position: relative;
+
+  @media (max-width: 500px) {
+    font-size: 20px;
+  }
+  @media (max-width: 400px) {
+    font-size: 16px;
+  }
+  @media (max-width: 300px) {
+    font-size: 14px;
+  }
+
+  .username {
+    width: 100%;
+    display: block;
+    text-align: center;
+
+    padding: 5px 0;
+
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  input.username {
+    width: 70%;
+    font-family: 'EF_jejudoldam';
+
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #b5cfe9;
+
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    word-break: keep-all;
+    white-space: nowrap;
+
+    background-color: transparent;
+
+    display: inline-block;
+    font-size: inherit;
+    font-weight: inherit;
+
+    color: #307ac3;
+  }
+
+  .nickNameChangeButton {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+  }
+
+  .sizeAll {
+    color: #ed9a00;
+  }
+
+  animation: up 0.5s 0.2s forwards;
+  opacity: 0;
+
+  @keyframes up {
+    0% {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+`;
+
+// 햄버거 메뉴
 const HamburgerWarp = styled.div`
-  margin-right: 20px;
   position: relative;
   align-self: flex-end;
+
+  font-size: 24px;
 
   cursor: pointer;
 
@@ -232,20 +342,19 @@ const HamburgerWarp = styled.div`
   }
 `;
 
-const MemberTitle = styled.div`
-  display: flex;
-  flex-flow: column;
-
-  font-family: 'EF_jejudoldam';
-`;
-
+// 트럭 시작
 const FishBreadTruckWrap = styled.div`
+  height: 50vh;
+  position: relative;
+
+  margin-bottom: 5vh;
+
   display: flex;
   flex-flow: column;
   align-items: center;
   justify-content: center;
 
-  padding: 100px 0;
+  background-color: #fff;
 `;
 
 const FishBreadTruck = styled.div`
@@ -296,34 +405,18 @@ const CopyUrlWrap = styled.div`
   }
 `;
 
-const NickNameChangeForm = styled.form`
-  font-size: 30px;
-  line-height: 1.6;
-  text-align: center;
+const ButtonConatiner = styled.div`
+  /* background-color: tan; */
+  button {
+    font-family: 'EF_jejudoldam';
 
-  position: relative;
+    width: 100%;
+    max-height: 50px;
 
-  .username {
-    height: 50px;
-    width: auto;
-    text-align: center;
-
-    padding: 5px 0;
-
-    display: inline-block;
-    font-size: inherit;
-    font-weight: inherit;
-  }
-
-  input.username {
-    height: 50px;
-    outline: none;
+    padding: 0;
+    background-color: transparent;
     border: none;
+    cursor: pointer;
   }
-
-  .nickNameChangeButton {
-    position: absolute;
-    right: 10px;
-    top: 5px;
-  }
+  margin-bottom: 55px;
 `;
