@@ -7,6 +7,7 @@ import useAxios from '../../../hooks/useAxios';
 import { useRecoilState } from 'recoil';
 import { dataList } from '../../../atoms/fishBreadList';
 import { getBreadListData } from '../../../utils/fetchBreadDetail';
+import { getCookie } from '../../../utils/cookie';
 
 const BREAD_DATA = {
   content: [
@@ -91,7 +92,7 @@ function DetailList() {
   const { uid } = useParams();
 
   const baseUrl = 'url';
-  const token = '';
+  const token = getCookie('X-NYANG-AUTH-TOKEN');
 
   const getBreadList = useCallback(async () => {
     /*const { data, callStatus } = await getBreadListData(
