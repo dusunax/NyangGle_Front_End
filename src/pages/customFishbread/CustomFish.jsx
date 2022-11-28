@@ -18,12 +18,29 @@ function CustomFish() {
     senderNickname: '',
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [imgs, setImgs] = useState({
+    dough: 'flour',
+    cat: '',
+    message: 'flour',
+    sediment: '',
+  });
+  const [message, setMessage] = useState('앙금을 고르라냥');
 
   // 커스텀 반죽/앙금 선택
   const onClcikCustom = (type, value) => {
+    if (type === 'dough' && !!!inputs.sediment) {
+      setMessage('앙금을 고르라냥');
+    } else {
+      setMessage('다 골랐으면 편지쓰러 가보자냥');
+    }
+
+    setImgs((prev) => ({
+      ...prev,
+      [type]: value.img,
+    }));
     setInputs((prev) => ({
       ...prev,
-      [type]: value,
+      [type]: value.label,
     }));
   };
 
@@ -87,77 +104,131 @@ function CustomFish() {
   return isLoading ? (
     <CustomDone />
   ) : (
-    <div>
-      {activeTab === tabs[0] && (
-        <>
-          <Leftbtn onClick={exitCustomPage} />
-          <Rightbtn type="button" onClick={() => setActiveTab(tabs[1])} />
-        </>
-      )}
-      {activeTab === tabs[1] && (
-        <>
-          <button type="button" onClick={() => setActiveTab(tabs[0])}>
-            이전
-          </button>
-        </>
-      )}
-
-      {activeTab === tabs[0] && (
-        <div>
-          {doughs.map((dough) => (
-            <button type="button" key={dough} onClick={() => onClcikCustom('dough', dough)}>
-              {dough}
-            </button>
-          ))}
-          <button onClick={onClickReset}>reset</button>
-          {sediments.map((sediment) => (
-            <button
+    <Main>
+      <Header>
+        {activeTab === tabs[0] && (
+          <>
+            <ArrowBtn onClick={exitCustomPage} />
+            <Rightbtn
               type="button"
-              key={sediment}
-              onClick={() => onClcikCustom('sediment', sediment)}
-            >
-              {sediment}
-            </button>
-          ))}
-          <img
-            src="/assets/customfish/fishframe.svg"
-            style={{
-              position: 'absolute',
-              width: '100%',
-              left: '0',
-              top: '50%',
-              transform: 'translate(0, -25%)',
-              zIndex: '2',
-            }}
+              onClick={() => {
+                setActiveTab(tabs[1]);
+                setMessage('붕어빵에 전하고 싶은 말을 적어라냥');
+              }}
+            />
+          </>
+        )}
+        {activeTab === tabs[1] && <ArrowBtn type="button" onClick={() => setActiveTab(tabs[0])} />}
+        <h1>{message}</h1>
+      </Header>
+      <Contents>
+        {activeTab === tabs[0] && (
+          <div>
+            <FishFrame>
+              <img src={`/assets/customfish/${imgs.dough}.svg`} alt="반죽" />
+              {imgs.sediment && <img src={`/assets/customfish/${imgs.sediment}.svg`} alt="앙금" />}
+              <img
+                src="/assets/customfish/fishframe.svg"
+                // style={{
+                //   position: 'absolute',
+                //   width: '100%',
+                //   left: '0',
+                //   top: '50%',
+                //   transform: 'translate(0, -25%)',
+                //   zIndex: '2',
+                // }}
+              />
+              {/* <img
+              src="/assets/customfish/bottom.svg"
+              // style={{
+              //   position: 'absolute',
+              //   width: '100%',
+              //   left: '0',
+              //   bottom: '0',
+              // }}
+            /> */}
+            </FishFrame>
+            <Types>
+              <div>
+                {doughs.map((dough) => (
+                  <button
+                    type="button"
+                    key={dough.label}
+                    onClick={() => onClcikCustom('dough', dough)}
+                  >
+                    <img src={`/assets/customfish/d_${dough.img}.svg`} />
+                    {dough.label}
+                  </button>
+                ))}
+              </div>
+              <div>
+                {/* <button onClick={onClickReset}>reset</button> */}
+                {sediments.map((sediment) => (
+                  <button
+                    type="button"
+                    key={sediment.label}
+                    onClick={() => onClcikCustom('sediment', sediment)}
+                  >
+                    <img src={`/assets/customfish/s_${sediment.img}.svg`} />
+                    {sediment.label}
+                  </button>
+                ))}
+              </div>
+            </Types>
+          </div>
+        )}
+        {activeTab === tabs[1] && (
+          <CustomMessage
+            inputs={inputs}
+            onChangeMessage={onChangeMessage}
+            onClickedSave={onClickedSave}
           />
-          <img
-            src="/assets/customfish/bottom.svg"
-            style={{
-              position: 'absolute',
-              width: '100%',
-              left: '0',
-              bottom: '0',
-            }}
-          />
-        </div>
-      )}
-      {activeTab === tabs[1] && (
-        <CustomMessage
-          inputs={inputs}
-          onChangeMessage={onChangeMessage}
-          onClickedSave={onClickedSave}
-        />
-      )}
-    </div>
+        )}
+      </Contents>
+    </Main>
   );
 }
 
 export default CustomFish;
 
-const doughs = ['밀가루', '초코', '고구마', '녹차'];
-const sediments = ['팥', '슈크림', '마라', '민초'];
+const doughs = [
+  {
+    label: '밀가루 반죽',
+    img: 'flour',
+  },
+  {
+    label: '초코 반죽',
+    img: 'choco',
+  },
+  {
+    label: '고구마 반죽',
+    img: 'sweetpotato',
+  },
+  {
+    label: '녹차 반죽',
+    img: 'greentea',
+  },
+];
+const sediments = [
+  {
+    label: '팥 앙금',
+    img: 'redbeen',
+  },
+  {
+    label: '슈크림 앙금',
+    img: 'custard',
+  },
+  {
+    label: '마라 앙금',
+    img: 'mara',
+  },
+  {
+    label: '민초 앙금',
+    img: 'mincho',
+  },
+];
 
-const Leftbtn = styled.button`
+const ArrowBtn = styled.button`
   background: none;
   background: url('/assets/customfish/leftBtn.svg') no-repeat;
   background-size: contain;
@@ -166,11 +237,8 @@ const Leftbtn = styled.button`
   border: none;
 `;
 
-const Rightbtn = styled.button`
+const Rightbtn = styled(ArrowBtn)`
   background-image: url('/assets/customfish/rightBtn.svg');
-  width: 36.25px;
-  height: 34px;
-  border: none;
 `;
 
 const Fishframe = styled.div`
@@ -178,8 +246,37 @@ const Fishframe = styled.div`
   height: 395px;
   width: 395px;
 `;
+
 const Palette = styled.div`
   background-image: url('/assets/customfish/palette.svg');
   height: 395px;
   width: 395px;
 `;
+
+const Types = styled.section`
+  display: flex;
+
+  div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    background-color: #fff;
+    border: 1px solid #191919;
+    padding: 10px;
+
+    button {
+      display: flex;
+      flex-direction: column;
+      background: none;
+      border: none;
+    }
+  }
+`;
+
+const FishFrame = styled.section``;
+
+const Main = styled.main``;
+
+const Header = styled.header``;
+
+const Contents = styled.section``;
