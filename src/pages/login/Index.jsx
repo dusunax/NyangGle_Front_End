@@ -22,7 +22,7 @@ function Login() {
         </div>
 
         <ButtonConatiner>
-          <button onClick={setPage.bind(this, `/U184bdf21eb90001`)}>붕어빵 만들기</button>
+          <button onClick={setPage.bind(this, `/U184bdf21eb90001`)}>냥냥 편지 체험하기</button>
         </ButtonConatiner>
         {/* <KakaoLogin onClick={onClickKakaoLoginButton}>
           <KakaoLoginImage
