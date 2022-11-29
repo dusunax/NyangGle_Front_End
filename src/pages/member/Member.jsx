@@ -110,8 +110,6 @@ function Member(props) {
     }
   };
 
-  console.log(location);
-
   useEffect(() => {
     if (uid === myUid) setisMatchUid(true);
     fetchSizeAll();
