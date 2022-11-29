@@ -14,7 +14,7 @@ function Router() {
         <Route path="/" element={<Login />} />
         <Route path="/:uid" element={<Member countUp={countUp} setCountUp={setCountUp} />} />
         <Route
-          path="/customFish/:uid"
+          path="/customFish"
           element={<CustomFish countUp={countUp} setCountUp={setCountUp} />}
         />
         <Route path="/list/:uid" element={<List />} />

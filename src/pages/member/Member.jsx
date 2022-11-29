@@ -214,13 +214,20 @@ function Member(props) {
           </FishBreadTruckWrap>
           <ButtonConatiner>
             {isMyPage && (
-              <button onClick={setPage.bind(this, `/list/${uid}`)}>내가 받은 붕어빵 확인</button>
+              <button onClick={setPage.bind(this, `/list/U184bdf21eb90001`)}>
+                내가 받은 붕어빵 확인
+              </button>
             )}
 
             {isLoggedUser && !isMatchUid && (
               <>
-                <button onClick={setPage.bind(this, `/customFish/${uid}`)}>붕어빵 만들기</button>
-                <button onClick={setPage.bind(this, `/member/${myUid}`)} className="buttonLink">
+                <button onClick={setPage.bind(this, `/customFish`)}>붕어빵 만들기</button>
+                <button
+                  onClick={() => {
+                    navigate('/U184bdf21eb90001', { state: { loggedIn: true } });
+                  }}
+                  className="buttonLink"
+                >
                   <span> 내 붕어빵 페이지 보기</span>
                 </button>
               </>
@@ -228,7 +235,7 @@ function Member(props) {
 
             {!isLoggedUser && (
               <>
-                <button onClick={setPage.bind(this, `/customFish/${uid}`)}>붕어빵 만들기</button>
+                <button onClick={setPage.bind(this, `/customFish`)}>붕어빵 만들기</button>
                 <button onClick={setPage.bind(this, `/`)} className="buttonLink">
                   <span>로그인 하러 가기</span>
                 </button>
