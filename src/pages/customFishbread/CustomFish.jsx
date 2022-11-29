@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
 
-function CustomFish() {
+function CustomFish({ countUp, setCountUp }) {
   const navigate = useNavigate();
   const { requestApi } = useAxios();
   const tabs = ['붕어빵 커스텀', '메세지 작성'];
@@ -33,16 +33,15 @@ function CustomFish() {
       return;
     }
 
-    const { status } = await requestApi('post', `/fishbread/U18414f5037a0001`, {
+    const { status } = await requestApi('post', `/fishbread/U184bdf21eb90001`, {
       message: inputs.message,
       type: `${inputs.dough}/${inputs.sediment}`,
       senderIp: inputs.senderIp,
       senderNickname: inputs.senderNickname ? inputs.senderNickname : '익명',
     });
 
-    if (status === 201) {
-      setIsDone(true);
-    }
+    setCountUp(countUp + 1);
+    setIsDone(true);
   };
 
   /**
@@ -131,7 +130,7 @@ function CustomFish() {
   console.log(inputs);
 
   return isDone ? (
-    <CustomDone />
+    <CustomDone dough={inputs.dough} />
   ) : (
     <Main>
       <Header>

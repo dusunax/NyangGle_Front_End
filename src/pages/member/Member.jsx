@@ -24,7 +24,7 @@ function Member(props) {
   const [randomComment, setRandomCommnet] = useState();
 
   // 리코일으로 전역 변수 가져와서 사용
-  const [userName, setUserName] = useState('유저 네임');
+  const [userName, setUserName] = useState('소금빵');
   const [newUserName, setNewUserName] = useState();
   const [isLoggedUser, setIsLoggedUser] = useState(true);
   const uid = window.location.pathname.slice(1);
@@ -109,8 +109,6 @@ function Member(props) {
       alert('로그아웃에 실패하였습니다.');
     }
   };
-
-  console.log(location);
 
   useEffect(() => {
     if (uid === myUid) setisMatchUid(true);
