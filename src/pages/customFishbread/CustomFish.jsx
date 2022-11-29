@@ -26,6 +26,26 @@ function CustomFish() {
   });
   const [isDone, setIsDone] = useState(false);
 
+
+  // 저장
+  const onClickSave = async () => {
+    if (!!!inputs.message) {
+      setMessage('내용을 입력해 주라냥');
+      return;
+    }
+
+    const { status } = await requestApi('post', `/fishbread/U18414f5037a0001`, {
+      message: inputs.message,
+      type: `${inputs.dough}/${inputs.sediment}`,
+      senderIp: inputs.senderIp,
+      senderNickname: inputs.senderNickname ? inputs.senderNickname : '익명',
+    });
+
+    if (status === 201) {
+      setIsDone(true);
+    }
+  };
+
   /**
    * @param {'붕어빵 커스텀' | '메세지 작성'} tab
    * @param {'prev' | 'next'} direction
@@ -54,6 +74,7 @@ function CustomFish() {
       if (direction === 'prev') {
         setIsActiveTab(tabs[0]);
       } else {
+        console.log('다음')
         onClickSave();
       }
     }
@@ -92,24 +113,6 @@ function CustomFish() {
     }));
   };
 
-  // 저장
-  const onClickSave = async () => {
-    if (!!!inputs.content) {
-      setMessage('내용을 입력해 주라냥');
-      return;
-    }
-
-    const { status } = await requestApi('post', `/fishbread/U18414f5037a0001`, {
-      message: inputs.message,
-      type: `${inputs.dough}/${inputs.sediment}`,
-      senderIp: inputs.senderIp,
-      senderNickname: inputs.senderNickname ? inputs.senderNickname : '익명',
-    });
-
-    if (status === 201) {
-      setIsDone(true);
-    }
-  };
 
   // ip 가져오기
   const getSenderIp = async () => {
