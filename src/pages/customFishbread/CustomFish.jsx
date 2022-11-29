@@ -324,7 +324,7 @@ const FishFrame = styled.section`
   width: 100%;
   height: 60vh;
   /* background: linear-gradient(transparent, #8c8c8c); */
-  background: url('./assets/customfish/fishframe_wide.png') no-repeat top center / 110%,
+  background: url('/assets/customfish/fishframe_wide.png') no-repeat top center / 110%,
     linear-gradient(transparent 40%, #9e9e9e 40%);
   z-index: 9;
 
@@ -356,10 +356,11 @@ const Fish = styled.div`
 
   @media (max-width: 580px) {
     .dough {
-      top: 15%;
+      top: 8.5%;
     }
     .sediment {
       width: 12%;
+      top: 8.5%;
     }
   }
 `;
