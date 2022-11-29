@@ -24,7 +24,7 @@ function Member(props) {
   const [randomComment, setRandomCommnet] = useState();
 
   // 리코일으로 전역 변수 가져와서 사용
-  const [userName, setUserName] = useState('유저 네임');
+  const [userName, setUserName] = useState('소금빵');
   const [newUserName, setNewUserName] = useState();
   const [isLoggedUser, setIsLoggedUser] = useState(true);
   const uid = window.location.pathname.slice(1);

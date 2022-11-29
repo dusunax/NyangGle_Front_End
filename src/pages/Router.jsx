@@ -7,7 +7,7 @@ import KakaoLogin from './login/KakaoLogin';
 import { useState } from 'react';
 
 function Router() {
-  const [countUp, setCountUp] = useState(1);
+  const [countUp, setCountUp] = useState(10);
   return (
     <BrowserRouter>
       <Routes>
