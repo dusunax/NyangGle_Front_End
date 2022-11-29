@@ -20,9 +20,9 @@ function DetailListItems({ currentIndex, token }) {
   const setReadingId = useSetRecoilState(idState);
 
   const getBreadDetail = useCallback(async (id) => {
-    const { data, status } = await getBreadDetailData(id, token);
-    /*const data = BREAD_DATA_ID,
-      status = 200;*/
+   // const { data, status } = await getBreadDetailData(id, token);
+    const data = BREAD_DATA_ID,
+      status = 200;
     if (status === 200) {
       setReadingData((state) => [
         ...state,
