@@ -15,11 +15,14 @@ const KakaoLogin = () => {
       .then((result) => {
         console.log(result);
         if (result.uuid) {
-          localStorage.setItem('user', {
-            uuid: result.uuid,
-            nickname: result.nickname,
-            token: result.token,
-          });
+          localStorage.setItem(
+            'user',
+            JSON.stringify({
+              uuid: result.uuid,
+              nickname: result.nickname,
+              token: result.token,
+            }),
+          );
           navigate(`/${result.uuid}`);
         }
       })
