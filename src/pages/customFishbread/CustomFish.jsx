@@ -26,7 +26,6 @@ function CustomFish() {
   });
   const [isDone, setIsDone] = useState(false);
 
-
   // 저장
   const onClickSave = async () => {
     if (!!!inputs.message) {
@@ -74,7 +73,7 @@ function CustomFish() {
       if (direction === 'prev') {
         setIsActiveTab(tabs[0]);
       } else {
-        console.log('다음')
+        console.log('다음');
         onClickSave();
       }
     }
@@ -113,7 +112,6 @@ function CustomFish() {
     }));
   };
 
-
   // ip 가져오기
   const getSenderIp = async () => {
     const { data, status } = await requestApi('get', 'https://api.ipify.org?format=json');
@@ -137,24 +135,30 @@ function CustomFish() {
   ) : (
     <Main>
       <Header>
-        {tabs.map((tab, idx) => {
-          if (isActiveTab === tab) {
-            return (
-              <section className="btns" key={tab}>
-                <LeftBtn onClick={() => onClickNav(tabs[idx], 'prev')} />
-                <RightBtn
-                  onClick={() => {
-                    onClickNav(tab, 'next');
-                  }}
-                />
-              </section>
-            );
-          }
-        })}
-        <p className="message">{message}</p>
+        <ContentsArea>
+          {tabs.map((tab, idx) => {
+            if (isActiveTab === tab) {
+              return (
+                <section className="btns" key={tab}>
+                  <LeftBtn onClick={() => onClickNav(tabs[idx], 'prev')} />
+                  <RightBtn
+                    onClick={() => {
+                      onClickNav(tab, 'next');
+                    }}
+                  />
+                </section>
+              );
+            }
+          })}
+          <p className="message">{message}</p>
+        </ContentsArea>
       </Header>
       <Contents>
-        <img src={`/assets/customfish/${imgs.cat}.svg`} alt="고양이" className="cat" />
+        <img
+          src={`/assets/customfish/${imgs.cat}.svg`}
+          alt="고양이"
+          className={imgs.cat === 'cat3' ? 'cat heart' : 'cat'}
+        />
         {isActiveTab === tabs[0] && (
           <FishFrame>
             <Fish>
@@ -167,7 +171,7 @@ function CustomFish() {
                 />
               )}
             </Fish>
-            <img src="/assets/customfish/fishframe.svg" className="fishFrame" />
+            {/* <img src="/assets/customfish/fishframe.svg" className="fishFrame" /> */}
             <Types>
               <article>
                 {doughs.map((dough) => (
@@ -240,6 +244,17 @@ const sediments = [
   },
 ];
 
+const ContentsArea = styled.div`
+  padding: 0 18px;
+`;
+
+const Main = styled.main`
+  ${({ theme }) => theme.flex.col}
+
+  height: 100vh;
+  justify-content: space-between;
+`;
+
 const LeftBtn = styled.button`
   background: none;
   background: url('/assets/customfish/leftBtn.svg') no-repeat;
@@ -253,12 +268,8 @@ const RightBtn = styled(LeftBtn)`
   background-image: url('/assets/customfish/rightBtn.svg');
 `;
 
-const Main = styled.main`
-  ${({ theme }) => theme.flex.col}
-`;
-
 const Header = styled.header`
-  padding: 20px;
+  padding-top: 20px;
 
   .btns {
     ${({ theme }) => theme.flex.row}
@@ -270,74 +281,123 @@ const Header = styled.header`
     margin: 30px 0;
     padding: 30px;
     background-color: #eee;
-    border-radius: 15px;
+    border-radius: 14px;
     text-align: center;
+
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+
+    word-break: keep-all;
   }
 `;
 
 const Contents = styled.section`
-  flex: 1;
   ${({ theme }) => theme.flex.col}
+
+  justify-content: flex-end;
   align-items: center;
+
   position: relative;
 
   .cat {
-    width: 150px;
+    width: 50%;
+    max-width: 188px;
     position: absolute;
+    top: -120px;
+
+    @media (max-width: 400px) {
+      width: 40%;
+      top: -100px;
+    }
+
+    @media (max-width: 350px) {
+      top: -80px;
+    }
+  }
+  .cat.heart {
+    top: -180px;
   }
 `;
 
 const FishFrame = styled.section`
-  flex: 1;
   width: 100%;
-  background: linear-gradient(#fff, #8c8c8c);
-
-  .dough,
-  .sediment {
-    position: absolute;
-    transform: translate(5px, 31vh);
-    z-index: 9;
-  }
-
-  .dough {
-    width: 16vh;
-  }
+  height: 60vh;
+  /* background: linear-gradient(transparent, #8c8c8c); */
+  background: url('./assets/customfish/fishframe_wide.png') no-repeat top center / 110%,
+    linear-gradient(transparent 40%, #9e9e9e 40%);
+  z-index: 9;
 
   .fishFrame {
-    width: 100%;
-    transform: translate(0, 110px);
+    bottom: 0;
+
+    margin-bottom: 10vh;
   }
 `;
 
 const Fish = styled.div`
   ${({ theme }) => theme.flex.col}
   align-items: center;
-  justify-content: center;
+
+  img,
+  .dough,
+  .sediment {
+    width: 27%;
+
+    position: absolute;
+    top: 15%;
+    transform: translateX(6%);
+  }
+
+  .sediment {
+    width: 12%;
+    transform: translate(0%, 44%);
+  }
+
+  @media (max-width: 580px) {
+    .dough {
+      top: 15%;
+    }
+    .sediment {
+      width: 12%;
+    }
+  }
 `;
 
 const Types = styled.section`
-  width: calc(100% - 40px);
   ${({ theme }) => theme.flex.row}
+  width: 100%;
+
+  padding: 0 16px;
+
   position: absolute;
   left: 50%;
   bottom: 20px;
   transform: translate(-50%, 0);
 
   article {
-    width: calc(50vw);
+    flex: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 10px;
     padding: 10px;
     background-color: #fff;
     border: 2px solid #191919;
     border-radius: 15px;
 
+    @media (max-width: 580px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
     button {
       ${({ theme }) => theme.flex.col}
       align-items: center;
       background: none;
       border: none;
+
+      word-break: keep-all;
+      font-weight: 600;
+      font-size: 12px;
 
       img {
         margin-bottom: 5px;

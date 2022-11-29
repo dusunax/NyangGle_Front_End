@@ -91,6 +91,8 @@ const Paper = styled.div`
   text-align: center;
   justify-content: center;
   font-size: 20px;
+
+  margin-bottom: 10vh;
 `;
 
 const Content = styled.div`
@@ -101,7 +103,9 @@ const Content = styled.div`
     background: transparent;
     border: none;
     margin: 0 0 10px 60px;
-    fontsize: '20px';
+    padding-top: 10px;
+    outline: none;
+    font-size: '20px';
   }
 `;
 
