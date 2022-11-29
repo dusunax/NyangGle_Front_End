@@ -1,5 +1,5 @@
 import { dataList, readingDataList, modalState, idState } from '../../../atoms/fishBreadList';
-import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 import { useCallback } from 'react';
 import { getBreadDetailData } from '../../../utils/fetchBreadDetail';
 import styled from 'styled-components';
@@ -13,16 +13,16 @@ const BREAD_DATA_ID = {
   senderNickname: 'nick1',
 };
 
-function DetailListItems({ currentIndex, baseUrl, token }) {
+function DetailListItems({ currentIndex, token }) {
   const [breadList, setBreadList] = useRecoilState(dataList);
   const [readingData, setReadingData] = useRecoilState(readingDataList);
   const [isOpened, setIsOpened] = useRecoilState(modalState);
   const setReadingId = useSetRecoilState(idState);
 
   const getBreadDetail = useCallback(async (id) => {
-    //const { data, status } = await getBreadDetailData(baseUrl, id, token);
-    const data = BREAD_DATA_ID,
-      status = 200;
+    const { data, status } = await getBreadDetailData(id, token);
+    /*const data = BREAD_DATA_ID,
+      status = 200;*/
     if (status === 200) {
       setReadingData((state) => [
         ...state,

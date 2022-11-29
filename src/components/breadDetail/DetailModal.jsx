@@ -1,8 +1,6 @@
 import styled, { css } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { modalState, readingDataList, idState } from '../../atoms/fishBreadList';
-//import '../../../public/assets/font/font703.css';
-import './assets/font/font703.css';
 import { useEffect, useState } from 'react';
 
 const TypeObj = {
@@ -93,8 +91,7 @@ const ModalContainer = styled.div`
   align-items: center;
 
   ${({ backSrc }) => css`
-    //background: #fff url('../../../public/assets/images/breadDetail/${backSrc}.png') no-repeat center/cover;
-    background: #fff url('./assets/images/breadDetail/${backSrc}.png') no-repeat center/cover;
+    background: #fff url('../../../assets/images/breadDetail/${backSrc}.png') no-repeat center/cover;
   `}
 `;
 
@@ -120,8 +117,8 @@ const MessageWrapper = styled.div`
   margin-top: 30px;
 
   ${({ letterSrc }) => css`
-    //background: url('../../../public/assets/images/breadDetail/${letterSrc}.png') no-repeat center / contain;
-    background: url('./assets/images/breadDetail/${letterSrc}.png') no-repeat center / contain;
+    background: url('../../../assets/images/breadDetail/${letterSrc}.png') no-repeat center /
+      contain;
   `}
 `;
 
