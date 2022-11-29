@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default function useAxios() {
-  axios.defaults.baseURL = '/api';
+  axios.defaults.baseURL = 'http://ec2-15-164-250-89.ap-northeast-2.compute.amazonaws.com:8081/api';
 
   /**
    * @param {"get" | "post" | "put" | "delete"} method
