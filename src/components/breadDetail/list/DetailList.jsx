@@ -90,12 +90,13 @@ function DetailList() {
   const [isRefetch, setIsRefetch] = useState(false);
   const navigate = useNavigate();
   const { uid } = useParams();
-  const cookies = new Cookies();
 
-  const token = cookies.get('X-NYANG-AUTH-TOKEN');
+  const userData = JSON.parse(localStorage.getItem('user'));
+  const { token } = userData ? userData : { token: null };
 
   const getBreadList = useCallback(async () => {
     console.log('fetching...');
+    if (token === null) return;
     const { data, callStatus } = await getBreadListData(
       token,
       callingType,
@@ -164,7 +165,7 @@ function DetailList() {
   }, [isRefetch]);
 
   useEffect(() => {
-   token ?? redirectNonMemeber();
+    token ?? redirectNonMemeber();
   }, []);
 
   return (

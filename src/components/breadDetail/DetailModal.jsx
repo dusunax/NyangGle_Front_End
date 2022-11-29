@@ -20,7 +20,7 @@ function DetailModal() {
   const onClickClose = () => setIsOpened(false);
   const onClickWrapper = () => setIsOpened(false);
 
-  const userData = localStorage.getItem('user');
+  const userData = JSON.parse(localStorage.getItem('user'));
   const { nickname } = userData ? userData : { nickname: '익명의냥냥이' };
 
   let [dough, sediment] = Type.split('/');
