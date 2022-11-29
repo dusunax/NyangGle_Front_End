@@ -193,7 +193,7 @@ export default DetailList;
 
 const DetailListWrapper = styled.div`
   padding: 0 10px;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
