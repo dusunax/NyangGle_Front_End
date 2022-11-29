@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-//import '../../../../public/assets/font/font703.css';
-import './assets/font/font703.css';
 
 const TypeObj = {
   밀가루: '1',
@@ -40,8 +38,7 @@ function DetailListItem({ data, onClickBread }) {
     <ItemWrapper>
       <ItemNickname>{senderNickname}</ItemNickname>
       <ItemImage
-        //src={`../../../../public/assets/images/breadDetail/${breadType}.png`}
-        src={`./assets/images/breadDetail/${breadType}.png`}
+        src={`../../../../assets/images/breadDetail/${breadType}.png`}
         onClick={() => onClickBread(id)}
       />
     </ItemWrapper>

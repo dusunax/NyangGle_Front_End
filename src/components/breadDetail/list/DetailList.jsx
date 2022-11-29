@@ -154,9 +154,18 @@ function DetailList() {
     }
   };
 
+  const redirectNonMemeber = () => {
+    alert('로그인이 필요합니다.');
+    navigate('/');
+  };
+
   useEffect(() => {
     getBreadList();
   }, [isRefetch]);
+
+  useEffect(() => {
+    token ?? redirectNonMemeber();
+  }, []);
 
   return (
     <DetailListWrapper>
@@ -195,16 +204,14 @@ const DetailLists = styled.div`
   max-width: 354px;
   max-height: 551px;
   position: relative;
-  //background: url('../../../../public/assets/images/breadDetail/mailbox.png') no-repeat center/contain;
-  background: url('./assets/images/breadDetail/mailbox.png') no-repeat center/contain;
+  background: url('../../../../assets/images/breadDetail/mailbox.png') no-repeat center/contain;
 `;
 
 const TurnBack = styled.div`
   text-indent: -9999px;
   width: 50px;
   height: 50px;
-  //background: url('../../../../public/assets/images/breadDetail/turnBack.png') no-repeat center/cover;
-  background: url('./assets/images/breadDetail/turnBack.png') no-repeat center/cover;
+  background: url('../../../../assets/images/breadDetail/turnBack.png') no-repeat center/cover;
   cursor: pointer;
   margin-bottom: 14px;
 `;
