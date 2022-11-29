@@ -5,8 +5,8 @@ import styled from 'styled-components';
 function Login() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-  const onClickKakaoLoginButton = async () => {
-    await window.location.replace(KAKAO_AUTH_URL);
+  const onClickKakaoLoginButton = () => {
+    window.open(KAKAO_AUTH_URL, '_self');
   };
 
   return (

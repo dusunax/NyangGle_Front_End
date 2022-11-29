@@ -2,22 +2,31 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'qs';
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import useAxios from '../../hooks/useAxios';
 import axios from 'axios';
 
 const KakaoLogin = () => {
-  // const { requestApi } = useAxios();
   const location = useLocation();
   const navigate = useNavigate();
   const code = qs.parse(location.search, { ignoreQueryPrefix: true }).code;
   const postKakaoAuthCode = async () => {
     const res = await axios
       .post(
-        'https://ec2-15-164-250-89.ap-northeast-2.compute.amazonaws.com:8081/api/oauth/login/kakao',
+        'http://ec2-15-164-250-89.ap-northeast-2.compute.amazonaws.com:8081/api/oauth/login/kakao',
         { code: code },
       )
       .then((result) => {
         console.log(result);
+        if (result.uuid) {
+          localStorage.setItem('user', {
+            uuid: result.uuid,
+            nickname: result.nickname,
+            token: result.token,
+          });
+          navigate(`/${result.uuid}`);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
       });
   };
 
