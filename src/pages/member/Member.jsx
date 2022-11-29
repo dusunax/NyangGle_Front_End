@@ -6,7 +6,9 @@ import useFetchContentSize from '../../hooks/useFetchContentSize';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
 import { setCookie, getCookie, deleteCookie } from '../../utils/cookie';
 
-function Member() {
+function Member(props) {
+  const { countUp, setCountUp } = props;
+
   const navigate = useNavigate();
   const copyUrlRef = useRef();
   const [setPage] = useRedirectPage();
@@ -43,23 +45,14 @@ function Member() {
   };
 
   // 붕어빵 갯수 가져오기
-  const fetchSizeAll = async () => {
-    const { fetchContentSize } = await useFetchContentSize();
-    // {success: boolean / sizeAll: number[] }
-    const fetchedContents = await fetchContentSize();
-
-    if (fetchedContents.success) {
-      const fishCount = fetchedContents.sizeAllCount;
-
-      if (fishCount < 6) {
-        setDisplayFishImage(countFishTruckImages.default[fishCount].imageURL);
-      } else {
-        setDisplayFishImage('cat_truck_6.png');
-      }
-      setFishSizeAll(fishCount);
+  const fetchSizeAll = () => {
+    if (countUp < 6) {
+      setDisplayFishImage(countFishTruckImages.default[countUp].imageURL);
     } else {
-      navigate('/');
+      setDisplayFishImage('cat_truck_6.png');
     }
+
+    setFishSizeAll(countUp);
   };
 
   const onSubmit = async (event) => {
