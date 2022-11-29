@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as countFishTruckImages from './countFishTruckImages.json';
 import styled from 'styled-components';
 import useFetchContentSize from '../../hooks/useFetchContentSize';
@@ -8,6 +8,7 @@ import { setCookie, getCookie, deleteCookie } from '../../utils/cookie';
 
 function Member(props) {
   const { countUp, setCountUp } = props;
+  const location = useLocation();
 
   const navigate = useNavigate();
   const copyUrlRef = useRef();
@@ -23,15 +24,16 @@ function Member(props) {
   const [randomComment, setRandomCommnet] = useState();
 
   // 리코일으로 전역 변수 가져와서 사용
-  const [userName, setUserName] = useState('유저 네임');
+  const [userName, setUserName] = useState('소금빵');
   const [newUserName, setNewUserName] = useState();
   const [isLoggedUser, setIsLoggedUser] = useState(true);
   const uid = window.location.pathname.slice(1);
 
   // 쿠키에 uid 가져와서
   const [isMatchUid, setisMatchUid] = useState(false);
+
   const myUid = 'testtest';
-  const isMyPage = isLoggedUser && isMatchUid;
+  let isMyPage = isLoggedUser && isMatchUid;
 
   const copyUrl = () => {
     if (!document.queryCommandSupported('copy')) {
@@ -108,12 +110,13 @@ function Member(props) {
     }
   };
 
-  const setUserInfo = () => {};
+  console.log(location);
 
   useEffect(() => {
     if (uid === myUid) setisMatchUid(true);
     fetchSizeAll();
-  }, []);
+    location.state !== null && setisMatchUid(true);
+  }, [location]);
 
   const twoCatsRandomComment = [
     '어서오라냥~',
@@ -200,8 +203,8 @@ function Member(props) {
               <img
                 src={`./assets/images/member/${displayFishImage}`}
                 alt="고양이 트럭이다냥"
-                className={isMyPage ? 'catTruck clickable' : 'catTruck'}
-                onClick={isMyPage ? setPage.bind(this, `/list/${uid}`) : null}
+                className={'catTruck clickable'}
+                onClick={setPage.bind(this, `/list/${uid}`)}
               />
 
               {/* <FishBreadConatiner
@@ -221,21 +224,21 @@ function Member(props) {
 
             {isLoggedUser && !isMatchUid && (
               <>
-                <button onClick={setPage.bind(this, `/customFish`)}>붕어빵 만들기</button>
+                <button onClick={setPage.bind(this, `/customFish/`)}>붕어빵 만들기</button>
                 <button
                   onClick={() => {
-                    navigate('/U184bdf21eb90001', { state: { loggedIn: true } });
+                    navigate('/U184bdf21eb90000', { state: { loggedIn: true } });
                   }}
                   className="buttonLink"
                 >
-                  <span> 내 붕어빵 페이지 보기</span>
+                  <span> 내 붕어빵 트럭 가기</span>
                 </button>
               </>
             )}
 
             {!isLoggedUser && (
               <>
-                <button onClick={setPage.bind(this, `/customFish`)}>붕어빵 만들기</button>
+                <button onClick={setPage.bind(this, `/customFish/`)}>붕어빵 만들기</button>
                 <button onClick={setPage.bind(this, `/`)} className="buttonLink">
                   <span>로그인 하러 가기</span>
                 </button>
