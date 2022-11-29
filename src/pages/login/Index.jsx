@@ -1,15 +1,12 @@
+import { REST_API_KEY, REDIRECT_URI } from './OAuth';
+import font from '../../../public/assets/font/font.css';
 import styled from 'styled-components';
-import { REST_API_KEY, REDIRECT_URI, CLIENT_SECRET } from './OAuth';
-import useAxios from '../../hooks/useAxios';
 
 function Login() {
-  const { requestApi } = useAxios();
-  const onClickKakaoLoginButton = async () => {
-    try {
-      // requestApi('get', '/보낼 api주소');
-    } catch (e) {
-      console.error(e);
-    }
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+  const onClickKakaoLoginButton = () => {
+    window.open(KAKAO_AUTH_URL, '_self');
   };
 
   return (
