@@ -226,7 +226,7 @@ function Member() {
 
             {isLoggedUser && !isMatchUid && (
               <>
-                <button onClick={setPage.bind(this, `/customFish/${uid}`)}>붕어빵 만들기</button>
+                <button onClick={setPage.bind(this, `/customFish`)}>붕어빵 만들기</button>
                 <button onClick={setPage.bind(this, `/member/${myUid}`)} className="buttonLink">
                   <span> 내 붕어빵 페이지 보기</span>
                 </button>
@@ -235,7 +235,7 @@ function Member() {
 
             {!isLoggedUser && (
               <>
-                <button onClick={setPage.bind(this, `/customFish/${uid}`)}>붕어빵 만들기</button>
+                <button onClick={setPage.bind(this, `/customFish`)}>붕어빵 만들기</button>
                 <button onClick={setPage.bind(this, `/`)} className="buttonLink">
                   <span>로그인 하러 가기</span>
                 </button>
