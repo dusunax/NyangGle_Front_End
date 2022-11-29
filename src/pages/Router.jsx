@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Member from './member/Member';
 import Login from './login/Index';
-import CustomFish from './customFishbread/customFish';
+import CustomFish from './customFishbread/CustomFish';
 import List from './fishBreadList/List';
 import KakaoLogin from './login/KakaoLogin';
 import { useState } from 'react';
