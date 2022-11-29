@@ -26,7 +26,7 @@ export const breadListDummy = atom({
         id: 4,
         Type: '밀가루/민초',
         status: 'UNREAD',
-        senderNickname: '굥',
+        senderNickname: '교옹',
       },
       {
         id: 5,
