@@ -6,25 +6,19 @@ import useAxios from '../../hooks/useAxios';
 import axios from 'axios';
 
 const KakaoLogin = () => {
-  const { requestApi } = useAxios();
+  // const { requestApi } = useAxios();
   const location = useLocation();
   const navigate = useNavigate();
   const code = qs.parse(location.search, { ignoreQueryPrefix: true }).code;
-  console.log(code);
   const postKakaoAuthCode = async () => {
-    try {
-      const { data } = await requestApi('post', 'oauth/login/kakao', {
-        code: code,
+    const res = await axios
+      .post(
+        'http://ec2-15-164-250-89.ap-northeast-2.compute.amazonaws.com:8081/api/oauth/login/kakao',
+        { code: code },
+      )
+      .then((result) => {
+        console.log(result);
       });
-      console.log(data);
-      // const res = await axios
-      //   .post('http://localhost:8081/api/oauth/login/kakao', { code: code })
-      //   .then((result) => {
-      //     console.log(result);
-      //   });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   useEffect(() => {
