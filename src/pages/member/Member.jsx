@@ -8,6 +8,7 @@ import { setCookie, getCookie, deleteCookie } from '../../utils/cookie';
 
 function Member(props) {
   const { countUp, setCountUp } = props;
+  console.log(props);
 
   const navigate = useNavigate();
   const copyUrlRef = useRef();
@@ -33,6 +34,8 @@ function Member(props) {
   const myUid = 'testtest';
   const isMyPage = isLoggedUser && isMatchUid;
 
+  console.log(isMyPage);
+
   const copyUrl = () => {
     if (!document.queryCommandSupported('copy')) {
       return alert('복사 기능이 지원되지 않는 브라우저입니다.');
@@ -46,6 +49,7 @@ function Member(props) {
 
   // 붕어빵 갯수 가져오기
   const fetchSizeAll = () => {
+    console.log(countUp);
     if (countUp < 6) {
       setDisplayFishImage(countFishTruckImages.default[countUp].imageURL);
     } else {
@@ -200,8 +204,8 @@ function Member(props) {
               <img
                 src={`./assets/images/member/${displayFishImage}`}
                 alt="고양이 트럭이다냥"
-                className={isMyPage ? 'catTruck clickable' : 'catTruck'}
-                onClick={isMyPage ? setPage.bind(this, `/list/${uid}`) : null}
+                className={'catTruck clickable'}
+                onClick={setPage.bind(this, `/list/${uid}`)}
               />
 
               {/* <FishBreadConatiner
@@ -221,7 +225,7 @@ function Member(props) {
 
             {isLoggedUser && !isMatchUid && (
               <>
-                <button onClick={setPage.bind(this, `/customFish`)}>붕어빵 만들기</button>
+                <button onClick={setPage.bind(this, `/customFish/`)}>붕어빵 만들기</button>
                 <button
                   onClick={() => {
                     navigate('/U184bdf21eb90001', { state: { loggedIn: true } });
@@ -235,7 +239,7 @@ function Member(props) {
 
             {!isLoggedUser && (
               <>
-                <button onClick={setPage.bind(this, `/customFish`)}>붕어빵 만들기</button>
+                <button onClick={setPage.bind(this, `/customFish/`)}>붕어빵 만들기</button>
                 <button onClick={setPage.bind(this, `/`)} className="buttonLink">
                   <span>로그인 하러 가기</span>
                 </button>
