@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as countFishTruckImages from './countFishTruckImages.json';
-
 import styled from 'styled-components';
 import useFetchContentSize from '../../hooks/useFetchContentSize';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
@@ -36,8 +35,6 @@ function Member() {
     if (!document.queryCommandSupported('copy')) {
       return alert('복사 기능이 지원되지 않는 브라우저입니다.');
     }
-
-    console.log(copyUrlRef.current);
 
     copyUrlRef.current.select();
     document.execCommand('copy');
@@ -171,6 +168,7 @@ function Member() {
                     defaultValue={userName}
                     onChange={onChange}
                     maxLength={10}
+                    autoFocus
                   />
                 ) : (
                   <span className="username">{userName}!</span>
@@ -322,6 +320,8 @@ const NickNameChangeForm = styled.form`
   }
 
   input.username {
+    height: 35px;
+    display: inline-block;
     font-family: 'EF_jejudoldam';
 
     outline: none;
@@ -329,25 +329,24 @@ const NickNameChangeForm = styled.form`
     border-bottom: 2px solid #b5cfe9;
 
     position: absolute;
-    top: 0px;
+    top: 0;
 
     word-break: keep-all;
     white-space: nowrap;
 
     background-color: transparent;
 
-    display: inline-block;
     font-size: inherit;
     font-weight: inherit;
 
     color: #307ac3;
   }
 
-  .nickNameChangeButton {
+  /* .nickNameChangeButton {
     position: absolute;
     right: 10px;
     top: 5px;
-  }
+  } */
 
   .sizeAll {
     color: #ed9a00;
@@ -544,7 +543,6 @@ const ButtonConatiner = styled.div`
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0px 2px 4px rgba(55, 55, 55, 0.1);
     }
   }
   .buttonLink {
@@ -573,6 +571,7 @@ const TwoCatsCommentBubble = styled.div`
 
   display: flex;
   align-items: center;
+  justify-content: center;
 
   background-color: #d4dde2;
   border-radius: 10px;
@@ -606,7 +605,7 @@ const CatsComment = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
 
   animation: fadeIn 0.5s forwards;
