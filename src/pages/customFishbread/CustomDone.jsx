@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function CustomDone({ dough }) {
+  const navigate = useNavigate();
   console.log(dough);
 
   const [imgs, setImgs] = useState('flour');
@@ -34,6 +36,8 @@ function CustomDone({ dough }) {
       }
     });
   }, []);
+
+  setTimeout(() => navigate('/U184bcd9078c0001'), 3000);
 
   return (
     <div>
