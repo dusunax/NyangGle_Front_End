@@ -6,7 +6,8 @@ function Login() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const onClickKakaoLoginButton = () => {
-    window.open(KAKAO_AUTH_URL, '_self');
+    // window.open(KAKAO_AUTH_URL, '_self');
+    window.location.replace(KAKAO_AUTH_URL);
   };
 
   return (
