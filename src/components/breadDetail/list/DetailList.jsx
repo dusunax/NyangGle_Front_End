@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import DetailListItems from './DetailListItems';
 import DetailListTaps from './DetailListTaps';
 import DetailListButtons from './DetailListButtons';
-import useAxios from '../../../hooks/useAxios';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { dataList, tapIndexState } from '../../../atoms/fishBreadList';
 import { getBreadListData } from '../../../utils/fetchBreadDetail';
@@ -90,17 +89,14 @@ function DetailList() {
   const [callingType, setCallingType] = useState();
   const [isRefetch, setIsRefetch] = useState(false);
   const navigate = useNavigate();
-  const { requestApi } = useAxios();
   const { uid } = useParams();
   const cookies = new Cookies();
 
-  const baseUrl = 'url';
   const token = cookies.get('X-NYANG-AUTH-TOKEN');
 
   const getBreadList = useCallback(async () => {
     console.log('fetching...');
-    /*const { data, callStatus } = await getBreadListData(
-      baseUrl,
+    const { data, callStatus } = await getBreadListData(
       token,
       callingType,
       status,
@@ -108,9 +104,9 @@ function DetailList() {
       prevId,
       currentPage,
     );
-    const { content, totalPages, number, last, first } = data;*/
-    const { content, totalPages, number, last, first } = BREAD_DATA,
-      callStatus = 200;
+    const { content, totalPages, last, first } = data;
+    /*const { content, totalPages, last, first } = BREAD_DATA,
+      callStatus = 200;*/
     if (callStatus === 200) {
       setLastId(content.at(-1).id);
       setPrevId(content[0].id);
@@ -120,7 +116,7 @@ function DetailList() {
         dataSet.push(content.slice(i, i + size));
       }
       setBreadList(dataSet);
-      setPageData({ totalPages, number, last, first });
+      setPageData({ totalPages, last, first });
       setCurrentIndex(0);
     }
   }, []);
@@ -168,7 +164,7 @@ function DetailList() {
         <TurnBack onClick={onClickLocation}>돌아가기</TurnBack>
         <DetailListTaps onClickTap={onClickTap} />
         <DetailLists>
-          <DetailListItems currentIndex={currentIndex} baseUrl={baseUrl} token={token} />
+          <DetailListItems currentIndex={currentIndex} token={token} />
         </DetailLists>
         {pageData && (
           <DetailListButtons

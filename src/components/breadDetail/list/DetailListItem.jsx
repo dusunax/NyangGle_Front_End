@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 //import '../../../../public/assets/font/font703.css';
-import './public/assets/font/font703.css';
+import './assets/font/font703.css';
 
 const TypeObj = {
   밀가루: '1',
