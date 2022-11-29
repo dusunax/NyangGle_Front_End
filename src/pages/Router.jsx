@@ -3,6 +3,7 @@ import Member from './member/Member';
 import Login from './login/Index';
 import CustomFish from './customFishbread/CustomFish';
 import List from './fishBreadList/List';
+import KakaoLogin from './login/KakaoLogin';
 
 function Router() {
   return (
@@ -12,6 +13,7 @@ function Router() {
         <Route path="/:uid" element={<Member />}/>
         <Route path="/customFish" element={<CustomFish />}/>
         <Route path="/list/:uid" element={<List />} />
+        <Route path="/signin/kakao" element={<KakaoLogin />} />
       </Routes>
     </BrowserRouter>
   );
