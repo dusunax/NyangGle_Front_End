@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as countFishTruckImages from './countFishTruckImages.json';
 import styled from 'styled-components';
 import useFetchContentSize from '../../hooks/useFetchContentSize';
@@ -8,7 +8,7 @@ import { setCookie, getCookie, deleteCookie } from '../../utils/cookie';
 
 function Member(props) {
   const { countUp, setCountUp } = props;
-  console.log(props);
+  const location = useLocation();
 
   const navigate = useNavigate();
   const copyUrlRef = useRef();
@@ -31,10 +31,9 @@ function Member(props) {
 
   // 쿠키에 uid 가져와서
   const [isMatchUid, setisMatchUid] = useState(false);
-  const myUid = 'testtest';
-  const isMyPage = isLoggedUser && isMatchUid;
 
-  console.log(isMyPage);
+  const myUid = 'testtest';
+  let isMyPage = isLoggedUser && isMatchUid;
 
   const copyUrl = () => {
     if (!document.queryCommandSupported('copy')) {
@@ -49,7 +48,6 @@ function Member(props) {
 
   // 붕어빵 갯수 가져오기
   const fetchSizeAll = () => {
-    console.log(countUp);
     if (countUp < 6) {
       setDisplayFishImage(countFishTruckImages.default[countUp].imageURL);
     } else {
@@ -112,12 +110,13 @@ function Member(props) {
     }
   };
 
-  const setUserInfo = () => {};
+  console.log(location);
 
   useEffect(() => {
     if (uid === myUid) setisMatchUid(true);
     fetchSizeAll();
-  }, []);
+    location.state !== null && setisMatchUid(true);
+  }, [location]);
 
   const twoCatsRandomComment = [
     '어서오라냥~',
@@ -228,11 +227,11 @@ function Member(props) {
                 <button onClick={setPage.bind(this, `/customFish/`)}>붕어빵 만들기</button>
                 <button
                   onClick={() => {
-                    navigate('/U184bdf21eb90001', { state: { loggedIn: true } });
+                    navigate('/U184bdf21eb90000', { state: { loggedIn: true } });
                   }}
                   className="buttonLink"
                 >
-                  <span> 내 붕어빵 페이지 보기</span>
+                  <span> 내 붕어빵 트럭 가기</span>
                 </button>
               </>
             )}
