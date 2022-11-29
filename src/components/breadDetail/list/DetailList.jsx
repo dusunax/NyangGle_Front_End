@@ -164,7 +164,7 @@ function DetailList() {
   }, [isRefetch]);
 
   useEffect(() => {
-    token ?? redirectNonMemeber();
+   token ?? redirectNonMemeber();
   }, []);
 
   return (
@@ -192,7 +192,7 @@ export default DetailList;
 
 const DetailListWrapper = styled.div`
   padding: 0 10px;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

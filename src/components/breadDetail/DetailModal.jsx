@@ -20,6 +20,9 @@ function DetailModal() {
   const onClickClose = () => setIsOpened(false);
   const onClickWrapper = () => setIsOpened(false);
 
+  const userData = localStorage.getItem('user');
+  const { nickname } = userData ? userData : { nickname: '익명의냥냥이' };
+
   let [dough, sediment] = Type.split('/');
 
   const TypeReplace = () => {
@@ -44,7 +47,7 @@ function DetailModal() {
       <ModalContainer backSrc={backSrc}>
         <ModalContent>
           <MessageWrapper letterSrc={letterSrc}>
-            <MessageUser>nicknick</MessageUser>
+            <MessageUser>{nickname && nickname}</MessageUser>
             <MessageContent>{message}</MessageContent>
             <MessageSender>{senderNickname}</MessageSender>
           </MessageWrapper>
@@ -65,7 +68,7 @@ const ModalWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,7 +102,6 @@ const ModalContent = styled.div`
   width: 100%;
   max-width: 375px;
   height: 100%;
-  max-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
