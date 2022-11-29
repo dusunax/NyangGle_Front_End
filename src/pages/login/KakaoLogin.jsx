@@ -11,10 +11,7 @@ const KakaoLogin = () => {
   const code = qs.parse(location.search, { ignoreQueryPrefix: true }).code;
   const postKakaoAuthCode = async () => {
     const res = await axios
-      .post(
-        'http://ec2-15-164-250-89.ap-northeast-2.compute.amazonaws.com:8081/api/oauth/login/kakao',
-        { code: code },
-      )
+      .post('http://localhost:8081/api/oauth/login/kakao', { code: code })
       .then((result) => {
         console.log(result);
         if (result.uuid) {
