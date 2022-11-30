@@ -183,6 +183,7 @@ function Member(props) {
                   ref={copyUrlRef}
                   defaultValue={window.location.href}
                 />
+                <img src="./assets/images/member/link_button.png" alt="링크 복사 버튼" />
               </CopyUrlWrap>
               {/* <HamburgerWarp>
               <div className="hambuger" onClick={onClickHamburgerButton}>
@@ -216,27 +217,34 @@ function Member(props) {
           <ButtonConatiner>
             {isMyPage && (
               <button onClick={setPage.bind(this, `/list/U184bdf21eb90001`)}>
-                내가 받은 붕어빵 확인
+                <img src="./assets/images/member/button.png" alt="내가 받은 붕어빵 확인 버튼" />
+                <span> 내가 받은 붕어빵 확인</span>
               </button>
             )}
 
             {isLoggedUser && !isMatchUid && (
               <>
-                <button onClick={setPage.bind(this, `/customFish/`)}>붕어빵 만들기</button>
+                <button onClick={setPage.bind(this, `/customFish/`)}>
+                  <img src="./assets/images/member/button.png" alt="붕어빵 만들기 버튼" />
+                  <span>붕어빵 만들기</span>
+                </button>
                 <button
                   onClick={() => {
                     navigate('/U184bdf21eb90000', { state: { loggedIn: true } });
                   }}
                   className="buttonLink"
                 >
-                  <span> 내 붕어빵 트럭 가기</span>
+                  <span>내 붕어빵 트럭 가기</span>
                 </button>
               </>
             )}
 
             {!isLoggedUser && (
               <>
-                <button onClick={setPage.bind(this, `/customFish/`)}>붕어빵 만들기</button>
+                <button onClick={setPage.bind(this, `/customFish/`)}>
+                  <img src="./assets/images/member/button.png" alt="붕어빵 만들기 버튼" />
+                  <span>붕어빵 만들기</span>
+                </button>
                 <button onClick={setPage.bind(this, `/`)} className="buttonLink">
                   <span>로그인 하러 가기</span>
                 </button>
@@ -473,7 +481,7 @@ const CopyUrlWrap = styled.div`
   right: 0;
   top: 0;
 
-  background: url('./assets/images/member/link_button.png') no-repeat center / contain;
+  /* background: url('./assets/images/member/link_button.png') no-repeat center / contain; */
 
   cursor: pointer;
 
@@ -529,18 +537,31 @@ const ButtonConatiner = styled.div`
     height: 70px;
 
     padding: 0;
-    background-color: transparent;
-    border: none;
+    position: relative;
+
     cursor: pointer;
 
     font-size: 18px;
     line-height: 28px;
     font-weight: 700;
 
+    background-color: transparent;
+    border: none;
     color: #ffffff;
-    background: url('./assets/images/member/button.png') no-repeat center / contain;
+    /* background: url('./assets/images/member/button.png') no-repeat center / contain; */
 
     transition: all 0.2s;
+
+    img {
+      width: 100%;
+    }
+
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
     &:hover {
       transform: translateY(-2px);

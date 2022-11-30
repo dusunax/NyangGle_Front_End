@@ -37,7 +37,7 @@ function CustomDone({ dough }) {
     });
   }, []);
 
-  setTimeout(() => navigate('/U184bcd9078c0001'), 3000);
+  setTimeout(() => navigate('/U184bdf21eb90001'), 3000);
 
   return (
     <div>
@@ -51,6 +51,7 @@ function CustomDone({ dough }) {
           <img src="/assets/custommessage/cat4.svg" className="cat" />
         </Contents>
         <FishFrame>
+          <img src="/assets/customfish/fishframe.svg" className="fishFrame" />
           <Fish>
             <img
               src={`/assets/custommessage/${imgs}1.svg`}
@@ -122,6 +123,7 @@ const FishFrame = styled.section`
     linear-gradient(transparent 40%, #9e9e9e 40%);
   z-index: 9;
   .fishFrame {
+    width: 100%;
     bottom: 0;
     margin-bottom: 10vh;
   }

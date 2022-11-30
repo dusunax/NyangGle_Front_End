@@ -52,10 +52,16 @@ function CustomFish({ countUp, setCountUp }) {
 
   // 화살표 선택 시
   const onClickNav = (tab, direction) => {
+    console.log(tab === '메시지 작성', direction);
+    if (tab === '메세지 작성' && direction === 'next') {
+      console.log('넘어가자냥');
+      setIsDone(true);
+    }
+
     if (tab === '붕어빵 커스텀') {
       if (direction === 'prev') {
         if (window.confirm('붕어빵 만들기를 취소하시겠습니까?')) {
-          navigate('/');
+          navigate('/U184bdf21eb90001');
         }
       } else {
         if (!!!inputs.sediment) {
@@ -128,7 +134,7 @@ function CustomFish({ countUp, setCountUp }) {
     getSenderIp();
   }, []);
 
-  console.log(inputs);
+  console.log(tabs);
 
   return isDone ? (
     <CustomDone dough={inputs.dough} />
