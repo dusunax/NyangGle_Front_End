@@ -9,4 +9,7 @@ export default defineConfig({
       '/api': 'http://ec2-15-164-250-89.ap-northeast-2.compute.amazonaws.com:8081',
     },
   },
+  esbuild: {
+    drop: ['console', 'debugger'],
+  },
 });

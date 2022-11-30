@@ -9,7 +9,7 @@ import { getBreadListData } from '../../../utils/fetchBreadDetail';
 import { breadListDummy } from '../../../atoms/testData';
 import styled from 'styled-components';
 
-function DetailList() {
+function DetailList({ setModalFishData }) {
   const dummyList = useRecoilValue(breadListDummy);
   const [breadList, setBreadList] = useRecoilState(dataList);
   const setTapIndex = useSetRecoilState(tapIndexState);
@@ -28,7 +28,7 @@ function DetailList() {
     'user',
     JSON.stringify({
       token: 'sdfsdgsdf',
-      nickname: '익명의냥냥이'
+      nickname: '익명의냥냥이',
     }),
   );
 
@@ -38,15 +38,6 @@ function DetailList() {
   const getBreadList = useCallback(async () => {
     console.log('fetching...');
     if (token === null) return;
-    /*const { data, callStatus } = await getBreadListData(
-      token,
-      callingType,
-      status,
-      lastId,
-      prevId,
-      currentPage,
-    );
-    const { content, totalPages, last, first } = data;*/
     const { content, totalPages, last, first } = dummyList,
       callStatus = 200;
     if (callStatus === 200) {
@@ -115,7 +106,11 @@ function DetailList() {
         <TurnBack onClick={onClickLocation}>돌아가기</TurnBack>
         <DetailListTaps onClickTap={onClickTap} />
         <DetailLists>
-          <DetailListItems currentIndex={currentIndex} token={token} />
+          <DetailListItems
+            setModalFishData={setModalFishData}
+            currentIndex={currentIndex}
+            token={token}
+          />
         </DetailLists>
         {pageData && (
           <DetailListButtons
@@ -134,7 +129,7 @@ export default DetailList;
 
 const DetailListWrapper = styled.div`
   padding: 0 10px;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

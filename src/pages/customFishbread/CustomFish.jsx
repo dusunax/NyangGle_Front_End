@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
+// import img from '../../../public/assets/customfish/';
 
 function CustomFish({ countUp, setCountUp }) {
   const navigate = useNavigate();
@@ -170,7 +171,7 @@ function CustomFish({ countUp, setCountUp }) {
                 />
               )}
             </Fish>
-            {/* <img src="/assets/customfish/fishframe.svg" className="fishFrame" /> */}
+            <img src="/assets/customfish/fishframe.svg" className="fishFrame" />
             <Types>
               <article>
                 {doughs.map((dough) => (
@@ -321,16 +322,28 @@ const Contents = styled.section`
 
 const FishFrame = styled.section`
   width: 100%;
+  /* max-width: 80% */
   height: 60vh;
   /* background: linear-gradient(transparent, #8c8c8c); */
   background: url('./assets/customfish/fishframe_wide.png') no-repeat top center / 110%,
     linear-gradient(transparent 40%, #9e9e9e 40%);
+
   z-index: 9;
 
+  /* 
+  ::after {
+    content: '~~';
+    background-color: red;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  } */
+
   .fishFrame {
+    width: 100%;
     bottom: 0;
 
-    margin-bottom: 10vh;
+    /* margin-bottom: 10vh; */
   }
 `;
 
