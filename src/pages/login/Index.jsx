@@ -8,9 +8,7 @@ function Login() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const onClickKakaoLoginButton = () => {
-     window.open(KAKAO_AUTH_URL, '_self');
     window.location.replace(KAKAO_AUTH_URL);
-    console.log('hi');
   };
 
   return (
@@ -24,12 +22,14 @@ function Login() {
         <ButtonConatiner>
           <button onClick={setPage.bind(this, `/U184bdf21eb90001`)}>냥냥 편지 체험하기</button>
         </ButtonConatiner>
-        { <KakaoLogin onClick={onClickKakaoLoginButton}>
-          <KakaoLoginImage
-            src="./assets/images/logos/kakao_login_large_wide.png"
-            alt="카카오 로그인 버튼"
-          />
-        </KakaoLogin> }
+        {
+          <KakaoLogin onClick={onClickKakaoLoginButton}>
+            <KakaoLoginImage
+              src="./assets/images/logos/kakao_login_large_wide.png"
+              alt="카카오 로그인 버튼"
+            />
+          </KakaoLogin>
+        }
       </div>
     </LoginWrap>
   );
