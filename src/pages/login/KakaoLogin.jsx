@@ -1,34 +1,38 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'qs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import font from '../../../public/assets/font/font.css';
 import styled from 'styled-components';
+import { REST_API_KEY, REDIRECT_URI } from './OAuth';
 
 const KakaoLogin = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const code = qs.parse(location.search, { ignoreQueryPrefix: true }).code;
+
   const postKakaoAuthCode = async () => {
-    const res = await axios
-      .post(
-        'http://ec2-15-164-250-89.ap-northeast-2.compute.amazonaws.com:8081/api/oauth/login/kakao',
-        { code: code },
-      )
-      .then((result) => {
-        console.log(result);
-        if (result.uuid) {
-          localStorage.setItem('user', {
-            uuid: result.uuid,
-            nickname: result.nickname,
-            token: result.token,
-          });
-          navigate(`/${result.uuid}`);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    const res = await axios.post(
+      'https://www.nyangnyang-letter.xyz/api/oauth/login/kakao',
+      {
+        grant_type: 'autorization_code',
+        client_id: REST_API_KEY,
+        redirect_uri: REDIRECT_URI,
+        code,
+      },
+      {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    );
+    localStorage.setItem(
+      'user',
+      JSON.stringify({
+        nickname: res.data.nickname,
+        token: res.data.token,
+        uuid: res.data.uuid,
+      }),
+    );
+    navigate(`/${res.data.uuid}`);
   };
 
   useEffect(() => {
