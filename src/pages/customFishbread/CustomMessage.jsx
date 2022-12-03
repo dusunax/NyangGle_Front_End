@@ -36,88 +36,91 @@ function CustomMessage({ inputs, onChangeMessage, onClickedSave }) {
   }, []);
 
   return (
-    <div>
-      {/* <Content value={inputs.message} readOnly /> */}
-
-      <section style={{ display: 'flex', padding: '10px', position: 'relative' }}>
-        <Paper
-          style={{
-            backgroundImage: `url("/assets/custommessage/${imgs}.svg")`,
-          }}
-        >
-          <Content>
-            <input
-              className="receiveNickname"
-              name="receiveNickname"
-              value="소금빵"
-              style={{ float: 'left' }}
-              disabled
-            />
-            <Textbox
-              name="message"
-              onChange={onChangeMessage}
-              value={inputs.message}
-              maxLength="500"
-            />
-            <input
-              name="senderNickname"
-              onChange={onChangeMessage}
-              placeholder="익명"
-              value={inputs.senderNickname}
-              maxLength="6"
-              style={{
-                float: 'right',
-                width: '90px',
-              }}
-            />
-          </Content>
-        </Paper>
-      </section>
-      {/* <button onClick={onClickedSave}>확인</button> */}
-    </div>
+    <Wrapper style={{ display: 'flex', position: 'relative' }}>
+      <Paper
+        style={{
+          backgroundImage: `url("/assets/custommessage/${imgs}.svg")`,
+          zIndex: '3',
+          objectFit: 'cover',
+          margin: '0',
+        }}
+      >
+        <Content>
+          <input
+            className="receiveNickname"
+            name="receiveNickname"
+            value="sooya"
+            style={{ float: 'left', marginLeft: '100px' }}
+            disabled
+          />
+          <Textbox
+            name="message"
+            onChange={onChangeMessage}
+            value={inputs.message}
+            maxLength="500"
+            style={{ marginTop: '10px' }}
+          />
+          <input
+            name="senderNickname"
+            onChange={onChangeMessage}
+            placeholder="익명"
+            value={inputs.senderNickname}
+            maxLength="6"
+            style={{
+              float: 'right',
+              width: '120px',
+              marginLeft: '0',
+            }}
+          />
+        </Content>
+      </Paper>
+    </Wrapper>
   );
 }
 
 export default CustomMessage;
 
+const Wrapper = styled.section`
+  ${({ theme }) => theme.flex.col}
+
+  height: 70vh;
+  /* justify-content: space-between; */
+  object-fit: cover;
+`;
+
 const Paper = styled.div`
   background-size: cover;
   display: flex;
-  width: 300px;
-  height: 400px;
-  bottom: 30vh;
+  width: 470px;
+  height: 610px;
   margin: auto;
   margin-top: -50px;
   text-align: center;
   justify-content: center;
-  align-items: center;
   font-size: 20px;
-
   margin-bottom: 10vh;
 `;
 
 const Content = styled.div`
+  margin: 30px 20px;
+  bottom: 100px;
   flex-direction: column;
   font-size: 20px;
-  width: 90%;
-  height: 90%;
   input {
     background: transparent;
     border: none;
-    margin: 0 0 10px 54px;
-    padding-top: 6px;
+    margin: 0 0 10px 60px;
+    padding-top: 10px;
     outline: none;
-    font-size: 20px;
+    font-size: 30px;
   }
 `;
 
 const Textbox = styled.textarea`
   width: 95%;
-  margin-top: 8px;
-  height: 260px;
+  height: 435px;
   resize: none;
   background: none;
-  /* border: 3px solid; */
   border: none;
-  font-size: 20px;
+  font-size: 30px;
 `;

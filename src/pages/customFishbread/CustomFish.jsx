@@ -322,7 +322,7 @@ const Contents = styled.section`
     }
   }
   .cat.heart {
-    top: -180px;
+    top: -120px;
   }
 `;
 

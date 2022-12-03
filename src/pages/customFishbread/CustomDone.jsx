@@ -37,7 +37,7 @@ function CustomDone({ dough }) {
     });
   }, []);
 
-  setTimeout(() => navigate('/U184bdf21eb90001'), 3000);
+  // setTimeout(() => navigate('/U184bdf21eb90001'), 3000);
 
   return (
     <div>
@@ -81,18 +81,21 @@ const ContentsArea = styled.div`
 const Fish = styled.div`
   ${({ theme }) => theme.flex.col}
   align-items: center;
+
   .dough_prev {
     position: absolute;
-    right: 44.5%;
-    top: 65%;
+    right: 42.5%;
+    width: 250px;
+    top: 61.5%;
     opacity: 1;
     animation: fadeout 2s 0.2s forwards;
     z-index: 9;
   }
   .dough_next {
     position: absolute;
-    right: 44.5%;
-    top: 65%;
+    right: 42.5%;
+    width: 250px;
+    top: 61.5%;
     opacity: 0;
     animation: fadeIn 2s 0.2s forwards;
     z-index: 9;
@@ -162,10 +165,10 @@ const Contents = styled.section`
   align-items: center;
   position: relative;
   .cat {
-    width: 50%;
-    max-width: 188px;
+    /* width: 70%; */
+    /* max-width: 188px; */
     position: absolute;
-    top: 280px;
+    top: 400px;
     @media (max-width: 400px) {
       width: 40%;
       top: -100px;
