@@ -13,16 +13,16 @@ const BREAD_DATA_ID = {
   senderNickname: 'nick1',
 };
 
-function DetailListItems({ currentIndex, token }) {
+function DetailListItems({ currentIndex, token, setModalFishData }) {
   const [breadList, setBreadList] = useRecoilState(dataList);
   const [readingData, setReadingData] = useRecoilState(readingDataList);
   const [isOpened, setIsOpened] = useRecoilState(modalState);
   const setReadingId = useSetRecoilState(idState);
 
   const getBreadDetail = useCallback(async (id) => {
-    const { data, status } = await getBreadDetailData(id, token);
-    /*const data = BREAD_DATA_ID,
-      status = 200;*/
+    // const { data, status } = await getBreadDetailData(id, token);
+    const data = BREAD_DATA_ID,
+      status = 200;
     if (status === 200) {
       setReadingData((state) => [
         ...state,
@@ -38,14 +38,21 @@ function DetailListItems({ currentIndex, token }) {
     if (isOpened) return;
     setIsOpened(true);
     setReadingId(id);
-    let currentList = [...breadList[currentIndex]].map((e) =>
-      e.id === id ? { ...e, status: 'READ' } : e,
-    );
+    let currentList = breadList[currentIndex].map((e) => {
+      if (e.id === id) {
+        // getBreadDetail(e);
+        setModalFishData(e);
+        return (e = { ...e, status: 'READ' });
+      }
+      return e;
+    });
+
+    // let currentList = [...breadList[currentIndex]];
+
     let totalList = [...breadList];
     totalList[currentIndex] = currentList;
     setBreadList(totalList);
     const hasReadingData = readingData.find((e) => e.id === id);
-    hasReadingData ?? getBreadDetail(id);
   };
 
   return (

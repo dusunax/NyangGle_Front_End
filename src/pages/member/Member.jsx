@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as countFishTruckImages from './countFishTruckImages.json';
 import styled from 'styled-components';
 import useFetchContentSize from '../../hooks/useFetchContentSize';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
 import { setCookie, getCookie, deleteCookie } from '../../utils/cookie';
 
-function Member() {
+function Member(props) {
+  const { countUp, setCountUp } = props;
+  const location = useLocation();
+
   const navigate = useNavigate();
   const copyUrlRef = useRef();
   const [setPage] = useRedirectPage();
@@ -21,15 +24,16 @@ function Member() {
   const [randomComment, setRandomCommnet] = useState();
 
   // 리코일으로 전역 변수 가져와서 사용
-  const [userName, setUserName] = useState('유저 네임');
+  const [userName, setUserName] = useState('소금빵');
   const [newUserName, setNewUserName] = useState();
   const [isLoggedUser, setIsLoggedUser] = useState(true);
   const uid = window.location.pathname.slice(1);
 
   // 쿠키에 uid 가져와서
   const [isMatchUid, setisMatchUid] = useState(false);
+
   const myUid = 'testtest';
-  const isMyPage = isLoggedUser && isMatchUid;
+  let isMyPage = isLoggedUser && isMatchUid;
 
   const copyUrl = () => {
     if (!document.queryCommandSupported('copy')) {
@@ -43,23 +47,14 @@ function Member() {
   };
 
   // 붕어빵 갯수 가져오기
-  const fetchSizeAll = async () => {
-    const { fetchContentSize } = await useFetchContentSize();
-    // {success: boolean / sizeAll: number[] }
-    const fetchedContents = await fetchContentSize();
-
-    if (fetchedContents.success) {
-      const fishCount = fetchedContents.sizeAllCount;
-
-      if (fishCount < 6) {
-        setDisplayFishImage(countFishTruckImages.default[fishCount].imageURL);
-      } else {
-        setDisplayFishImage('cat_truck_6.png');
-      }
-      setFishSizeAll(fishCount);
+  const fetchSizeAll = () => {
+    if (countUp < 6) {
+      setDisplayFishImage(countFishTruckImages.default[countUp].imageURL);
     } else {
-      navigate('/');
+      setDisplayFishImage('cat_truck_6.png');
     }
+
+    setFishSizeAll(countUp);
   };
 
   const onSubmit = async (event) => {
@@ -115,12 +110,11 @@ function Member() {
     }
   };
 
-  const setUserInfo = () => {};
-
   useEffect(() => {
     if (uid === myUid) setisMatchUid(true);
     fetchSizeAll();
-  }, []);
+    location.state !== null && setisMatchUid(true);
+  }, [location]);
 
   const twoCatsRandomComment = [
     '어서오라냥~',
@@ -189,6 +183,7 @@ function Member() {
                   ref={copyUrlRef}
                   defaultValue={window.location.href}
                 />
+                <img src="./assets/images/member/link_button.png" alt="링크 복사 버튼" />
               </CopyUrlWrap>
               {/* <HamburgerWarp>
               <div className="hambuger" onClick={onClickHamburgerButton}>
@@ -207,8 +202,8 @@ function Member() {
               <img
                 src={`./assets/images/member/${displayFishImage}`}
                 alt="고양이 트럭이다냥"
-                className={isMyPage ? 'catTruck clickable' : 'catTruck'}
-                onClick={isMyPage ? setPage.bind(this, `/list/${uid}`) : null}
+                className={'catTruck clickable'}
+                onClick={setPage.bind(this, `/list/${uid}`)}
               />
 
               {/* <FishBreadConatiner
@@ -221,21 +216,35 @@ function Member() {
           </FishBreadTruckWrap>
           <ButtonConatiner>
             {isMyPage && (
-              <button onClick={setPage.bind(this, `/list/${uid}`)}>내가 받은 붕어빵 확인</button>
+              <button onClick={setPage.bind(this, `/list/U184bdf21eb90001`)}>
+                <img src="./assets/images/member/button.png" alt="내가 받은 붕어빵 확인 버튼" />
+                <span> 내가 받은 붕어빵 확인</span>
+              </button>
             )}
 
             {isLoggedUser && !isMatchUid && (
               <>
-                <button onClick={setPage.bind(this, `/customFish`)}>붕어빵 만들기</button>
-                <button onClick={setPage.bind(this, `/member/${myUid}`)} className="buttonLink">
-                  <span> 내 붕어빵 페이지 보기</span>
+                <button onClick={setPage.bind(this, `/customFish/`)}>
+                  <img src="./assets/images/member/button.png" alt="붕어빵 만들기 버튼" />
+                  <span>붕어빵 만들기</span>
+                </button>
+                <button
+                  onClick={() => {
+                    navigate('/U184bdf21eb90000', { state: { loggedIn: true } });
+                  }}
+                  className="buttonLink"
+                >
+                  <span>내 붕어빵 트럭 가기</span>
                 </button>
               </>
             )}
 
             {!isLoggedUser && (
               <>
-                <button onClick={setPage.bind(this, `/customFish`)}>붕어빵 만들기</button>
+                <button onClick={setPage.bind(this, `/customFish/`)}>
+                  <img src="./assets/images/member/button.png" alt="붕어빵 만들기 버튼" />
+                  <span>붕어빵 만들기</span>
+                </button>
                 <button onClick={setPage.bind(this, `/`)} className="buttonLink">
                   <span>로그인 하러 가기</span>
                 </button>
@@ -251,7 +260,7 @@ function Member() {
 export default Member;
 
 const MemberWrap = styled.div`
-  height: calc(var(--vh, 1vh) * 100);
+  height: 100vh;
 
   background: linear-gradient(to bottom, #e3edf2 68%, #000 68%, #000 68.3%, #faeac7 68.3%);
 
@@ -472,7 +481,7 @@ const CopyUrlWrap = styled.div`
   right: 0;
   top: 0;
 
-  background: url('./assets/images/member/link_button.png') no-repeat center / contain;
+  /* background: url('./assets/images/member/link_button.png') no-repeat center / contain; */
 
   cursor: pointer;
 
@@ -528,18 +537,31 @@ const ButtonConatiner = styled.div`
     height: 70px;
 
     padding: 0;
-    background-color: transparent;
-    border: none;
+    position: relative;
+
     cursor: pointer;
 
     font-size: 18px;
     line-height: 28px;
     font-weight: 700;
 
+    background-color: transparent;
+    border: none;
     color: #ffffff;
-    background: url('./assets/images/member/button.png') no-repeat center / contain;
+    /* background: url('./assets/images/member/button.png') no-repeat center / contain; */
 
     transition: all 0.2s;
+
+    img {
+      width: 100%;
+    }
+
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
     &:hover {
       transform: translateY(-2px);

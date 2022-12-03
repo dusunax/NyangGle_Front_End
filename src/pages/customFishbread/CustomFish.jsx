@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
+// import img from '../../../public/assets/customfish/';
 
-function CustomFish() {
+function CustomFish({ countUp, setCountUp }) {
   const navigate = useNavigate();
   const { requestApi } = useAxios();
   const tabs = ['붕어빵 커스텀', '메세지 작성'];
@@ -33,16 +34,15 @@ function CustomFish() {
       return;
     }
 
-    const { status } = await requestApi('post', `/fishbread/U18414f5037a0001`, {
+    const { status } = await requestApi('post', `/fishbread/U184bdf21eb90001`, {
       message: inputs.message,
       type: `${inputs.dough}/${inputs.sediment}`,
       senderIp: inputs.senderIp,
       senderNickname: inputs.senderNickname ? inputs.senderNickname : '익명',
     });
 
-    if (status === 201) {
-      setIsDone(true);
-    }
+    setCountUp(countUp + 1);
+    setIsDone(true);
   };
 
   /**
@@ -52,10 +52,16 @@ function CustomFish() {
 
   // 화살표 선택 시
   const onClickNav = (tab, direction) => {
+    console.log(tab === '메시지 작성', direction);
+    if (tab === '메세지 작성' && direction === 'next') {
+      console.log('넘어가자냥');
+      setIsDone(true);
+    }
+
     if (tab === '붕어빵 커스텀') {
       if (direction === 'prev') {
         if (window.confirm('붕어빵 만들기를 취소하시겠습니까?')) {
-          navigate('/');
+          navigate('/U184bdf21eb90001');
         }
       } else {
         if (!!!inputs.sediment) {
@@ -128,10 +134,10 @@ function CustomFish() {
     getSenderIp();
   }, []);
 
-  console.log(inputs);
+  console.log(tabs);
 
   return isDone ? (
-    <CustomDone />
+    <CustomDone dough={inputs.dough} />
   ) : (
     <Main>
       <Header>
@@ -171,7 +177,7 @@ function CustomFish() {
                 />
               )}
             </Fish>
-            {/* <img src="/assets/customfish/fishframe.svg" className="fishFrame" /> */}
+            <img src="/assets/customfish/fishframe.svg" className="fishFrame" />
             <Types>
               <article>
                 {doughs.map((dough) => (
@@ -322,16 +328,28 @@ const Contents = styled.section`
 
 const FishFrame = styled.section`
   width: 100%;
+  /* max-width: 80% */
   height: 60vh;
   /* background: linear-gradient(transparent, #8c8c8c); */
   background: url('/assets/customfish/fishframe_wide.png') no-repeat top center / 110%,
     linear-gradient(transparent 40%, #9e9e9e 40%);
+
   z-index: 9;
 
+  /* 
+  ::after {
+    content: '~~';
+    background-color: red;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  } */
+
   .fishFrame {
+    width: 100%;
     bottom: 0;
 
-    margin-bottom: 10vh;
+    /* margin-bottom: 10vh; */
   }
 `;
 

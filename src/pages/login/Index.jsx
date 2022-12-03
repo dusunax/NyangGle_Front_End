@@ -1,12 +1,13 @@
 import { REST_API_KEY, REDIRECT_URI } from './OAuth';
 import font from '../../../public/assets/font/font.css';
 import styled from 'styled-components';
+import { useRedirectPage } from '../../hooks/useRedirectPage';
 
 function Login() {
+  const [setPage] = useRedirectPage();
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const onClickKakaoLoginButton = () => {
-    // window.open(KAKAO_AUTH_URL, '_self');
     window.location.replace(KAKAO_AUTH_URL);
   };
 
@@ -17,12 +18,18 @@ function Login() {
         <div className="imageWrap">
           <img className="catTruck" src="./assets/images/intro/cat_truck.png" alt="Cat Truck" />
         </div>
-        <KakaoLogin onClick={onClickKakaoLoginButton}>
-          <KakaoLoginImage
-            src="./assets/images/logos/kakao_login_large_wide.png"
-            alt="카카오 로그인 버튼"
-          />
-        </KakaoLogin>
+
+        <ButtonConatiner>
+          <button onClick={setPage.bind(this, `/U184bdf21eb90001`)}>냥냥 편지 체험하기</button>
+        </ButtonConatiner>
+        {
+          <KakaoLogin onClick={onClickKakaoLoginButton}>
+            <KakaoLoginImage
+              src="./assets/images/logos/kakao_login_large_wide.png"
+              alt="카카오 로그인 버튼"
+            />
+          </KakaoLogin>
+        }
       </div>
     </LoginWrap>
   );
@@ -131,4 +138,31 @@ const KakaoLogin = styled.button`
 
 const KakaoLoginImage = styled.img`
   width: 100%;
+`;
+
+// 버튼 박스
+const ButtonConatiner = styled.div`
+  width: 100%;
+  button {
+    width: 100%;
+    height: 70px;
+
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    font-size: 18px;
+    line-height: 28px;
+    font-weight: 700;
+
+    color: #ffffff;
+    background: url('./assets/images/member/button.png') no-repeat center / contain;
+
+    transition: all 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
 `;

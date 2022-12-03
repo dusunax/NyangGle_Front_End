@@ -49,7 +49,7 @@ function CustomMessage({ inputs, onChangeMessage, onClickedSave }) {
             <input
               className="receiveNickname"
               name="receiveNickname"
-              value="sooya"
+              value="소금빵"
               style={{ float: 'left' }}
               disabled
             />
