@@ -95,22 +95,6 @@ function Member(props) {
     setActiveHamburger(!activeHamburger);
   };
 
-  const onClickKakaoLogoutButton = async () => {
-    try {
-      // api에 로그아웃을 요청
-      // const response = await requestAxios('/~~~')
-      // if(response.isSucccess){
-
-      // 쿠키 토큰을 삭제
-      // deleteCookie('token')
-      navigate('/');
-      // }
-    } catch (e) {
-      console.log(e);
-      alert('로그아웃에 실패하였습니다.');
-    }
-  };
-
   useEffect(() => {
     if (uid === myUid) setisMatchUid(true);
     fetchSizeAll();
@@ -149,7 +133,6 @@ function Member(props) {
   }, []);
 
   const logout = async () => {
-    console.log('check');
     const { status } = await requestApi('post', 'oauth/logout/kakao');
     try {
       if (status === 200) {

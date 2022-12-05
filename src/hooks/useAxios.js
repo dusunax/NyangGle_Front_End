@@ -6,13 +6,11 @@ export default function useAxios() {
   // 요청 인터셉터
   axios.interceptors.request.use((config) => {
     const getUser = JSON.parse(localStorage.getItem('user'));
-
     if (config.headers) {
       config.headers['Content-Type'] = 'application/json';
       // @FIX 조건 처리 필요 (토큰 안쓰는 곳)
-      config.headers['Authorization'] = `${getUser.token}`;
+      config.headers['X-NYANG-AUTH-TOKEN'] = getUser ? `${getUser.token}` : '';
     }
-
     return config;
   });
 

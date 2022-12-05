@@ -19,9 +19,6 @@ function Login() {
           <img className="catTruck" src="./assets/images/intro/cat_truck.png" alt="Cat Truck" />
         </div>
 
-        <ButtonConatiner>
-          <button onClick={setPage.bind(this, `/U184bdf21eb90001`)}>냥냥 편지 체험하기</button>
-        </ButtonConatiner>
         {
           <KakaoLogin onClick={onClickKakaoLoginButton}>
             <KakaoLoginImage

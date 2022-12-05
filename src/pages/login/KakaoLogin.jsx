@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'qs';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect } from 'react';
 import useAxios from '../../hooks/useAxios';
 import font from '../../../public/assets/font/font.css';
 import styled from 'styled-components';
@@ -14,29 +13,6 @@ const KakaoLogin = () => {
   const code = qs.parse(location.search, { ignoreQueryPrefix: true }).code;
 
   const postKakaoAuthCode = async () => {
-    // const res = await axios.post(
-    //   'https://www.nyangnyang-letter.xyz/api/oauth/login/kakao',
-    //   {
-    //     grant_type: 'autorization_code',
-    //     client_id: REST_API_KEY,
-    //     redirect_uri: REDIRECT_URI,
-    //     code,
-    //   },
-    //   {
-    //     'Content-Type': 'application/x-www-form-urlencoded',
-    //   },
-    // );
-
-    // localStorage.setItem(
-    //   'user',
-    //   JSON.stringify({
-    //     nickname: res.data.nickname,
-    //     token: res.data.token,
-    //     uuid: res.data.uuid,
-    //   }),
-    // );
-    // navigate(`/${res.data.uuid}`);
-
     const { data, status } = await requestApi('post', '/oauth/login/kakao', {
       grant_type: 'autorization_code',
       client_id: REST_API_KEY,
