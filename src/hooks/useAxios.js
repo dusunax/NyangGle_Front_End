@@ -8,15 +8,9 @@ export default function useAxios() {
     const getUser = JSON.parse(localStorage.getItem('user'));
 
     if (config.headers) {
-      const { url } = config;
-
-      if (url.includes('/login/kakao')) {
-        config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-      } else {
-        config.headers['Content-Type'] = 'application/json';
-        // @FIX 조건 처리 필요
-        config.headers['Authorization'] = `${getUser.token}`;
-      }
+      config.headers['Content-Type'] = 'application/json';
+      // @FIX 조건 처리 필요 (토큰 안쓰는 곳)
+      config.headers['Authorization'] = `${getUser.token}`;
     }
 
     return config;
