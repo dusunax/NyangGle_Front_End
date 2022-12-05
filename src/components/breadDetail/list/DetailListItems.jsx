@@ -5,24 +5,14 @@ import { getBreadDetailData } from '../../../utils/fetchBreadDetail';
 import styled from 'styled-components';
 import DetailListItem from './DetailListItem';
 
-const BREAD_DATA_ID = {
-  Type: '고구마/마라',
-  message:
-    '안녕 냥냥펀치! 나는 냥아치야 차가운 밀가루 반죽에 아주머니는 연신 허연 입김 불어넣으시고 후끈 달아오른 무쇠틀 속으로 붉은 심장을 넣어주신다 어느새 윤기 흐르는 피부로 세상에 나온 손주들 온기도 가시기 전 봉지에 담긴다 오늘은 아주머니도 월척 붕어 몇 마리 낚아',
-  createdAt: '',
-  senderNickname: 'nick1',
-};
-
-function DetailListItems({ currentIndex, token, setModalFishData }) {
+function DetailListItems({ currentIndex, token }) {
   const [breadList, setBreadList] = useRecoilState(dataList);
   const [readingData, setReadingData] = useRecoilState(readingDataList);
   const [isOpened, setIsOpened] = useRecoilState(modalState);
   const setReadingId = useSetRecoilState(idState);
 
   const getBreadDetail = useCallback(async (id) => {
-    // const { data, status } = await getBreadDetailData(id, token);
-    const data = BREAD_DATA_ID,
-      status = 200;
+    const { data, status } = await getBreadDetailData(id, token);
     if (status === 200) {
       setReadingData((state) => [
         ...state,
@@ -38,21 +28,14 @@ function DetailListItems({ currentIndex, token, setModalFishData }) {
     if (isOpened) return;
     setIsOpened(true);
     setReadingId(id);
-    let currentList = breadList[currentIndex].map((e) => {
-      if (e.id === id) {
-        // getBreadDetail(e);
-        setModalFishData(e);
-        return (e = { ...e, status: 'READ' });
-      }
-      return e;
-    });
-
-    // let currentList = [...breadList[currentIndex]];
-
+    let currentList = [...breadList[currentIndex]].map((e) =>
+      e.id === id ? { ...e, status: 'READ' } : e,
+    );
     let totalList = [...breadList];
     totalList[currentIndex] = currentList;
     setBreadList(totalList);
     const hasReadingData = readingData.find((e) => e.id === id);
+    hasReadingData ?? getBreadDetail(id);
   };
 
   return (

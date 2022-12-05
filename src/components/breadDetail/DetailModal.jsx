@@ -10,20 +10,19 @@ const TypeObj = {
   초코: '4',
 };
 
-function DetailModal({ modalFishData }) {
+function DetailModal() {
   const setIsOpened = useSetRecoilState(modalState);
   const readingId = useRecoilValue(idState);
   const data = useRecoilValue(readingDataList);
   const [backSrc, setBackSrc] = useState('background1');
   const [letterSrc, setLetterSrc] = useState('letter1');
-  const { Type, senderNickname } = modalFishData;
+  const { Type, message, senderNickname } = data.find((e) => e.id === readingId);
   const onClickClose = () => setIsOpened(false);
   const onClickWrapper = () => setIsOpened(false);
 
   let [dough, sediment] = Type.split('/');
-  // const userData = JSON.parse(localStorage.getItem('user'));
-  const nickname = '소금빵';
-  const message = `안녕이다냥!\n냥냥 편지는 지금 체험판이다냥.\n\n${senderNickname} 의 \n${sediment}맛 메시지로 \n따뜻한 겨울 되기를 바란다냥.\n\n빨리 만날 수 있으면 좋겠어냥!`;
+  const userData = JSON.parse(localStorage.getItem('user'));
+  const { nickname } = userData ? userData : { nickname: '익명의냥냥이' };
 
   const TypeReplace = () => {
     Object.keys(TypeObj).forEach((e) => {
@@ -47,7 +46,7 @@ function DetailModal({ modalFishData }) {
       <ModalContainer backSrc={backSrc}>
         <ModalContent>
           <MessageWrapper letterSrc={letterSrc}>
-            <MessageUser>{nickname}</MessageUser>
+            <MessageUser>{nickname && nickname}</MessageUser>
             <MessageContent>{message}</MessageContent>
             <MessageSender>{senderNickname}</MessageSender>
           </MessageWrapper>

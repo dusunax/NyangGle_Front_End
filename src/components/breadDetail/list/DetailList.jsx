@@ -6,11 +6,9 @@ import DetailListButtons from './DetailListButtons';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { dataList, tapIndexState } from '../../../atoms/fishBreadList';
 import { getBreadListData } from '../../../utils/fetchBreadDetail';
-import { breadListDummy } from '../../../atoms/testData';
 import styled from 'styled-components';
 
-function DetailList({ setModalFishData }) {
-  const dummyList = useRecoilValue(breadListDummy);
+function DetailList() {
   const [breadList, setBreadList] = useRecoilState(dataList);
   const setTapIndex = useSetRecoilState(tapIndexState);
   const [pageData, setPageData] = useState();
@@ -24,22 +22,21 @@ function DetailList({ setModalFishData }) {
   const navigate = useNavigate();
   const { uid } = useParams();
 
-  localStorage.setItem(
-    'user',
-    JSON.stringify({
-      token: 'sdfsdgsdf',
-      nickname: '익명의냥냥이',
-    }),
-  );
-
   const userData = JSON.parse(localStorage.getItem('user'));
   const { token } = userData ? userData : { token: null };
 
   const getBreadList = useCallback(async () => {
     console.log('fetching...');
     if (token === null) return;
-    const { content, totalPages, last, first } = dummyList,
-      callStatus = 200;
+    const { data, callStatus } = await getBreadListData(
+      token,
+      callingType,
+      status,
+      lastId,
+      prevId,
+      currentPage,
+    );
+    const { content, totalPages, last, first } = data;
     if (callStatus === 200) {
       setLastId(content.at(-1).id);
       setPrevId(content[0].id);
@@ -97,7 +94,7 @@ function DetailList({ setModalFishData }) {
   }, [isRefetch]);
 
   useEffect(() => {
-    // token ?? redirectNonMemeber();
+    token ?? redirectNonMemeber();
   }, []);
 
   return (
@@ -106,11 +103,7 @@ function DetailList({ setModalFishData }) {
         <TurnBack onClick={onClickLocation}>돌아가기</TurnBack>
         <DetailListTaps onClickTap={onClickTap} />
         <DetailLists>
-          <DetailListItems
-            setModalFishData={setModalFishData}
-            currentIndex={currentIndex}
-            token={token}
-          />
+          <DetailListItems currentIndex={currentIndex} token={token} />
         </DetailLists>
         {pageData && (
           <DetailListButtons
@@ -141,14 +134,14 @@ const DetailLists = styled.div`
   max-width: 354px;
   max-height: 551px;
   position: relative;
-  background: url('../../../../assets/images/breadDetail/mailbox.png') no-repeat center/contain;
+  background: url('/assets/images/breadDetail/mailbox.png') no-repeat center/contain;
 `;
 
 const TurnBack = styled.div`
   text-indent: -9999px;
   width: 50px;
   height: 50px;
-  background: url('../../../../assets/images/breadDetail/turnBack.png') no-repeat center/cover;
+  background: url('/assets/images/breadDetail/turnBack.png') no-repeat center/cover;
   cursor: pointer;
   margin-bottom: 14px;
 `;
