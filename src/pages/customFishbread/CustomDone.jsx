@@ -37,7 +37,7 @@ function CustomDone({ dough }) {
     });
   }, []);
 
-  // setTimeout(() => navigate('/U184bdf21eb90001'), 3000);
+  setTimeout(() => navigate('/U184bdf21eb90001'), 3000);
 
   return (
     <div>
@@ -51,7 +51,7 @@ function CustomDone({ dough }) {
           <img src="/assets/custommessage/cat4.svg" className="cat" />
         </Contents>
         <FishFrame>
-          <img src="/assets/customfish/fishframe.svg" className="fishFrame" />
+          {/* <img src="/assets/customfish/fishframe.svg" className="fishFrame" /> */}
           <Fish>
             <img
               src={`/assets/custommessage/${imgs}1.svg`}
@@ -84,21 +84,14 @@ const Fish = styled.div`
 
   .dough_prev {
     position: absolute;
-    right: 42.5%;
-    width: 250px;
-    top: 61.5%;
+    bottom: 0;
     opacity: 1;
-    animation: fadeout 2s 0.2s forwards;
-    z-index: 9;
   }
   .dough_next {
     position: absolute;
-    right: 42.5%;
-    width: 250px;
-    top: 61.5%;
+    bottom: 0;
     opacity: 0;
     animation: fadeIn 2s 0.2s forwards;
-    z-index: 9;
   }
   @keyframes fadeIn {
     0% {
@@ -108,27 +101,17 @@ const Fish = styled.div`
       opacity: 1;
     }
   }
-  @keyframes fadeout {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
-  }
 `;
 
 const FishFrame = styled.section`
   width: 100%;
   height: 60vh;
-  /* background: linear-gradient(transparent, #8c8c8c); */
-  background: url('./assets/customfish/fishframe_wide.png') no-repeat top center / 110%,
-    linear-gradient(transparent 40%, #9e9e9e 40%);
+  background: no-repeat top center / 110%, linear-gradient(transparent 0%, #9e9e9e 40%);
+
   z-index: 9;
   .fishFrame {
-    width: 100%;
+    width: 120%;
     bottom: 0;
-    margin-bottom: 10vh;
   }
 `;
 
