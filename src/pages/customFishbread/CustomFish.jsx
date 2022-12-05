@@ -29,8 +29,12 @@ function CustomFish({ countUp, setCountUp }) {
 
   // 저장
   const onClickSave = async () => {
+    console.log(!!!inputs.message);
+    console.log(inputs.message);
+
     if (!!!inputs.message) {
       setMessage('내용을 입력해 주라냥');
+
       return;
     }
 
@@ -55,7 +59,8 @@ function CustomFish({ countUp, setCountUp }) {
     console.log(tab === '메시지 작성', direction);
     if (tab === '메세지 작성' && direction === 'next') {
       console.log('넘어가자냥');
-      setIsDone(true);
+      onClickSave();
+      // setIsDone(true);
     }
 
     if (tab === '붕어빵 커스텀') {
@@ -80,7 +85,6 @@ function CustomFish({ countUp, setCountUp }) {
         setIsActiveTab(tabs[0]);
       } else {
         console.log('다음');
-        onClickSave();
       }
     }
   };
