@@ -149,9 +149,18 @@ function Member(props) {
   }, []);
 
   const logout = async () => {
-    const res = await requestApi('post', 'oauth/logout/kakao');
-    console.log(res);
+    console.log('check');
+    const { status } = await requestApi('post', 'oauth/logout/kakao');
+    try {
+      if (status === 200) {
+        localStorage.removeItem('user');
+        navigate('/');
+      }
+    } catch (error) {
+      console.log(error.code);
+    }
   };
+
   return (
     <>
       <button onClick={logout} style={{ position: 'absolute' }}>
