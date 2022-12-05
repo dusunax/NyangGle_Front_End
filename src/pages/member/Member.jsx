@@ -5,12 +5,13 @@ import styled from 'styled-components';
 import useFetchContentSize from '../../hooks/useFetchContentSize';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
 import { setCookie, getCookie, deleteCookie } from '../../utils/cookie';
+import useAxios from '../../hooks/useAxios';
 
 function Member(props) {
   const { countUp, setCountUp } = props;
   const location = useLocation();
-
   const navigate = useNavigate();
+  const { requestApi } = useAxios();
   const copyUrlRef = useRef();
   const [setPage] = useRedirectPage();
   const [isEditMode, setIsEditMode] = useState(false);
@@ -147,8 +148,15 @@ function Member(props) {
     return () => clearTimeout(timeout);
   }, []);
 
+  const logout = async () => {
+    const res = await requestApi('post', 'oauth/logout/kakao');
+    console.log(res);
+  };
   return (
     <>
+      <button onClick={logout} style={{ position: 'absolute' }}>
+        로그아웃
+      </button>
       <MemberWrap>
         <div className="contents_area">
           {/* 타이틀 */}
