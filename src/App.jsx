@@ -7,13 +7,6 @@ import Router from './pages/Router';
 import { CookiesProvider } from 'react-cookie';
 
 function App() {
-  let vh = 0;
-
-  useEffect(() => {
-    vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  }, []);
-
   return (
     <>
       <GlobalStyle />
