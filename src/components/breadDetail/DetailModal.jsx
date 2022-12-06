@@ -21,6 +21,8 @@ function DetailModal() {
   const onClickWrapper = () => setIsOpened(false);
 
   let [dough, sediment] = Type.split('/');
+  const userData = JSON.parse(localStorage.getItem('user'));
+  const { nickname } = userData ? userData : { nickname: '익명의냥냥이' };
 
   const TypeReplace = () => {
     Object.keys(TypeObj).forEach((e) => {
@@ -44,7 +46,7 @@ function DetailModal() {
       <ModalContainer backSrc={backSrc}>
         <ModalContent>
           <MessageWrapper letterSrc={letterSrc}>
-            <MessageUser>nicknick</MessageUser>
+            <MessageUser>{nickname && nickname}</MessageUser>
             <MessageContent>{message}</MessageContent>
             <MessageSender>{senderNickname}</MessageSender>
           </MessageWrapper>
@@ -64,8 +66,8 @@ const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100vh;
+  width: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,7 +101,6 @@ const ModalContent = styled.div`
   width: 100%;
   max-width: 375px;
   height: 100%;
-  max-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -131,6 +132,9 @@ const MessageContent = styled.div`
   bottom: 16%;
   transform: translateX(-50%);
   overflow-y: auto;
+
+  white-space: pre-wrap;
+  word-break: keep-all;
 `;
 
 const MessageUser = styled.div`
@@ -138,13 +142,15 @@ const MessageUser = styled.div`
   width: 28%;
   top: 23.5%;
   left: 22.5%;
+  word-break: keep-all;
 `;
 
 const MessageSender = styled.div`
   position: absolute;
   width: 26%;
-  bottom: 9%;
+  bottom: 10%;
   right: 11%;
+  word-break: keep-all;
 `;
 
 const ModalCloseButton = styled.div`
@@ -152,6 +158,8 @@ const ModalCloseButton = styled.div`
   margin: 30px 0;
   height: 60px;
   position: relative;
+
+  cursor: pointer;
 `;
 
 const ButtonContent = styled.div`

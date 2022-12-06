@@ -1,7 +1,18 @@
 import axios from 'axios';
 
 export default function useAxios() {
-  axios.defaults.baseURL = 'http://ec2-15-164-250-89.ap-northeast-2.compute.amazonaws.com:8081/api';
+  axios.defaults.baseURL = '/api';
+
+  // 요청 인터셉터
+  axios.interceptors.request.use((config) => {
+    const getUser = JSON.parse(localStorage.getItem('user'));
+    if (config.headers) {
+      config.headers['Content-Type'] = 'application/json';
+      // @FIX 조건 처리 필요 (토큰 안쓰는 곳)
+      config.headers['X-NYANG-AUTH-TOKEN'] = getUser ? `${getUser.token}` : '';
+    }
+    return config;
+  });
 
   /**
    * @param {"get" | "post" | "put" | "delete"} method
