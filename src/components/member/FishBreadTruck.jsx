@@ -2,7 +2,7 @@ import React from 'react';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
 import styled from 'styled-components';
 
-function FishBreadTruck({ displayFishImage, uid }) {
+function FishBreadTruck({ displayFishImage, isMyPage, pageUuid }) {
   const [setPage] = useRedirectPage();
   return (
     <FishBreadTruckWrap>
@@ -10,8 +10,8 @@ function FishBreadTruck({ displayFishImage, uid }) {
         <img
           src={`./assets/images/member/${displayFishImage}`}
           alt="고양이 트럭이다냥"
-          className={'catTruck clickable'}
-          onClick={setPage.bind(this, `/list/${uid}`)}
+          className={isMyPage ? 'catTruck clickable' : 'catTruck '}
+          onClick={isMyPage ? setPage.bind(this, `/list/${pageUuid}`) : null}
         />
       </FishBreadTruckBox>
     </FishBreadTruckWrap>
@@ -20,12 +20,12 @@ function FishBreadTruck({ displayFishImage, uid }) {
 
 export default FishBreadTruck;
 
-const FishBreadTruckWrap = styled.div`
+const FishBreadTruckWrap = styled.section`
   width: 100%;
-  height: 50%;
+  height: 47%;
   position: relative;
 
-  margin-bottom: 2%;
+  margin-bottom: 3%;
 `;
 
 const FishBreadTruckBox = styled.div`
@@ -40,5 +40,8 @@ const FishBreadTruckBox = styled.div`
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+  }
+  .clickable {
+    cursor: pointer;
   }
 `;

@@ -1,15 +1,39 @@
-import { REST_API_KEY, REDIRECT_URI } from './OAuth';
-import font from '../../../public/assets/font/font.css';
+import { useState } from 'react';
 import styled from 'styled-components';
+
+import { REST_API_KEY, REDIRECT_URI } from './OAuth';
+import { getUser, isTokenExpired } from '../../utils/userAuth';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function Login() {
   const [setPage] = useRedirectPage();
+  const user = getUser();
+  const navigate = useNavigate();
+
+  /** 랜딩 페이지에서 토큰 확인 후 리디렉션합니다. */
+  const redirectHandler = () => {
+    if (!user) return;
+
+    const token = user.token;
+    if (!token) return;
+
+    const isExpired = isTokenExpired(token);
+    if (isExpired) return localStorage.removeItem('user');
+
+    navigate(`/${user.uuid}`);
+  };
+
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const onClickKakaoLoginButton = () => {
-    window.location.replace(KAKAO_AUTH_URL);
+    window.location.href = KAKAO_AUTH_URL;
   };
+
+  useEffect(() => {
+    redirectHandler();
+  }, [redirectHandler]);
 
   return (
     <LoginWrap>
@@ -35,7 +59,7 @@ function Login() {
 export default Login;
 
 const LoginWrap = styled.div`
-  height: calc(var(--vh, 1vh) * 100);
+  height: 100vh;
 
   background: linear-gradient(to bottom, #e3edf2 68%, #000 68%, #000 68.3%, #faeac7 68.3%);
 
@@ -56,7 +80,7 @@ const LoginWrap = styled.div`
 
   .imageWrap {
     width: 100%;
-    height: 50vh;
+    height: 47%;
     position: relative;
 
     margin-top: 5vh;
@@ -113,8 +137,8 @@ const IntroTitle = styled.h1`
 
 const KakaoLogin = styled.button`
   width: 100%;
-  max-height: 55px;
-  border-radius: 5px;
+  height: 70px;
+  border-radius: 10px;
   overflow: hidden;
 
   margin-bottom: 55px;
@@ -126,6 +150,8 @@ const KakaoLogin = styled.button`
   transition: all 0.2s;
   background-color: #fee500;
 
+  position: relative;
+
   &:hover {
     opacity: 0.9;
     transform: translateY(-2px) scale(1.01);
@@ -135,31 +161,8 @@ const KakaoLogin = styled.button`
 
 const KakaoLoginImage = styled.img`
   width: 100%;
-`;
-
-// 버튼 박스
-const ButtonConatiner = styled.div`
-  width: 100%;
-  button {
-    width: 100%;
-    height: 70px;
-
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-
-    font-size: 18px;
-    line-height: 28px;
-    font-weight: 700;
-
-    color: #ffffff;
-    background: url('./assets/images/member/button.png') no-repeat center / contain;
-
-    transition: all 0.2s;
-
-    &:hover {
-      transform: translateY(-2px);
-    }
-  }
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;

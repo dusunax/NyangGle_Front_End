@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
 import styled from 'styled-components';
 
-function ButtonContainer({ isMyPage, myUid, isMatchUid, isLoggedUser }) {
+function ButtonContainer({ isMyPage, myUid, isLoggedUser }) {
   const navigate = useNavigate();
   const [setPage] = useRedirectPage();
+
   return (
     <ButtonConatinerWrap>
       {isMyPage && (
@@ -15,7 +16,19 @@ function ButtonContainer({ isMyPage, myUid, isMatchUid, isLoggedUser }) {
         </button>
       )}
 
-      {isLoggedUser && !isMatchUid && (
+      {!isLoggedUser && (
+        <>
+          <button onClick={setPage.bind(this, `/customFish/`)}>
+            <img src="./assets/images/member/button.png" alt="붕어빵 만들기 버튼" />
+            <span>붕어빵 만들기</span>
+          </button>
+          <button onClick={setPage.bind(this, `/`)} className="buttonLink">
+            <span>로그인 하러 가기</span>
+          </button>
+        </>
+      )}
+
+      {!isMyPage && isLoggedUser && (
         <>
           <button onClick={setPage.bind(this, `/customFish/`)}>
             <img src="./assets/images/member/button.png" alt="붕어빵 만들기 버튼" />
@@ -31,18 +44,6 @@ function ButtonContainer({ isMyPage, myUid, isMatchUid, isLoggedUser }) {
           </button>
         </>
       )}
-
-      {!isLoggedUser && (
-        <>
-          <button onClick={setPage.bind(this, `/customFish/`)}>
-            <img src="./assets/images/member/button.png" alt="붕어빵 만들기 버튼" />
-            <span>붕어빵 만들기</span>
-          </button>
-          <button onClick={setPage.bind(this, `/`)} className="buttonLink">
-            <span>로그인 하러 가기</span>
-          </button>
-        </>
-      )}
     </ButtonConatinerWrap>
   );
 }
@@ -50,7 +51,7 @@ function ButtonContainer({ isMyPage, myUid, isMatchUid, isLoggedUser }) {
 export default ButtonContainer;
 
 // 버튼 박스
-const ButtonConatinerWrap = styled.div`
+const ButtonConatinerWrap = styled.section`
   button {
     width: 100%;
     height: 70px;
@@ -67,6 +68,10 @@ const ButtonConatinerWrap = styled.div`
 
     img {
       width: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     span {
@@ -74,6 +79,7 @@ const ButtonConatinerWrap = styled.div`
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      white-space: nowrap;
     }
 
     &:hover {
@@ -82,7 +88,7 @@ const ButtonConatinerWrap = styled.div`
   }
 
   .buttonLink {
-    height: 50px;
+    height: 70px;
     background: transparent;
     color: #73390b;
 
@@ -90,6 +96,8 @@ const ButtonConatinerWrap = styled.div`
       display: inline-block;
       line-height: 28px;
       border-bottom: 2px solid #73390b;
+
+      white-space: nowrap;
     }
 
     &:hover {

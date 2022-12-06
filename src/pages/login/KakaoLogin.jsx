@@ -5,6 +5,7 @@ import useAxios from '../../hooks/useAxios';
 import font from '../../../public/assets/font/font.css';
 import styled from 'styled-components';
 import { REST_API_KEY, REDIRECT_URI } from './OAuth';
+import { saveUser } from '../../utils/userAuth';
 
 const KakaoLogin = () => {
   const location = useLocation();
@@ -21,14 +22,7 @@ const KakaoLogin = () => {
     });
 
     if (status >= 200 && status < 400) {
-      localStorage.setItem(
-        'user',
-        JSON.stringify({
-          nickname: data.nickname,
-          token: data.token,
-          uuid: data.uuid,
-        }),
-      );
+      saveUser(data);
       navigate(`/${data.uuid}`);
     }
   };

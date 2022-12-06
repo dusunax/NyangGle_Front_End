@@ -1,11 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
 
-function SectionTitle({ fishSizeAll, isMyPage }) {
-  const { requestApi } = useAxios();
+function SectionTitle({ fishSizeAll, isMyPage, logout, user }) {
   const [isEditMode, setIsEditMode] = useState(false);
-  const [userName, setUserName] = useState(JSON.parse(localStorage.getItem('user')).nickname);
+  const [userName, setUserName] = useState(user.nickname);
   const [newUserName, setNewUserName] = useState();
   const [randomComment, setRandomCommnet] = useState();
   const copyUrlRef = useRef();
@@ -73,26 +72,16 @@ function SectionTitle({ fishSizeAll, isMyPage }) {
     setRandomCommnet(currentComment);
 
     timeout = setTimeout(() => {
+      clearTimeout(timeout);
+
       refreshComment();
-    }, 3000);
+    }, 5000);
   };
 
   useEffect(() => {
     refreshComment();
     return () => clearTimeout(timeout);
   }, []);
-
-  const logout = async () => {
-    const { status } = await requestApi('post', 'oauth/logout/kakao');
-    try {
-      if (status === 200) {
-        localStorage.removeItem('user');
-        navigate('/');
-      }
-    } catch (error) {
-      console.log(error.code);
-    }
-  };
 
   return (
     <SectionTitleWrap>
@@ -120,9 +109,13 @@ function SectionTitle({ fishSizeAll, isMyPage }) {
 
       <div className="right">
         {/* url 복사 */}
-        <CopyUrlWrap onClick={copyUrl}>
+        <CopyUrlWrap>
           <input id="copyUrl" type="text" ref={copyUrlRef} defaultValue={window.location.href} />
-          <img src="./assets/images/member/link_button.png" alt="링크 복사 버튼" />
+          <img
+            src="./assets/images/member/link_button.png"
+            alt="링크 복사 버튼"
+            onClick={copyUrl}
+          />
           <button onClick={logout}>로그아웃</button>
         </CopyUrlWrap>
       </div>
