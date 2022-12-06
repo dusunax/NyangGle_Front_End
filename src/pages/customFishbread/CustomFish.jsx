@@ -164,24 +164,13 @@ function CustomFish({ countUp, setCountUp }) {
         </ContentsArea>
       </Header>
       <Contents>
-        <img
-          src={`/assets/customfish/${imgs.cat}.svg`}
-          alt="고양이"
-          className={imgs.cat === 'cat3' ? 'cat heart' : 'cat'}
-        />
+        <img src={`/assets/customfish/${imgs.cat}.svg`} alt="고양이" className="cat" />
+        {imgs.sediment && (
+          <img src={`/assets/customfish/${imgs.sediment}.svg`} alt="앙금" className="sediment" />
+        )}
         {isActiveTab === tabs[0] && (
           <FishFrame>
-            <Fish>
-              <img src={`/assets/customfish/${imgs.dough}.svg`} alt="반죽" className="dough" />
-              {imgs.sediment && (
-                <img
-                  src={`/assets/customfish/${imgs.sediment}.svg`}
-                  alt="앙금"
-                  className="sediment"
-                />
-              )}
-            </Fish>
-            <img src="/assets/customfish/fishframe.svg" className="fishFrame" />
+            <img src={`/assets/customfish/${imgs.dough}.svg`} alt="반죽" className="dough" />
             <Types>
               <article>
                 {doughs.map((dough) => (
@@ -303,96 +292,28 @@ const Header = styled.header`
 `;
 
 const Contents = styled.section`
-  ${({ theme }) => theme.flex.col}
-
-  justify-content: flex-end;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-
   position: relative;
 
   .cat {
-    width: 50%;
-    max-width: 188px;
-    position: absolute;
-    top: -120px;
-
-    @media (max-width: 400px) {
-      width: 40%;
-      top: -100px;
-    }
-
-    @media (max-width: 350px) {
-      top: -80px;
-    }
-  }
-  .cat.heart {
-    top: -120px;
-  }
-`;
-
-const FishFrame = styled.section`
-  width: 100%;
-  /* max-width: 80% */
-  height: 60vh;
-  /* background: linear-gradient(transparent, #8c8c8c); */
-  background: url('/assets/customfish/fishframe_wide.png') no-repeat top center / 110%,
-    linear-gradient(transparent 40%, #9e9e9e 40%);
-
-  z-index: 9;
-
-  /* 
-  ::after {
-    content: '~~';
-    background-color: red;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  } */
-
-  .fishFrame {
-    width: 100%;
-    bottom: 0;
-
-    /* margin-bottom: 10vh; */
-  }
-`;
-
-const Fish = styled.div`
-  ${({ theme }) => theme.flex.col}
-  align-items: center;
-
-  img,
-  .dough,
-  .sediment {
-    width: 27%;
-
-    position: absolute;
-    top: 15%;
-    transform: translateX(6%);
+    height: 150px;
   }
 
   .sediment {
-    width: 12%;
-    transform: translate(0%, 44%);
-  }
-
-  @media (max-width: 580px) {
-    .dough {
-      top: 8.5%;
-    }
-    .sediment {
-      width: 12%;
-      top: 8.5%;
-    }
+    position: absolute;
+    top: 53%;
   }
 `;
+
+const FishFrame = styled.section``;
 
 const Types = styled.section`
   ${({ theme }) => theme.flex.row}
   width: 100%;
-
-  padding: 0 16px;
-
+  padding: 0 20px;
   position: absolute;
   left: 50%;
   bottom: 20px;

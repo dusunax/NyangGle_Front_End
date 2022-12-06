@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 function SectionTitle({ fishSizeAll, isMyPage, logout, user }) {
   const [isEditMode, setIsEditMode] = useState(false);
-  const [userName, setUserName] = useState(user.nickname);
+  const [userName, setUserName] = useState(user?.nickname);
   const [newUserName, setNewUserName] = useState();
   const [randomComment, setRandomCommnet] = useState();
   const copyUrlRef = useRef();
