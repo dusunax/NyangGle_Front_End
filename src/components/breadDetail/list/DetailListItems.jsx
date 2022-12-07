@@ -11,37 +11,38 @@ function DetailListItems({ currentIndex, token }) {
   const [isOpened, setIsOpened] = useRecoilState(modalState);
   const setReadingId = useSetRecoilState(idState);
 
-  const getBreadDetail = useCallback(async (id) => {
-    const { data, status } = await getBreadDetailData(id, token);
+  const getBreadDetail = useCallback(async (fishId) => {
+    const { data, status } = await getBreadDetailData(fishId, token);
+    console.log(data)
     if (status === 200) {
       setReadingData((state) => [...state, { ...data }]);
     }
   }, []);
 
-  const onClickBread = (id) => {
+  const onClickBread = (fishId) => {
     if (isOpened) return;
     setIsOpened(true);
-    setReadingId(id);
+    setReadingId(fishId);
     let currentList = [...breadList[currentIndex]].map((e) =>
-      e.id === id ? { ...e, status: 'READ' } : e,
+      e.fishId === fishId ? { ...e, status: 'READ' } : e,
     );
     let totalList = [...breadList];
     totalList[currentIndex] = currentList;
     setBreadList(totalList);
-    const hasReadingData = readingData.find((e) => e.id === id);
-    hasReadingData ?? getBreadDetail(id);
+    const hasReadingData = readingData.find((e) => e.fishId === fishId);
+    hasReadingData ?? getBreadDetail(fishId);
   };
 
   return (
     <DetailListItemsWrapper>
       <DetailListItemsContainer>
         {breadList[currentIndex]?.map((e) => {
-          const { id, type, status, senderNickname } = e;
+          const { fishId, type, status, senderNickname } = e;
           return (
             <DetailListItem
-              key={id}
+              key={fishId}
               onClickBread={onClickBread}
-              data={{ id, type, status, senderNickname }}
+              data={{ fishId, type, status, senderNickname }}
             />
           );
         })}

@@ -38,8 +38,9 @@ function DetailList() {
     );
     const { content, totalPages, last, first } = data;
     if (status === 200) {
-      setLastId(content.at(-1).id);
-      setPrevId(content[0].id);
+      console.log(data)
+      setLastId(content?.at(-1).fishId);
+      setPrevId(content[0]?.fishId);
       const dataSet = [];
       const size = 9;
       for (let i = 0; i < content.length; i += size) {
@@ -47,7 +48,12 @@ function DetailList() {
       }
       setBreadList(dataSet);
       setPageData({ totalPages, last, first });
-      setCurrentIndex(0);
+      if(callingType !== 'Prev') {
+        setCurrentIndex(0);
+      } else {
+        setCurrentIndex(dataSet.length - 1);
+      }
+      
     }
   }, []);
 

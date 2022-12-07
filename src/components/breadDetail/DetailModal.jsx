@@ -14,9 +14,10 @@ function DetailModal() {
   const setIsOpened = useSetRecoilState(modalState);
   const readingId = useRecoilValue(idState);
   const data = useRecoilValue(readingDataList);
+  console.log(data)
   const [backSrc, setBackSrc] = useState('background1');
   const [letterSrc, setLetterSrc] = useState('letter1');
-  const { type, message, senderNickname } = data.find((e) => e.id === readingId);
+  const { type, message, senderNickname } = data.find((e) => e.fishId === readingId);
   const onClickClose = () => setIsOpened(false);
   const onClickWrapper = () => setIsOpened(false);
 

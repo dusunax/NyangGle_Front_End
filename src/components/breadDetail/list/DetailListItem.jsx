@@ -7,14 +7,14 @@ const typeObj = {
   녹차: '3',
   초코: '4',
   팥: 'a',
-  슈: 'b',
+  슈크림: 'b',
   마라: 'c',
   민초: 'd',
 };
 
 function DetailListItem({ data, onClickBread }) {
   const [breadType, setBreadType] = useState('bread1');
-  const { id, type, status, senderNickname } = data;
+  const { fishId, type, status, senderNickname } = data;
   let [dough, sediment] = type.split('/');
 
   const replaceType = () => {
@@ -39,7 +39,7 @@ function DetailListItem({ data, onClickBread }) {
       <ItemNickname>{senderNickname}</ItemNickname>
       <ItemImage
         src={`../../../../assets/images/breadDetail/${breadType}.png`}
-        onClick={() => onClickBread(id)}
+        onClick={() => onClickBread(fishId)}
       />
     </ItemWrapper>
   );

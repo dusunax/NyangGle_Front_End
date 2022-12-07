@@ -14,33 +14,33 @@ export const getBreadListData = async (token, callingType, status, lastId, prevI
   let url = '';
   if (callingType === 'Next') {
     if (status === 'All') {
-      url = `/fishbread?id=${lastId}&page=${currentPage}&callType=next`;
+      url = `/fishbread?fishId=${lastId}&page=${currentPage}&callType=next`;
     }
     if (status === 'Read') {
-      url = `/fishbread?id=${lastId}&page=${currentPage}&callType=next&status=READ`;
+      url = `/fishbread?fishId=${lastId}&page=${currentPage}&callType=next&status=READ`;
     }
     if (status === 'UnRead') {
-      url = `/fishbread?id=${lastId}&page=${currentPage}&callType=next&status=UNREAD`;
+      url = `/fishbread?fishId=${lastId}&page=${currentPage}&callType=next&status=UNREAD`;
     }
   } else if (callingType === 'Prev') {
     if (status === 'All') {
-      url = `/fishbread?id=${prevId}&page=${currentPage}&callType=prev`;
+      url = `/fishbread?fishId=${prevId}&page=${currentPage}&callType=prev`;
     }
     if (status === 'Read') {
-      url = `/fishbread?id=${prevId}&page=${currentPage}&callType=prev&status=READ`;
+      url = `/fishbread?fishId=${prevId}&page=${currentPage}&callType=prev&status=READ`;
     }
     if (status === 'UnRead') {
-      url = `/fishbread?id=${prevId}&page=${currentPage}&callType=prev&status=UNREAD`;
+      url = `/fishbread?fishId=${prevId}&page=${currentPage}&callType=prev&status=UNREAD`;
     }
   } else {
     if (status === 'All') {
-      url = `/fishbread?id=${lastId}&page=${currentPage}`;
+      url = `/fishbread?fishId=0&page=${currentPage}`;
     }
     if (status === 'Read') {
-      url = `/fishbread?id=${lastId}&page=${currentPage}&status=READ`;
+      url = `/fishbread?fishId=0&page=${currentPage}&status=READ`;
     }
     if (status === 'UnRead') {
-      url = `/fishbread?id=${lastId}&page=${currentPage}&status=UNREAD`;
+      url = `/fishbread?fishId=0&page=${currentPage}&status=UNREAD`;
     }
   }
 
@@ -48,7 +48,7 @@ export const getBreadListData = async (token, callingType, status, lastId, prevI
   return result;
 };
 
-export const getBreadDetailData = async (id, token) => {
-  const result = await callApi(`/fishbread/${id}`, token);
+export const getBreadDetailData = async (fishId, token) => {
+  const result = await callApi(`/fishbread/${fishId}`, token);
   return result;
 };
