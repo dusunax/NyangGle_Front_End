@@ -14,10 +14,10 @@ function DetailModal() {
   const setIsOpened = useSetRecoilState(modalState);
   const readingId = useRecoilValue(idState);
   const data = useRecoilValue(readingDataList);
-  console.log(data)
+  console.log(data, readingId)
   const [backSrc, setBackSrc] = useState('background1');
   const [letterSrc, setLetterSrc] = useState('letter1');
-  const { type, message, senderNickname } = data.find((e) => e.fishId === readingId);
+  const { type, message, senderNickname } = data.find((e) => e.id === readingId);
   const onClickClose = () => setIsOpened(false);
   const onClickWrapper = () => setIsOpened(false);
 
@@ -67,7 +67,7 @@ const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vh;
+  width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;

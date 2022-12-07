@@ -38,7 +38,6 @@ function DetailList() {
     );
     const { content, totalPages, last, first } = data;
     if (status === 200) {
-      console.log(data)
       setLastId(content?.at(-1).fishId);
       setPrevId(content[0]?.fishId);
       const dataSet = [];
