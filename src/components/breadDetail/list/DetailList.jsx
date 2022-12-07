@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import DetailListItems from './DetailListItems';
 import DetailListTaps from './DetailListTaps';
 import DetailListButtons from './DetailListButtons';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { dataList, tapIndexState } from '../../../atoms/fishBreadList';
 import { getBreadListData } from '../../../utils/fetchBreadDetail';
 import styled from 'styled-components';
@@ -25,7 +25,7 @@ function DetailList() {
   const userData = JSON.parse(localStorage.getItem('user'));
   const { token } = userData ? userData : { token: null };
 
-  const getBreadList = useCallback(async (callStatus) => {
+  const getBreadList = useCallback(async (callingType, callStatus, lastId, prevId, currentPage) => {
     console.log('fetching...');
     if (token === null) return;
     const { data, status } = await getBreadListData(
@@ -58,6 +58,7 @@ function DetailList() {
   const onClickTap = (type, index) => {
     if (type === status) return;
     setStatus(type);
+    setCurrentPage(1);
     setIsRefetch((state) => !state);
     setTapIndex(index);
   };
@@ -90,7 +91,7 @@ function DetailList() {
   };
 
   useEffect(() => {
-    getBreadList(status);
+    getBreadList(callingType, status, lastId, prevId, currentPage);
   }, [isRefetch]);
 
   useEffect(() => {

@@ -37,10 +37,10 @@ export const getBreadListData = async (token, callingType, status, lastId, prevI
       url = `/fishbread?id=${lastId}&page=${currentPage}`;
     }
     if (status === 'Read') {
-      url = `/fishbread?id=${prevId}&page=${currentPage}&status=READ`;
+      url = `/fishbread?id=${lastId}&page=${currentPage}&status=READ`;
     }
     if (status === 'UnRead') {
-      url = `/fishbread?id=${prevId}&page=${currentPage}&status=UNREAD`;
+      url = `/fishbread?id=${lastId}&page=${currentPage}&status=UNREAD`;
     }
   }
 
