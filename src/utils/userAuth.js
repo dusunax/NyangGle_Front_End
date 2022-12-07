@@ -27,7 +27,7 @@ const getUser = () => {
 const hasToken = (user) => {
   if (user === null || user === undefined) return false;
 
-  return user.token !== undefined ? true : false;
+  return user?.token !== undefined ? true : false;
 };
 
 const jwt_decode = (token) => {
