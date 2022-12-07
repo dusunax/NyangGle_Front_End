@@ -1,11 +1,12 @@
-import { dataList, readingDataList, modalState, idState } from '../../../atoms/fishBreadList';
-import { useSetRecoilState, useRecoilState } from 'recoil';
+import { dataList, readingDataList, modalState, idState, currentIndexState } from '../../../atoms/fishBreadList';
+import { useSetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
 import { useCallback } from 'react';
 import { getBreadDetailData } from '../../../utils/fetchBreadDetail';
 import styled from 'styled-components';
 import DetailListItem from './DetailListItem';
 
-function DetailListItems({ currentIndex, token }) {
+function DetailListItems({ token }) {
+  const currentIndex = useRecoilValue(currentIndexState);
   const [breadList, setBreadList] = useRecoilState(dataList);
   const [readingData, setReadingData] = useRecoilState(readingDataList);
   const [isOpened, setIsOpened] = useRecoilState(modalState);

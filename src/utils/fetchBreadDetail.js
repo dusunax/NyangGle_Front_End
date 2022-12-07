@@ -1,8 +1,8 @@
 import useAxios from '../hooks/useAxios';
 
-const callApi = (url, token) => {
+const callApi = (url, token, method = 'get') => {
   const { requestApi } = useAxios();
-  return requestApi('get', url, {
+  return requestApi(method, url, {
     withCredentials: true,
     headers: {
       'X-NYANG-AUTH-TOKEN': token,
@@ -50,5 +50,10 @@ export const getBreadListData = async (token, callingType, status, lastId, prevI
 
 export const getBreadDetailData = async (fishId, token) => {
   const result = await callApi(`/fishbread/${fishId}`, token);
+  return result;
+};
+
+export const deleteBread = async (fishId, token) => {
+  const result = await callApi(`/fishbread/${fishId}`, token, 'delete');
   return result;
 };
