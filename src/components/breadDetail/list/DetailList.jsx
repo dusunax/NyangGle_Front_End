@@ -25,19 +25,19 @@ function DetailList() {
   const userData = JSON.parse(localStorage.getItem('user'));
   const { token } = userData ? userData : { token: null };
 
-  const getBreadList = useCallback(async () => {
+  const getBreadList = useCallback(async (callStatus) => {
     console.log('fetching...');
     if (token === null) return;
-    const { data, callStatus } = await getBreadListData(
+    const { data, status } = await getBreadListData(
       token,
       callingType,
-      status,
+      callStatus,
       lastId,
       prevId,
       currentPage,
     );
     const { content, totalPages, last, first } = data;
-    if (callStatus === 200) {
+    if (status === 200) {
       setLastId(content.at(-1).id);
       setPrevId(content[0].id);
       const dataSet = [];
@@ -90,7 +90,7 @@ function DetailList() {
   };
 
   useEffect(() => {
-    getBreadList();
+    getBreadList(status);
   }, [isRefetch]);
 
   useEffect(() => {

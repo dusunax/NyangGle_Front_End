@@ -22,8 +22,7 @@ export const getBreadListData = async (token, callingType, status, lastId, prevI
     if (status === 'UnRead') {
       url = `/fishbread?id=${lastId}&page=${currentPage}&callType=next&status=UNREAD`;
     }
-  }
-  if (callingType === 'Prev') {
+  } else if (callingType === 'Prev') {
     if (status === 'All') {
       url = `/fishbread?id=${prevId}&page=${currentPage}&callType=prev`;
     }
@@ -34,7 +33,15 @@ export const getBreadListData = async (token, callingType, status, lastId, prevI
       url = `/fishbread?id=${prevId}&page=${currentPage}&callType=prev&status=UNREAD`;
     }
   } else {
-    url = `/fishbread?id=${lastId}&page=${currentPage}`;
+    if (status === 'All') {
+      url = `/fishbread?id=${lastId}&page=${currentPage}`;
+    }
+    if (status === 'Read') {
+      url = `/fishbread?id=${prevId}&page=${currentPage}&status=READ`;
+    }
+    if (status === 'UnRead') {
+      url = `/fishbread?id=${prevId}&page=${currentPage}&status=UNREAD`;
+    }
   }
 
   const result = await callApi(url, token);
