@@ -8,7 +8,7 @@ import SectionTitle from '../../components/member/SectionTitle';
 import ButtonContainer from '../../components/member/ButtonContainer';
 import FishBreadTruck from '../../components/member/FishBreadTruck';
 
-import { getUser, hasToken, isTokenExpired } from '../../utils/userAuth';
+import { getUser, hasToken, isTokenExpired, saveUser } from '../../utils/userAuth';
 
 function Member() {
   const { requestApi } = useAxios();
@@ -101,7 +101,13 @@ function Member() {
       <MemberWrap>
         <div className="contents_area">
           {/* 타이틀 */}
-          <SectionTitle fishSizeAll={fishSizeAll} isMyPage={isMyPage} user={user} logout={logout} />
+          <SectionTitle
+            fishSizeAll={fishSizeAll}
+            isMyPage={isMyPage}
+            user={user}
+            logout={logout}
+            saveUser={saveUser}
+          />
 
           {/* 푸드트럭 이미지 & 붕어빵 매대 */}
           <FishBreadTruck
