@@ -34,7 +34,7 @@ const TapContent = styled.div`
   color: #fff;
   font-size: 16px;
   letter-spacing: -0.04em;
-  font-family: 'EF_jejudoldam';
+  font-family: 'kotra';
 
   ${({ index, tapIndex }) =>
     index === tapIndex &&

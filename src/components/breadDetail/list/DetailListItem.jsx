@@ -68,7 +68,7 @@ const ItemNickname = styled.p`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Room703';
+  font-family: 'kotra';
 `;
 
 const ItemImage = styled.img`

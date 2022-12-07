@@ -12,3 +12,8 @@
     url('./EF_jejudoldam.eot?iefix') format('embedded-opentype'),
     url('./EF_jejudoldam.woff') format('woff');
 }
+
+@font-face {
+  font-family: 'kotra';
+  src: url('./KOTRA_HOPE.ttf');
+}

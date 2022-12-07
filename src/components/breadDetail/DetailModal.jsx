@@ -108,7 +108,7 @@ const ModalContent = styled.div`
 `;
 
 const MessageWrapper = styled.div`
-  font-family: 'Room703';
+  font-family: 'kotra';
   font-weight: 400;
   font-size: 22px;
   position: relative;
