@@ -2,12 +2,13 @@ import { useRef, useState, useEffect } from 'react';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
 
-function SectionTitle({ fishSizeAll, isMyPage, logout, user }) {
+function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [userName, setUserName] = useState(user.nickname);
   const [newUserName, setNewUserName] = useState();
   const [randomComment, setRandomCommnet] = useState();
   const copyUrlRef = useRef();
+  const { requestApi } = useAxios();
 
   const onChange = (event) => {
     const {
@@ -18,23 +19,29 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user }) {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    if (userName > 10) {
-      return;
+    if (newUserName >= 2 && newUserName <= 10) {
+      return alert('닉네임은 2자 이상 10자 이하여야 합니다.');
     }
-    let currentName;
-
-    if (newUserName === undefined) {
-      currentName = userName;
-    } else {
-      currentName = newUserName;
+    if (newUserName === '') {
+      return alert('변경 할 닉네임을 적어 주세요.');
     }
 
     // 닉네임 변경 request
     if (userName !== newUserName) {
-      console.log('전송 완료!');
+      try {
+        const { status } = await requestApi('patch', `/user`, { nickname: newUserName });
+        if (status >= 200 && status < 400) {
+          //초기 값 바꾸지 않고 복사해서 쓰기
+          const changedUserData = { ...user };
+          changedUserData.nickname = newUserName;
+          saveUser(changedUserData);
+          setUserName(newUserName);
+        }
+      } catch (error) {
+        console.log('에러 원인', error);
+      }
     }
 
-    setUserName(currentName);
     setIsEditMode(false);
   };
 
@@ -71,16 +78,16 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user }) {
     );
     setRandomCommnet(currentComment);
 
-    timeout = setTimeout(() => {
-      clearTimeout(timeout);
+    // timeout = setTimeout(() => {
+    //   clearTimeout(timeout);
 
-      refreshComment();
-    }, 5000);
+    //   refreshComment();
+    // }, 5000);
   };
 
   useEffect(() => {
     refreshComment();
-    return () => clearTimeout(timeout);
+    // return () => clearTimeout(timeout);
   }, []);
 
   return (
@@ -116,7 +123,12 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user }) {
             alt="링크 복사 버튼"
             onClick={copyUrl}
           />
-          <button onClick={logout}>로그아웃</button>
+
+          <img
+            src="./assets/images/member/logout_button.png"
+            alt="로그아웃 버튼"
+            onClick={logout}
+          />
         </CopyUrlWrap>
       </div>
     </SectionTitleWrap>
@@ -295,6 +307,7 @@ const CatsComment = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 
+  font-family: 'kotra';
   font-size: 20px;
   text-align: center;
 

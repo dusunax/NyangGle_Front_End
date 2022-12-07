@@ -58,9 +58,10 @@ const ButtonConatinerWrap = styled.section`
     padding: 0;
     position: relative;
     cursor: pointer;
-    font-size: 18px;
+    font-family: 'kotra';
+    font-size: 24px;
     line-height: 28px;
-    font-weight: 700;
+    /* font-weight: 700; */
     background-color: transparent;
     border: none;
     color: #ffffff;
