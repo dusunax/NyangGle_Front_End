@@ -15,7 +15,7 @@ export default function useAxios() {
   });
 
   /**
-   * @param {"get" | "post" | "put" | "delete"} method
+   * @param {"get" | "post" | "put" | "delete" | "patch"} method
    * @param {string} url
    * @param {Object} body
    * @returns {Promise}
@@ -28,7 +28,6 @@ export default function useAxios() {
       }))
       .catch((err) => {
         console.error('Axios Error', err);
-
         return {
           status: err.response.status,
           data: {},

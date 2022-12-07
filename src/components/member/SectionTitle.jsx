@@ -1,13 +1,16 @@
 import { useRef, useState, useEffect } from 'react';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { nickNameState } from '../../atoms/member';
 
-function SectionTitle({ fishSizeAll, isMyPage, logout, user }) {
+function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [userName, setUserName] = useState(user.nickname);
   const [newUserName, setNewUserName] = useState();
   const [randomComment, setRandomCommnet] = useState();
   const copyUrlRef = useRef();
+  const { requestApi } = useAxios();
 
   const onChange = (event) => {
     const {
@@ -18,23 +21,25 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user }) {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    if (userName > 10) {
-      return;
-    }
-    let currentName;
-
-    if (newUserName === undefined) {
-      currentName = userName;
-    } else {
-      currentName = newUserName;
+    if (userName > 10 || newUserName === '') {
+      return alert('변경 할 닉네임을 적어 주세요.'), setIsEditMode(false);
     }
 
     // 닉네임 변경 request
     if (userName !== newUserName) {
-      console.log('전송 완료!');
+      try {
+        const { status } = await requestApi('patch', `/user`, { nickname: newUserName });
+        if (status >= 200 && status < 400) {
+          const getData = user;
+          getData.nickname = newUserName;
+          saveUser(getData);
+          setUserName(user.nickname);
+        }
+      } catch (error) {
+        console.log('에러 원인', error);
+      }
     }
 
-    setUserName(currentName);
     setIsEditMode(false);
   };
 
@@ -116,7 +121,12 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user }) {
             alt="링크 복사 버튼"
             onClick={copyUrl}
           />
-          <button onClick={logout}>로그아웃</button>
+
+          <img
+            src="./assets/images/member/logout_button.png"
+            alt="로그아웃 버튼"
+            onClick={logout}
+          />
         </CopyUrlWrap>
       </div>
     </SectionTitleWrap>
@@ -295,6 +305,7 @@ const CatsComment = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 
+  font-family: 'kotra';
   font-size: 20px;
   text-align: center;
 
