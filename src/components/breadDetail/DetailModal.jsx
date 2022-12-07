@@ -3,7 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { modalState, readingDataList, idState } from '../../atoms/fishBreadList';
 import { useEffect, useState } from 'react';
 
-const TypeObj = {
+const typeObj = {
   밀가루: '1',
   고구마: '2',
   녹차: '3',
@@ -16,22 +16,22 @@ function DetailModal() {
   const data = useRecoilValue(readingDataList);
   const [backSrc, setBackSrc] = useState('background1');
   const [letterSrc, setLetterSrc] = useState('letter1');
-  const { Type, message, senderNickname } = data.find((e) => e.id === readingId);
+  const { type, message, senderNickname } = data.find((e) => e.id === readingId);
   const onClickClose = () => setIsOpened(false);
   const onClickWrapper = () => setIsOpened(false);
 
-  let [dough, sediment] = Type.split('/');
+  let [dough, sediment] = type.split('/');
   const userData = JSON.parse(localStorage.getItem('user'));
   const { nickname } = userData ? userData : { nickname: '익명의냥냥이' };
 
-  const TypeReplace = () => {
-    Object.keys(TypeObj).forEach((e) => {
-      if (e === dough) dough = TypeObj[e];
+  const replaceType = () => {
+    Object.keys(typeObj).forEach((e) => {
+      if (e === dough) dough = typeObj[e];
     });
   };
 
   const setImageSrc = () => {
-    TypeReplace();
+    replaceType();
     setBackSrc(`background${dough}`);
     setLetterSrc(`letter${dough}`);
   };

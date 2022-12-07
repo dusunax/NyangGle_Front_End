@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const TypeObj = {
+const typeObj = {
   밀가루: '1',
   고구마: '2',
   녹차: '3',
@@ -14,13 +14,13 @@ const TypeObj = {
 
 function DetailListItem({ data, onClickBread }) {
   const [breadType, setBreadType] = useState('bread1');
-  const { id, Type, status, senderNickname } = data;
-  let [dough, sediment] = Type.split('/');
+  const { id, type, status, senderNickname } = data;
+  let [dough, sediment] = type.split('/');
 
-  const TypeReplace = () => {
-    Object.keys(TypeObj).forEach((e) => {
-      if (e === dough) dough = TypeObj[e];
-      if (e === sediment) sediment = TypeObj[e];
+  const replaceType = () => {
+    Object.keys(typeObj).forEach((e) => {
+      if (e === dough) dough = typeObj[e];
+      if (e === sediment) sediment = typeObj[e];
     });
   };
 
@@ -30,7 +30,7 @@ function DetailListItem({ data, onClickBread }) {
   };
 
   useEffect(() => {
-    TypeReplace();
+    replaceType();
     setImageSrc();
   });
 

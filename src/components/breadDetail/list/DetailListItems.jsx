@@ -14,13 +14,7 @@ function DetailListItems({ currentIndex, token }) {
   const getBreadDetail = useCallback(async (id) => {
     const { data, status } = await getBreadDetailData(id, token);
     if (status === 200) {
-      setReadingData((state) => [
-        ...state,
-        {
-          id,
-          ...data,
-        },
-      ]);
+      setReadingData((state) => [...state, { ...data }]);
     }
   }, []);
 
@@ -42,12 +36,12 @@ function DetailListItems({ currentIndex, token }) {
     <DetailListItemsWrapper>
       <DetailListItemsContainer>
         {breadList[currentIndex]?.map((e) => {
-          const { id, Type, status, senderNickname } = e;
+          const { id, type, status, senderNickname } = e;
           return (
             <DetailListItem
-              key={e.id}
+              key={id}
               onClickBread={onClickBread}
-              data={{ id, Type, status, senderNickname }}
+              data={{ id, type, status, senderNickname }}
             />
           );
         })}
