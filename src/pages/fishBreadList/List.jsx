@@ -1,4 +1,4 @@
-import DetailModal from '../../components/breadDetail/DetailModal';
+import DetailModal from '../../components/breadDetail/detail/DetailModal';
 import DetailList from '../../components/breadDetail/list/DetailList';
 import { modalState } from '../../atoms/fishBreadList';
 import { useRecoilValue } from 'recoil';
