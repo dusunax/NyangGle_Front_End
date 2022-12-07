@@ -34,13 +34,13 @@ export const getBreadListData = async (token, callingType, status, lastId, prevI
     }
   } else {
     if (status === 'All') {
-      url = `/fishbread?fishId=0&page=${currentPage}&size=45`;
+      url = `/fishbread?fishId=0&page=${currentPage}&size=45&callType=`;
     }
     if (status === 'Read') {
-      url = `/fishbread?fishId=0&page=${currentPage}&status=READ&size=45`;
+      url = `/fishbread?fishId=0&page=${currentPage}&status=READ&size=45&callType=`;
     }
     if (status === 'UnRead') {
-      url = `/fishbread?fishId=0&page=${currentPage}&status=UNREAD&size=45`;
+      url = `/fishbread?fishId=0&page=${currentPage}&status=UNREAD&size=45&callType=`;
     }
   }
 
