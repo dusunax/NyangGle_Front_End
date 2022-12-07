@@ -14,33 +14,33 @@ export const getBreadListData = async (token, callingType, status, lastId, prevI
   let url = '';
   if (callingType === 'Next') {
     if (status === 'All') {
-      url = `/fishbread?fishId=${lastId}&page=${currentPage}&callType=next`;
+      url = `/fishbread?fishId=${lastId}&page=${currentPage}&callType=next&size=45`;
     }
     if (status === 'Read') {
-      url = `/fishbread?fishId=${lastId}&page=${currentPage}&callType=next&status=READ`;
+      url = `/fishbread?fishId=${lastId}&page=${currentPage}&callType=next&status=READ&size=45`;
     }
     if (status === 'UnRead') {
-      url = `/fishbread?fishId=${lastId}&page=${currentPage}&callType=next&status=UNREAD`;
+      url = `/fishbread?fishId=${lastId}&page=${currentPage}&callType=next&status=UNREAD&size=45`;
     }
   } else if (callingType === 'Prev') {
     if (status === 'All') {
-      url = `/fishbread?fishId=${prevId}&page=${currentPage}&callType=prev`;
+      url = `/fishbread?fishId=${prevId}&page=${currentPage}&callType=prev&size=45`;
     }
     if (status === 'Read') {
-      url = `/fishbread?fishId=${prevId}&page=${currentPage}&callType=prev&status=READ`;
+      url = `/fishbread?fishId=${prevId}&page=${currentPage}&callType=prev&status=READ&size=45`;
     }
     if (status === 'UnRead') {
-      url = `/fishbread?fishId=${prevId}&page=${currentPage}&callType=prev&status=UNREAD`;
+      url = `/fishbread?fishId=${prevId}&page=${currentPage}&callType=prev&status=UNREAD&size=45`;
     }
   } else {
     if (status === 'All') {
-      url = `/fishbread?fishId=0&page=${currentPage}`;
+      url = `/fishbread?fishId=0&page=${currentPage}&size=45`;
     }
     if (status === 'Read') {
-      url = `/fishbread?fishId=0&page=${currentPage}&status=READ`;
+      url = `/fishbread?fishId=0&page=${currentPage}&status=READ&size=45`;
     }
     if (status === 'UnRead') {
-      url = `/fishbread?fishId=0&page=${currentPage}&status=UNREAD`;
+      url = `/fishbread?fishId=0&page=${currentPage}&status=UNREAD&size=45`;
     }
   }
 
