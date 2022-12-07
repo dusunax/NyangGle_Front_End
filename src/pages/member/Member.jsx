@@ -26,7 +26,7 @@ function Member() {
   const [displayFishImage, setDisplayFishImage] = useState('cat_truck_0.png');
 
   const memeberCheck = (isLogin) => {
-    const matchedResult = user.uuid === pageUuid;
+    const matchedResult = user?.uuid === pageUuid;
 
     setIsMatchUuid(matchedResult);
     setIsMyPage(isLogin && matchedResult);
@@ -51,7 +51,7 @@ function Member() {
     if (!hasToken(user)) {
       // console.log('로그인하지 않았습니다.');
       return false;
-    } else if (isTokenExpired(user.token)) {
+    } else if (isTokenExpired(user?.token)) {
       logoutFunc();
       // console.log('토큰이 만료 되었습니다.');
       return false;
@@ -121,7 +121,7 @@ function Member() {
             isMyPage={isMyPage}
             isMatchUuid={isMatchUuid}
             isLoggedUser={isLoggedUser}
-            myUid={user ? user.uuid : null}
+            myUid={user ? user?.uuid : null}
           />
         </div>
       </MemberWrap>
