@@ -19,8 +19,11 @@ function SectionTitle({ fishData, isMyPage, logout, user, saveUser }) {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    if (userName > 10 || newUserName === '') {
-      return alert('변경 할 닉네임을 적어 주세요.'), setIsEditMode(false);
+    if (newUserName >= 2 && newUserName <= 10) {
+      return alert('닉네임은 2자 이상 10자 이하여야 합니다.');
+    }
+    if (newUserName === '') {
+      return alert('변경 할 닉네임을 적어 주세요.');
     }
 
     // 닉네임 변경 request
