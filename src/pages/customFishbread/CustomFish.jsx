@@ -297,18 +297,27 @@ const Contents = styled.section`
   flex-direction: column;
   align-items: center;
   position: relative;
+  overflow: hidden;
 
   .cat {
-    height: 150px;
+    height: 15vh;
+  }
+
+  .dough {
+    height: 120vw;
   }
 
   .sediment {
+    height: 20vw;
     position: absolute;
-    top: 53%;
+    top: 25vh;
   }
 `;
 
-const FishFrame = styled.section``;
+const FishFrame = styled.section`
+  flex: 1;
+  background: linear-gradient(0, #8c8c8c, transparent);
+`;
 
 const Types = styled.section`
   ${({ theme }) => theme.flex.row}
