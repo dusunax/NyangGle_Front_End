@@ -1,11 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
-import { nickNameState } from '../../atoms/member';
-import { getUser } from '../../utils/userAuth';
 
-function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
+function SectionTitle({ fishData, isMyPage, logout, user, saveUser }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [userName, setUserName] = useState(user?.nickname);
   const [newUserName, setNewUserName] = useState();
@@ -99,7 +96,7 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
             <span className="username">{userName}!</span>
           )}
           <br />
-          붕어빵이 <span className="sizeAll">{fishSizeAll}</span>개 있다냥
+          붕어빵이 <span className="sizeAll">{fishData ? fishData?.totalCount : '?'}</span>개 있다냥
         </NickNameChangeForm>
       ) : (
         <TwoCatsCommentBubble>{randomComment}</TwoCatsCommentBubble>

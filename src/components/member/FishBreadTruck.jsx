@@ -2,13 +2,7 @@ import React from 'react';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
 import styled from 'styled-components';
 
-function FishBreadTruck({
-  displayFishImage,
-  isMyPage,
-  pageUuid,
-  fishSizeUnread,
-  fishSizeMyUnread,
-}) {
+function FishBreadTruck({ displayFishImage, isMyPage, pageUuid }) {
   const [setPage] = useRedirectPage();
   return (
     <FishBreadTruckWrap>

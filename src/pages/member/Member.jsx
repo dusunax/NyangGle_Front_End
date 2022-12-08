@@ -9,6 +9,7 @@ import ButtonContainer from '../../components/member/ButtonContainer';
 import FishBreadTruck from '../../components/member/FishBreadTruck';
 
 import { getUser, hasToken, isTokenExpired, saveUser } from '../../utils/userAuth';
+import { getFish, saveFish } from '../../utils/fishCount';
 
 function Member() {
   const { requestApi } = useAxios();
@@ -21,11 +22,10 @@ function Member() {
   const [isMatchUuid, setIsMatchUuid] = useState(false);
   const [isMyPage, setIsMyPage] = useState(false);
 
-  // title이랑 엮여 있어서 여기에 놔둠. 매대의 붕어빵 갯수 관련
-  const [fishSizeAll, setFishSizeAll] = useState('?');
-  const [fishSizeUnread, setFishSizeUnread] = useState();
-  const [fishSizeMyUnread, setFishSizeMyUnread] = useState();
+  const [fishData, setFishData] = useState();
   const [displayFishImage, setDisplayFishImage] = useState('cat_truck_0.png');
+
+  // console.log(fishData);
 
   const memeberCheck = (isLogin) => {
     const matchedResult = user?.uuid === pageUuid;
@@ -38,7 +38,7 @@ function Member() {
     try {
       await requestApi('post', 'oauth/logout/kakao');
 
-      // 요청 성공여부와 상관없이 token을 지워야 할 수 있음
+      // 요청 성공여부와 상관없이 token을 지워야 할 수도 있음
       console.log('로그아웃 되었습니다.');
       localStorage.removeItem('user');
     } catch (error) {
@@ -64,53 +64,43 @@ function Member() {
   };
 
   // this를 쓰고 싶었음
-  const fish = {
-    api: '/uuid',
-
-    fetchCount: async function () {
-      try {
-        const response = await requestApi('get', '/fishbread/' + this.api);
-        return response.status === 200 ? response.data : '';
-      } catch (error) {
-        console.log(error.code);
-      }
-    },
+  const fetchCount = async (api) => {
+    try {
+      const response = await requestApi('get', '/fishbread/' + api);
+      return response.status === 200 ? response.data : '';
+    } catch (error) {
+      console.log(error.code);
+    }
   };
 
   // 붕어빵 갯수 보여주기
   const matchCatTruckImage = (fishCount) => {
+    // console.log(fishCount);
     if (fishCount < 6) {
       setDisplayFishImage(countFishTruckImages.default[fishCount].imageURL);
     } else {
-      // 이 부분 교체
       setDisplayFishImage('cat_truck_6.png');
     }
   };
 
   async function fetchFishCountHandler() {
-    if (isMyPage) {
-      // 내 페이지에서 붕어빵 갯수값이 없으면 요청
-      if (isNaN(fishSizeAll)) {
-        const fetchedCount = await fish.fetchCount.call({ api: `${user?.uuid}/total` });
-        setFishSizeAll(fetchedCount);
-      }
-      if (!fishSizeMyUnread) {
-        const fetchedCount = await fish.fetchCount.call({ api: `${user?.uuid}/myunread` });
-        setFishSizeMyUnread(fetchedCount);
-      }
-    }
-    if (!fishSizeUnread) {
-      const fetchedCount = await fish.fetchCount.call({ api: `${pageUuid}/unread` });
-      setFishSizeUnread(fetchedCount);
-    }
+    try {
+      const fetchedFish = await fetchCount.call(null, `${pageUuid}`);
 
-    // api response 통합하면 여기로 값 return해서 쓰기
-    // return {}
+      if (fetchedFish?.nickname !== fishData?.nickname || !fishData) {
+        console.log(fetchedFish);
+        saveFish(fetchedFish);
+        setFishData(fetchedFish);
+
+        matchCatTruckImage(fetchedFish.unreadCount);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   useEffect(() => {
-    const fishes = fetchFishCountHandler();
-    if (fishes.unread) matchCatTruckImage(fishes.unread);
+    fetchFishCountHandler();
 
     const isLogin = userTokenHandler(user, logout);
     setIsLoggedUser(isLogin);
@@ -118,9 +108,7 @@ function Member() {
     if (isLogin) memeberCheck(isLogin);
 
     const preventGoBack = () => {
-      // change start
       history.pushState(null, '', location.href);
-      // change end
       console.log('prevent go back!');
     };
 
@@ -136,7 +124,7 @@ function Member() {
         <div className="contents_area">
           {/* 타이틀 */}
           <SectionTitle
-            fishSizeAll={fishSizeAll}
+            fishData={fishData}
             isMyPage={isMyPage}
             user={user}
             setUser={setUser}
@@ -149,8 +137,6 @@ function Member() {
             isMyPage={isMyPage}
             displayFishImage={displayFishImage}
             pageUuid={pageUuid}
-            fishSizeUnread={fishSizeUnread}
-            fishSizeMyUnread={fishSizeMyUnread}
           />
 
           {/* 로그인 여부에 따라 바뀌는 버튼 */}
