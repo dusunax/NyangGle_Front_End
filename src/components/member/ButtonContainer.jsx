@@ -20,7 +20,7 @@ function ButtonContainer({ isMyPage, myUid, isLoggedUser }) {
         <>
           <button onClick={setPage.bind(this, `/customFish/`)}>
             <img src="./assets/images/member/button.png" alt="붕어빵 만들기 버튼" />
-            <span>붕어빵 만들기</span>
+            <span>붕어빵 보내기</span>
           </button>
           <button onClick={setPage.bind(this, `/`)} className="buttonLink">
             <span>로그인 하러 가기</span>
@@ -32,7 +32,7 @@ function ButtonContainer({ isMyPage, myUid, isLoggedUser }) {
         <>
           <button onClick={setPage.bind(this, `/customFish/`)}>
             <img src="./assets/images/member/button.png" alt="붕어빵 만들기 버튼" />
-            <span>붕어빵 만들기</span>
+            <span>붕어빵 보내기</span>
           </button>
           <button
             onClick={() => {
