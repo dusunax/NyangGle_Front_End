@@ -9,7 +9,6 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [userName, setUserName] = useState(user?.nickname);
   const [newUserName, setNewUserName] = useState();
-  const [randomComment, setRandomCommnet] = useState();
   const copyUrlRef = useRef();
   const { requestApi } = useAxios();
 
@@ -22,8 +21,11 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    if (userName > 10 || newUserName === '') {
-      return alert('변경 할 닉네임을 적어 주세요.'), setIsEditMode(false);
+    if (newUserName >= 2 && newUserName <= 10) {
+      return alert('닉네임은 2자 이상 10자 이하여야 합니다.');
+    }
+    if (newUserName === '') {
+      return alert('변경 할 닉네임을 적어 주세요.');
     }
 
     // 닉네임 변경 request
@@ -31,9 +33,10 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
       try {
         const { status } = await requestApi('patch', `/user`, { nickname: newUserName });
         if (status >= 200 && status < 400) {
-          const getData = { ...user }; //state
-          getData.nickname = newUserName;
-          saveUser(getData); // {...user, nickname: newUserName}
+          //초기 값 바꾸지 않고 복사해서 쓰기
+          const changedUserData = { ...user };
+          changedUserData.nickname = newUserName;
+          saveUser(changedUserData);
           setUserName(newUserName);
         }
       } catch (error) {
@@ -57,30 +60,6 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
     alert('복사되었습니다.');
   };
 
-  const twoCatsRandomComment = [
-    '어서오라냥~',
-    '날마다 오는 붕어빵이 아니다냥',
-    '맛있는 붕어빵이 있다냥!',
-    '친구랑 나눠먹어도 맛있다냥',
-    '붕어빵 사가라냥!',
-    '붕어빵 만들지 않겠냥?',
-    '재료도 고를 수 있다냥!',
-    '천원도 카드 된다냥!',
-  ];
-
-  const refreshComment = () => {
-    let currentComment = (
-      <CatsComment>
-        {twoCatsRandomComment[Math.floor(Math.random() * twoCatsRandomComment.length)]}
-      </CatsComment>
-    );
-    setRandomCommnet(currentComment);
-  };
-
-  useEffect(() => {
-    refreshComment();
-  }, []);
-
   return (
     <SectionTitleWrap>
       {/* 붕어빵이 n개 있습니다냥 */}
@@ -102,10 +81,14 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
           붕어빵이 <span className="sizeAll">{fishSizeAll}</span>개 있다냥
         </NickNameChangeForm>
       ) : (
-        <TwoCatsCommentBubble>{randomComment}</TwoCatsCommentBubble>
+        <OtherUserWrap>
+          <span className="otherUserName">비 로그인 유저의</span>
+          <br />
+          붕어빵이 <span className="sizeAll">3</span>개 있다냥
+        </OtherUserWrap>
       )}
 
-      <div className="right">
+      <RightButtonsWrap>
         {/* url 복사 */}
         <CopyUrlWrap>
           <input id="copyUrl" type="text" ref={copyUrlRef} defaultValue={window.location.href} />
@@ -114,14 +97,17 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
             alt="링크 복사 버튼"
             onClick={copyUrl}
           />
-
-          <img
-            src="./assets/images/member/logout_button.png"
-            alt="로그아웃 버튼"
-            onClick={logout}
-          />
         </CopyUrlWrap>
-      </div>
+        {isLoggedUser && isMyPage && (
+          <LogoutWrap>
+            <img
+              src="./assets/images/member/logout_button.png"
+              alt="로그아웃 버튼"
+              onClick={logout}
+            />
+          </LogoutWrap>
+        )}
+      </RightButtonsWrap>
     </SectionTitleWrap>
   );
 }
@@ -129,24 +115,24 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
 export default SectionTitle;
 
 const SectionTitleWrap = styled.section`
-  min-height: 20%;
   display: flex;
   position: relative;
+  min-height: 20%;
+`;
 
-  .right {
-    flex: 1;
-  }
+const RightButtonsWrap = styled.div`
+  flex: 1;
 `;
 
 const NickNameChangeForm = styled.form`
+  position: relative;
   flex: 1;
   font-family: 'EF_jejudoldam';
   font-size: 30px;
   line-height: 1.3;
   word-break: keep-all;
-  position: relative;
-  z-index: 99;
   text-shadow: -1px 0 #e3edf2, 0 1px #e3edf2, 1px 0 #e3edf2, 0 -1px #e3edf2;
+  z-index: 99;
 
   @media (max-width: 500px) {
     font-size: 28px;
@@ -159,13 +145,13 @@ const NickNameChangeForm = styled.form`
   }
 
   .username {
-    width: 100%;
     display: block;
-    padding: 5px 0;
-    white-space: nowrap;
     position: absolute;
     top: -7px;
     left: 50%;
+    width: 100%;
+    padding: 5px 0;
+    white-space: nowrap;
     transform: translateX(-50%);
   }
 
@@ -210,7 +196,7 @@ const CopyUrlWrap = styled.div`
   width: 66px;
   height: 36px;
   margin-left: auto;
-  position: relative;
+  position: absolute;
   right: 0;
   top: 0;
   cursor: pointer;
@@ -259,17 +245,67 @@ const CopyUrlWrap = styled.div`
   }
 `;
 
-const TwoCatsCommentBubble = styled.div`
-  width: 100%;
-  height: 80px;
+//로그아웃 버튼
+const LogoutWrap = styled.div`
+  width: 66px;
+  height: 36px;
+  margin-left: auto;
   position: absolute;
-  bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #d4dde2;
-  border-radius: 10px;
-  overflow: hidden;
+  right: 0;
+  top: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  @media (max-width: 500px) {
+    width: 60px;
+  }
+  @media (max-width: 400px) {
+    width: 55px;
+  }
+  @media (max-width: 300px) {
+    width: 50px;
+  }
+
+  &:hover {
+    transform: translateY(-3px) rotate(0);
+  }
+`;
+
+const OtherUserWrap = styled.div`
+  flex: 1;
+  font-family: 'EF_jejudoldam';
+  font-size: 30px;
+  line-height: 1.3;
+  word-break: keep-all;
+  position: relative;
+  z-index: 99;
+  text-shadow: -1px 0 #e3edf2, 0 1px #e3edf2, 1px 0 #e3edf2, 0 -1px #e3edf2;
+
+  @media (max-width: 500px) {
+    font-size: 28px;
+  }
+  @media (max-width: 400px) {
+    font-size: 26px;
+  }
+  @media (max-width: 300px) {
+    font-size: 18px;
+  }
+
+  .otherUserName {
+    width: 100%;
+    display: block;
+    padding: 5px 0;
+    white-space: nowrap;
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .sizeAll {
+    color: #ed9a00;
+  }
+
   animation: up 0.5s 0.2s forwards;
   opacity: 0;
 
@@ -280,36 +316,6 @@ const TwoCatsCommentBubble = styled.div`
     }
     100% {
       transform: translateY(0);
-      opacity: 1;
-    }
-  }
-`;
-
-const CatsComment = styled.div`
-  width: 100%;
-  object-fit: cover;
-
-  font-size: 18px;
-  line-height: 28px;
-  font-weight: 700;
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  font-family: 'kotra';
-  font-size: 20px;
-  text-align: center;
-
-  animation: fadeIn 0.5s forwards;
-  opacity: 0;
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
       opacity: 1;
     }
   }

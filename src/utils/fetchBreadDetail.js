@@ -1,8 +1,8 @@
 import useAxios from '../hooks/useAxios';
 
-const callApi = (url, token) => {
+const callApi = (url, token, method = 'get') => {
   const { requestApi } = useAxios();
-  return requestApi('get', url, {
+  return requestApi(method, url, {
     withCredentials: true,
     headers: {
       'X-NYANG-AUTH-TOKEN': token,
@@ -34,13 +34,13 @@ export const getBreadListData = async (token, callingType, status, lastId, prevI
     }
   } else {
     if (status === 'All') {
-      url = `/fishbread?fishId=0&page=${currentPage}&size=45`;
+      url = `/fishbread?fishId=0&page=${currentPage}&size=45&callType=`;
     }
     if (status === 'Read') {
-      url = `/fishbread?fishId=0&page=${currentPage}&status=READ&size=45`;
+      url = `/fishbread?fishId=0&page=${currentPage}&status=READ&size=45&callType=`;
     }
     if (status === 'UnRead') {
-      url = `/fishbread?fishId=0&page=${currentPage}&status=UNREAD&size=45`;
+      url = `/fishbread?fishId=0&page=${currentPage}&status=UNREAD&size=45&callType=`;
     }
   }
 
@@ -50,5 +50,10 @@ export const getBreadListData = async (token, callingType, status, lastId, prevI
 
 export const getBreadDetailData = async (fishId, token) => {
   const result = await callApi(`/fishbread/${fishId}`, token);
+  return result;
+};
+
+export const deleteBread = async (fishId, token) => {
+  const result = await callApi(`/fishbread/${fishId}`, token, 'delete');
   return result;
 };

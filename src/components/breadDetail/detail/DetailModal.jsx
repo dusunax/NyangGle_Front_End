@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { modalState, readingDataList, idState } from '../../atoms/fishBreadList';
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import { modalState, readingDataList, idState, alertState } from '../../../atoms/fishBreadList';
 import { useEffect, useState } from 'react';
+import DetailAlert from './DetailAlert';
 
 const typeObj = {
   밀가루: '1',
@@ -14,10 +15,11 @@ function DetailModal() {
   const setIsOpened = useSetRecoilState(modalState);
   const readingId = useRecoilValue(idState);
   const data = useRecoilValue(readingDataList);
-  console.log(data)
+  const [isAlertOpend, setIsAlertOpened] = useRecoilState(alertState);
   const [backSrc, setBackSrc] = useState('background1');
   const [letterSrc, setLetterSrc] = useState('letter1');
-  const { type, message, senderNickname } = data.find((e) => e.fishId === readingId);
+  const { type, message, senderNickname } = data.find((e) => e.id === readingId);
+  
   const onClickClose = () => setIsOpened(false);
   const onClickWrapper = () => setIsOpened(false);
 
@@ -37,6 +39,8 @@ function DetailModal() {
     setLetterSrc(`letter${dough}`);
   };
 
+  const onClickDelete = () => setIsAlertOpened(true);
+
   useEffect(() => {
     setImageSrc();
   });
@@ -51,12 +55,19 @@ function DetailModal() {
             <MessageContent>{message}</MessageContent>
             <MessageSender>{senderNickname}</MessageSender>
           </MessageWrapper>
-          <ModalCloseButton onClick={onClickClose}>
-            <ButtonContent>확인 완료</ButtonContent>
-            <ButtonBack />
-          </ModalCloseButton>
+          <ButtonWrapper>
+            <ModalCloseButton onClick={onClickDelete}>
+              <ButtonContent type="delete">삭제</ButtonContent>
+              <ButtonBack type="delete" />
+            </ModalCloseButton>
+            <ModalCloseButton onClick={onClickClose}>
+              <ButtonContent>확인</ButtonContent>
+              <ButtonBack />
+            </ModalCloseButton>
+          </ButtonWrapper>
         </ModalContent>
       </ModalContainer>
+      {isAlertOpend && <DetailAlert />}
     </ModalWrapper>
   );
 }
@@ -67,7 +78,7 @@ const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vh;
+  width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -155,12 +166,18 @@ const MessageSender = styled.div`
 `;
 
 const ModalCloseButton = styled.div`
-  width: calc(100% - 28px);
+  width: 100%;
   margin: 30px 0;
   height: 60px;
   position: relative;
 
   cursor: pointer;
+`;
+
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 10px;
 `;
 
 const ButtonContent = styled.div`
@@ -176,6 +193,12 @@ const ButtonContent = styled.div`
   color: #fff;
   font-size: 20px;
   font-weight: 700;
+
+  ${({ type }) =>
+    type === 'delete' &&
+    css`
+      background-color: #c0c0c0;
+    `}
 `;
 
 const ButtonBack = styled.div`
@@ -186,4 +209,10 @@ const ButtonBack = styled.div`
   background-color: #813c05;
   border-radius: 10px;
   border: 2px solid #000;
+
+  ${({ type }) =>
+    type === 'delete' &&
+    css`
+      background-color: #989898;
+    `}
 `;

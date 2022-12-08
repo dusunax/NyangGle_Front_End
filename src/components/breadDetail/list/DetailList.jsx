@@ -4,7 +4,7 @@ import DetailListItems from './DetailListItems';
 import DetailListTaps from './DetailListTaps';
 import DetailListButtons from './DetailListButtons';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { dataList, tapIndexState } from '../../../atoms/fishBreadList';
+import { dataList, tapIndexState, currentIndexState } from '../../../atoms/fishBreadList';
 import { getBreadListData } from '../../../utils/fetchBreadDetail';
 import styled from 'styled-components';
 
@@ -15,7 +15,7 @@ function DetailList() {
   const [lastId, setLastId] = useState(0);
   const [prevId, setPrevId] = useState(0);
   const [status, setStatus] = useState('All');
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
   const [currentPage, setCurrentPage] = useState(1);
   const [callingType, setCallingType] = useState();
   const [isRefetch, setIsRefetch] = useState(false);
@@ -38,7 +38,6 @@ function DetailList() {
     );
     const { content, totalPages, last, first } = data;
     if (status === 200) {
-      console.log(data)
       setLastId(content?.at(-1).fishId);
       setPrevId(content[0]?.fishId);
       const dataSet = [];
@@ -110,11 +109,10 @@ function DetailList() {
         <TurnBack onClick={onClickLocation}>돌아가기</TurnBack>
         <DetailListTaps onClickTap={onClickTap} />
         <DetailLists>
-          <DetailListItems currentIndex={currentIndex} token={token} />
+          <DetailListItems token={token} />
         </DetailLists>
         {pageData && (
           <DetailListButtons
-            currentIndex={currentIndex}
             pageData={pageData}
             onClickNext={onClickNext}
             onClickPrev={onClickPrev}

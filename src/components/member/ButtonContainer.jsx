@@ -33,6 +33,3 @@ function ButtonContainer({ isMyPage, myUid, isLoggedUser }) {
 }
 
 export default React.memo(ButtonContainer);
-
-// 버튼 박스
-const ButtonConatinerWrap = styled.section``;

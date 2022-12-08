@@ -139,9 +139,9 @@ function Member() {
             fishSizeAll={fishSizeAll}
             isMyPage={isMyPage}
             user={user}
-            setUser={setUser}
             logout={logout}
             saveUser={saveUser}
+            isLoggedUser={isLoggedUser}
           />
 
           {/* 푸드트럭 이미지 & 붕어빵 매대 */}

@@ -1,11 +1,12 @@
-import { dataList, readingDataList, modalState, idState } from '../../../atoms/fishBreadList';
-import { useSetRecoilState, useRecoilState } from 'recoil';
+import { dataList, readingDataList, modalState, idState, currentIndexState } from '../../../atoms/fishBreadList';
+import { useSetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
 import { useCallback } from 'react';
 import { getBreadDetailData } from '../../../utils/fetchBreadDetail';
 import styled from 'styled-components';
 import DetailListItem from './DetailListItem';
 
-function DetailListItems({ currentIndex, token }) {
+function DetailListItems({ token }) {
+  const currentIndex = useRecoilValue(currentIndexState);
   const [breadList, setBreadList] = useRecoilState(dataList);
   const [readingData, setReadingData] = useRecoilState(readingDataList);
   const [isOpened, setIsOpened] = useRecoilState(modalState);
@@ -13,15 +14,16 @@ function DetailListItems({ currentIndex, token }) {
 
   const getBreadDetail = useCallback(async (fishId) => {
     const { data, status } = await getBreadDetailData(fishId, token);
-    console.log(data)
     if (status === 200) {
+      setIsOpened(true);
       setReadingData((state) => [...state, { ...data }]);
+    } else {
+      alert('붕어빵을 가져오는데 실패했습니다...');
     }
   }, []);
 
   const onClickBread = (fishId) => {
     if (isOpened) return;
-    setIsOpened(true);
     setReadingId(fishId);
     let currentList = [...breadList[currentIndex]].map((e) =>
       e.fishId === fishId ? { ...e, status: 'READ' } : e,
@@ -29,8 +31,8 @@ function DetailListItems({ currentIndex, token }) {
     let totalList = [...breadList];
     totalList[currentIndex] = currentList;
     setBreadList(totalList);
-    const hasReadingData = readingData.find((e) => e.fishId === fishId);
-    hasReadingData ?? getBreadDetail(fishId);
+    const hasReadingData = readingData.find((e) => e.id === fishId);
+    hasReadingData ? setIsOpened(true) : getBreadDetail(fishId);
   };
 
   return (
