@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
 
-function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser, isLoggedUser }) {
+function SectionTitle({ fishData, isMyPage, logout, user, saveUser }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [userName, setUserName] = useState(user?.nickname);
   const [newUserName, setNewUserName] = useState();
