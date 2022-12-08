@@ -16,13 +16,13 @@ function Login() {
   const redirectHandler = () => {
     if (!user) return;
 
-    const token = user.token;
+    const token = user?.token;
     if (!token) return;
 
     const isExpired = isTokenExpired(token);
     if (isExpired) return localStorage.removeItem('user');
 
-    navigate(`/${user.uuid}`);
+    navigate(`/${user?.uuid}`);
   };
 
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;

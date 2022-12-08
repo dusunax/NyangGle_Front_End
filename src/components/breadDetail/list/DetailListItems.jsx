@@ -1,53 +1,50 @@
-import { dataList, readingDataList, modalState, idState } from '../../../atoms/fishBreadList';
-import { useSetRecoilState, useRecoilState } from 'recoil';
+import { dataList, readingDataList, modalState, idState, currentIndexState } from '../../../atoms/fishBreadList';
+import { useSetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
 import { useCallback } from 'react';
 import { getBreadDetailData } from '../../../utils/fetchBreadDetail';
 import styled from 'styled-components';
 import DetailListItem from './DetailListItem';
 
-function DetailListItems({ currentIndex, token }) {
+function DetailListItems({ token }) {
+  const currentIndex = useRecoilValue(currentIndexState);
   const [breadList, setBreadList] = useRecoilState(dataList);
   const [readingData, setReadingData] = useRecoilState(readingDataList);
   const [isOpened, setIsOpened] = useRecoilState(modalState);
   const setReadingId = useSetRecoilState(idState);
 
-  const getBreadDetail = useCallback(async (id) => {
-    const { data, status } = await getBreadDetailData(id, token);
+  const getBreadDetail = useCallback(async (fishId) => {
+    const { data, status } = await getBreadDetailData(fishId, token);
     if (status === 200) {
-      setReadingData((state) => [
-        ...state,
-        {
-          id,
-          ...data,
-        },
-      ]);
+      setIsOpened(true);
+      setReadingData((state) => [...state, { ...data }]);
+    } else {
+      alert('붕어빵을 가져오는데 실패했습니다...');
     }
   }, []);
 
-  const onClickBread = (id) => {
+  const onClickBread = (fishId) => {
     if (isOpened) return;
-    setIsOpened(true);
-    setReadingId(id);
+    setReadingId(fishId);
     let currentList = [...breadList[currentIndex]].map((e) =>
-      e.id === id ? { ...e, status: 'READ' } : e,
+      e.fishId === fishId ? { ...e, status: 'READ' } : e,
     );
     let totalList = [...breadList];
     totalList[currentIndex] = currentList;
     setBreadList(totalList);
-    const hasReadingData = readingData.find((e) => e.id === id);
-    hasReadingData ?? getBreadDetail(id);
+    const hasReadingData = readingData.find((e) => e.id === fishId);
+    hasReadingData ? setIsOpened(true) : getBreadDetail(fishId);
   };
 
   return (
     <DetailListItemsWrapper>
       <DetailListItemsContainer>
         {breadList[currentIndex]?.map((e) => {
-          const { id, Type, status, senderNickname } = e;
+          const { fishId, type, status, senderNickname } = e;
           return (
             <DetailListItem
-              key={e.id}
+              key={fishId}
               onClickBread={onClickBread}
-              data={{ id, Type, status, senderNickname }}
+              data={{ fishId, type, status, senderNickname }}
             />
           );
         })}

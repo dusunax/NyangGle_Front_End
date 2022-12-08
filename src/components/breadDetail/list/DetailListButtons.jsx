@@ -1,8 +1,9 @@
-import { dataList } from '../../../atoms/fishBreadList';
+import { dataList, currentIndexState } from '../../../atoms/fishBreadList';
 import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
 
-function DetailListButtons({ pageData, currentIndex, onClickNext, onClickPrev }) {
+function DetailListButtons({ pageData, onClickNext, onClickPrev }) {
+  const currentIndex = useRecoilValue(currentIndexState)
   const breadList = useRecoilValue(dataList);
   const { first, last } = pageData;
 

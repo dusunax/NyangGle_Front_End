@@ -3,8 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import DetailListItems from './DetailListItems';
 import DetailListTaps from './DetailListTaps';
 import DetailListButtons from './DetailListButtons';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { dataList, tapIndexState } from '../../../atoms/fishBreadList';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { dataList, tapIndexState, currentIndexState } from '../../../atoms/fishBreadList';
 import { getBreadListData } from '../../../utils/fetchBreadDetail';
 import styled from 'styled-components';
 
@@ -15,7 +15,7 @@ function DetailList() {
   const [lastId, setLastId] = useState(0);
   const [prevId, setPrevId] = useState(0);
   const [status, setStatus] = useState('All');
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
   const [currentPage, setCurrentPage] = useState(1);
   const [callingType, setCallingType] = useState();
   const [isRefetch, setIsRefetch] = useState(false);
@@ -25,21 +25,21 @@ function DetailList() {
   const userData = JSON.parse(localStorage.getItem('user'));
   const { token } = userData ? userData : { token: null };
 
-  const getBreadList = useCallback(async () => {
+  const getBreadList = useCallback(async (callingType, callStatus, lastId, prevId, currentPage) => {
     console.log('fetching...');
     if (token === null) return;
-    const { data, callStatus } = await getBreadListData(
+    const { data, status } = await getBreadListData(
       token,
       callingType,
-      status,
+      callStatus,
       lastId,
       prevId,
       currentPage,
     );
     const { content, totalPages, last, first } = data;
-    if (callStatus === 200) {
-      setLastId(content.at(-1).id);
-      setPrevId(content[0].id);
+    if (status === 200) {
+      setLastId(content?.at(-1).fishId);
+      setPrevId(content[0]?.fishId);
       const dataSet = [];
       const size = 9;
       for (let i = 0; i < content.length; i += size) {
@@ -47,7 +47,12 @@ function DetailList() {
       }
       setBreadList(dataSet);
       setPageData({ totalPages, last, first });
-      setCurrentIndex(0);
+      if(callingType !== 'Prev') {
+        setCurrentIndex(0);
+      } else {
+        setCurrentIndex(dataSet.length - 1);
+      }
+      
     }
   }, []);
 
@@ -58,6 +63,7 @@ function DetailList() {
   const onClickTap = (type, index) => {
     if (type === status) return;
     setStatus(type);
+    setCurrentPage(1);
     setIsRefetch((state) => !state);
     setTapIndex(index);
   };
@@ -90,7 +96,7 @@ function DetailList() {
   };
 
   useEffect(() => {
-    getBreadList();
+    getBreadList(callingType, status, lastId, prevId, currentPage);
   }, [isRefetch]);
 
   useEffect(() => {
@@ -103,11 +109,10 @@ function DetailList() {
         <TurnBack onClick={onClickLocation}>돌아가기</TurnBack>
         <DetailListTaps onClickTap={onClickTap} />
         <DetailLists>
-          <DetailListItems currentIndex={currentIndex} token={token} />
+          <DetailListItems token={token} />
         </DetailLists>
         {pageData && (
           <DetailListButtons
-            currentIndex={currentIndex}
             pageData={pageData}
             onClickNext={onClickNext}
             onClickPrev={onClickPrev}

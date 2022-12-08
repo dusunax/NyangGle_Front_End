@@ -1,26 +1,26 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const TypeObj = {
+const typeObj = {
   밀가루: '1',
   고구마: '2',
   녹차: '3',
   초코: '4',
   팥: 'a',
-  슈: 'b',
+  슈크림: 'b',
   마라: 'c',
   민초: 'd',
 };
 
 function DetailListItem({ data, onClickBread }) {
   const [breadType, setBreadType] = useState('bread1');
-  const { id, Type, status, senderNickname } = data;
-  let [dough, sediment] = Type.split('/');
+  const { fishId, type, status, senderNickname } = data;
+  let [dough, sediment] = type.split('/');
 
-  const TypeReplace = () => {
-    Object.keys(TypeObj).forEach((e) => {
-      if (e === dough) dough = TypeObj[e];
-      if (e === sediment) sediment = TypeObj[e];
+  const replaceType = () => {
+    Object.keys(typeObj).forEach((e) => {
+      if (e === dough) dough = typeObj[e];
+      if (e === sediment) sediment = typeObj[e];
     });
   };
 
@@ -30,7 +30,7 @@ function DetailListItem({ data, onClickBread }) {
   };
 
   useEffect(() => {
-    TypeReplace();
+    replaceType();
     setImageSrc();
   });
 
@@ -39,7 +39,7 @@ function DetailListItem({ data, onClickBread }) {
       <ItemNickname>{senderNickname}</ItemNickname>
       <ItemImage
         src={`../../../../assets/images/breadDetail/${breadType}.png`}
-        onClick={() => onClickBread(id)}
+        onClick={() => onClickBread(fishId)}
       />
     </ItemWrapper>
   );
@@ -68,7 +68,7 @@ const ItemNickname = styled.p`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Room703';
+  font-family: 'kotra';
 `;
 
 const ItemImage = styled.img`
