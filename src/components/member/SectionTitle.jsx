@@ -3,10 +3,11 @@ import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { nickNameState } from '../../atoms/member';
+import { getUser } from '../../utils/userAuth';
 
 function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
   const [isEditMode, setIsEditMode] = useState(false);
-  const [userName, setUserName] = useState(user.nickname);
+  const [userName, setUserName] = useState(user?.nickname);
   const [newUserName, setNewUserName] = useState();
   const [randomComment, setRandomCommnet] = useState();
   const copyUrlRef = useRef();
@@ -30,10 +31,10 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
       try {
         const { status } = await requestApi('patch', `/user`, { nickname: newUserName });
         if (status >= 200 && status < 400) {
-          const getData = user;
+          const getData = { ...user }; //state
           getData.nickname = newUserName;
-          saveUser(getData);
-          setUserName(user.nickname);
+          saveUser(getData); // {...user, nickname: newUserName}
+          setUserName(newUserName);
         }
       } catch (error) {
         console.log('에러 원인', error);
@@ -75,17 +76,10 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
       </CatsComment>
     );
     setRandomCommnet(currentComment);
-
-    timeout = setTimeout(() => {
-      clearTimeout(timeout);
-
-      refreshComment();
-    }, 5000);
   };
 
   useEffect(() => {
     refreshComment();
-    return () => clearTimeout(timeout);
   }, []);
 
   return (

@@ -23,10 +23,12 @@ function Member() {
 
   // title이랑 엮여 있어서 여기에 놔둠. 매대의 붕어빵 갯수 관련
   const [fishSizeAll, setFishSizeAll] = useState();
+  const [fishSizeUnread, setFishSizeUnread] = useState();
+  const [fishSizeMyUnread, setFishSizeMyUnread] = useState();
   const [displayFishImage, setDisplayFishImage] = useState('cat_truck_0.png');
 
   const memeberCheck = (isLogin) => {
-    const matchedResult = user.uuid === pageUuid;
+    const matchedResult = user?.uuid === pageUuid;
 
     setIsMatchUuid(matchedResult);
     setIsMyPage(isLogin && matchedResult);
@@ -51,45 +53,65 @@ function Member() {
     if (!hasToken(user)) {
       // console.log('로그인하지 않았습니다.');
       return false;
-    } else if (isTokenExpired(user.token)) {
+    } else if (isTokenExpired(user?.token)) {
       logoutFunc();
       // console.log('토큰이 만료 되었습니다.');
       return false;
     } else {
-      // console.log(`로그인 상태입니다. ${user.nickname}`);
+      // console.log(`로그인 상태입니다. ${user?.nickname}`);
       return true;
     }
   };
 
-  async function getFishSizeAll() {
-    const response = await requestApi('get', `count/${'U184ce3ac09d0003'}`);
-    try {
-      console.log(response);
-      if (response.status === 200) {
-        // setFishSizeAll()
+  // this를 쓰고 싶었음
+  const fish = {
+    api: '/uuid',
+
+    fetchCount: async function () {
+      try {
+        const response = await requestApi('get', '/fishbread/' + this.api);
+        return response.status === 200 ? response.data : '';
+      } catch (error) {
+        console.log(error.code);
       }
-    } catch (error) {
-      console.log(error.code);
-    } finally {
-    }
-  }
+    },
+  };
 
   // 붕어빵 갯수 보여주기
-  let countUp = 2; // sizeAll 받아오면 이거 삭제
-  const matchCatTruckImage = (countUp) => {
-    if (countUp < 6) {
-      setDisplayFishImage(countFishTruckImages.default[countUp].imageURL);
+  const matchCatTruckImage = (fishCount) => {
+    if (fishCount < 6) {
+      setDisplayFishImage(countFishTruckImages.default[fishCount].imageURL);
     } else {
       // 이 부분 교체
       setDisplayFishImage('cat_truck_6.png');
     }
-    setFishSizeAll(countUp);
   };
 
-  useEffect(() => {
-    // getFishSizeAll();
+  async function fetchFishCountHandler() {
+    if (isMyPage) {
+      // 내 페이지에서 붕어빵 갯수값이 없으면 요청
+      if (!fishSizeAll) {
+        const fetchedCount = await fish.fetchCount.call({ api: `${user?.uuid}/total` });
+        setFishSizeAll(fetchedCount);
+      }
+      if (!fishSizeMyUnread) {
+        const fetchedCount = await fish.fetchCount.call({ api: `${user?.uuid}/myunread` });
+        setFishSizeMyUnread(fetchedCount);
+      }
+    }
+    if (!fishSizeUnread) {
+      const fetchedCount = await fish.fetchCount.call({ api: `${pageUuid}/unread` });
+      setFishSizeUnread(fetchedCount);
+    }
 
-    matchCatTruckImage(countUp);
+    // api response 통합하면 여기로 값 return해서 쓰기
+    // return {}
+  }
+
+  useEffect(() => {
+    const fishes = fetchFishCountHandler();
+    if (fishes.unread) matchCatTruckImage(fishes.unread);
+
     const isLogin = userTokenHandler(user, logout);
     setIsLoggedUser(isLogin);
 
@@ -105,6 +127,7 @@ function Member() {
             fishSizeAll={fishSizeAll}
             isMyPage={isMyPage}
             user={user}
+            setUser={setUser}
             logout={logout}
             saveUser={saveUser}
           />
@@ -114,6 +137,8 @@ function Member() {
             isMyPage={isMyPage}
             displayFishImage={displayFishImage}
             pageUuid={pageUuid}
+            fishSizeUnread={fishSizeUnread}
+            fishSizeMyUnread={fishSizeMyUnread}
           />
 
           {/* 로그인 여부에 따라 바뀌는 버튼 */}
@@ -121,7 +146,7 @@ function Member() {
             isMyPage={isMyPage}
             isMatchUuid={isMatchUuid}
             isLoggedUser={isLoggedUser}
-            myUid={user ? user.uuid : null}
+            myUid={user ? user?.uuid : null}
           />
         </div>
       </MemberWrap>
