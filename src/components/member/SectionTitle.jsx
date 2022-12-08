@@ -68,7 +68,6 @@ function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
     '천원도 카드 된다냥!',
   ];
 
-  let timeout;
   const refreshComment = () => {
     let currentComment = (
       <CatsComment>

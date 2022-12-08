@@ -24,7 +24,7 @@ function FishBreadTruck({
   );
 }
 
-export default FishBreadTruck;
+export default React.memo(FishBreadTruck);
 
 const FishBreadTruckWrap = styled.section`
   width: 100%;

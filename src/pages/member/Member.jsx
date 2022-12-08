@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
@@ -22,7 +22,7 @@ function Member() {
   const [isMyPage, setIsMyPage] = useState(false);
 
   // title이랑 엮여 있어서 여기에 놔둠. 매대의 붕어빵 갯수 관련
-  const [fishSizeAll, setFishSizeAll] = useState();
+  const [fishSizeAll, setFishSizeAll] = useState('?');
   const [fishSizeUnread, setFishSizeUnread] = useState();
   const [fishSizeMyUnread, setFishSizeMyUnread] = useState();
   const [displayFishImage, setDisplayFishImage] = useState('cat_truck_0.png');
@@ -90,7 +90,7 @@ function Member() {
   async function fetchFishCountHandler() {
     if (isMyPage) {
       // 내 페이지에서 붕어빵 갯수값이 없으면 요청
-      if (!fishSizeAll) {
+      if (isNaN(fishSizeAll)) {
         const fetchedCount = await fish.fetchCount.call({ api: `${user?.uuid}/total` });
         setFishSizeAll(fetchedCount);
       }
@@ -116,6 +116,18 @@ function Member() {
     setIsLoggedUser(isLogin);
 
     if (isLogin) memeberCheck(isLogin);
+
+    const preventGoBack = () => {
+      // change start
+      history.pushState(null, '', location.href);
+      // change end
+      console.log('prevent go back!');
+    };
+
+    history.pushState(null, '', location.href);
+    window.addEventListener('popstate', preventGoBack);
+
+    return () => window.removeEventListener('popstate', preventGoBack);
   }, [location, matchCatTruckImage, userTokenHandler, setIsLoggedUser]);
 
   return (
