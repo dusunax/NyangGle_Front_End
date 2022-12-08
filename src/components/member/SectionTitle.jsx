@@ -1,8 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { nickNameState } from '../../atoms/member';
+import { getUser } from '../../utils/userAuth';
 
-function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser, isLoggedUser }) {
+function SectionTitle({ fishSizeAll, isMyPage, logout, user, saveUser }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [userName, setUserName] = useState(user?.nickname);
   const [newUserName, setNewUserName] = useState();
