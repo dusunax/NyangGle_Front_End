@@ -83,31 +83,27 @@ const Wrapper = styled.section`
 
   /* height: 70vh; */
   /* object-fit: cover; */
-  @media (max-width: 1200px) {
-  }
-  @media (max-width: 900px) {
-  }
   @media (max-width: 600px) {
+    bottom: -30px;
   }
   @media (max-width: 400px) {
-    position: absolute;
-    left: 0;
-    bottom: 0;
+    bottom: -25px;
   }
-  @media (max-width: 350px) {
-    /* top: -80px; */
+  @media (max-width: 300px) {
+    bottom: -40px;
   }
-  @media (max-height: 900px) {
+
+  /* @media (max-height: 900px) {
     bottom: -20px;
   }
   @media (max-height: 700px) {
     bottom: -30px;
-  }
+  } */
 `;
 
 const Paper = styled.div`
-  width: 700px;
-  height: 1000px;
+  width: 600px;
+  height: 800px;
   z-index: 3;
   /* object-fit: cover; */
   /* margin: 0; */
@@ -117,12 +113,7 @@ const Paper = styled.div`
   display: flex;
   margin-top: -70px;
   text-align: center;
-  /* justify-content: center; */
 
-  @media (max-width: 1200px) {
-    width: 600px;
-    height: 800px;
-  }
   @media (max-width: 700px) {
     width: 550px;
     height: 750px;
@@ -137,7 +128,7 @@ const Paper = styled.div`
   }
   @media (max-width: 370px) {
     width: 320px;
-    height: 400px;
+    height: 420px;
   }
   @media (max-height: 700px) {
     width: 290px;
@@ -170,6 +161,9 @@ const Content = styled.div`
   }
   @media (max-width: 400px) {
     /* width: 100%; */
+    height: 80%;
+    /* bottom: -20px; */
+
     input {
       position: fixed;
       /* margin: 0 0 10px 60px; */
@@ -190,88 +184,113 @@ const Textbox = styled.textarea`
   border: none;
   font-size: 35px;
   position: absolute;
-  top: 80px;
-  right: 30px;
+  top: 10%;
+  left: 5%;
 
   margin-top: 10px;
-  /* border: 3px solid black; */
 
-  @media (max-width: 1200px) {
-    top: 50px;
-    height: 540px;
-  }
-  @media (max-width: 900px) {
-  }
+  /* @media (max-width: 1200px) {
+    /* top: 50px; */
+  /* height: 540px;
+  } */
   @media (max-width: 600px) {
+    top: 3%;
+    font-size: 20px;
   }
   @media (max-width: 400px) {
-    width: 90%;
+    width: 85%;
     height: 70%;
-    top: 30px;
-    right: 15px;
+    top: -2%;
     font-size: 20px;
-    /* top: -100px; */
+
+    @media (min-height: 900px) {
+      font-size: 20px;
+    }
   }
   @media (max-width: 350px) {
+    /* top: 10px; */
     /* top: -80px; */
   }
 `;
 
 const ReceiveNickname = styled.div`
+  position: absolute;
+
   .receiveNickname {
-    /* float: left; */
+    position: fixed;
+    /* top: -20px; */
+    top: 30%;
+    left: 43%;
     width: 210px;
-    margin-left: 120px;
+    /* margin-left: 150px; */
+    font-size: 30px;
     /* border: 3px solid black; */
   }
 
-  @media (max-width: 1200px) {
-    .receiveNickname {
-      width: 200px;
-      margin: -20px 100px;
-    }
-  }
   @media (max-width: 900px) {
     .receiveNickname {
-      width: 200px;
-      margin: -30px 90px;
+      margin-left: 100px;
     }
   }
   @media (max-width: 600px) {
     .receiveNickname {
-      width: 100px;
-      margin: 30px 100px;
+      margin-left: 100px;
+      font-size: 20px;
+    }
+  }
+  @media (max-width: 450px) {
+    .receiveNickname {
+      /* margin-left: 80px; */
+      top: 35%;
+      left: 5%;
+      font-size: 20px;
     }
   }
   @media (max-width: 400px) {
     .receiveNickname {
-      width: 100px;
-      margin: 30px 70px;
-      font-size: 25px;
+      /* top: 280px; */
+      top: 42%;
+      left: 5%;
+
+      /* margin-left: 60px; */
+    }
+    @media (min-height: 700px) {
+      .receiveNickname {
+        top: 43%;
+        left: 0;
+      }
+    }
+    @media (min-height: 800px) {
+      .receiveNickname {
+        top: 37%;
+        left: 5%;
+      }
     }
   }
-  @media (max-width: 350px) {
-    /* bottom: 10px; */
-  }
 `;
+
 const SenderNickname = styled.div`
   /* overflow: hidden; */
   /* float: left; */
+  position: absolute;
+
   .senderNickname {
+    position: fixed;
     /* float: right; */
     /* transition: right; */
-    left: 450px;
-    /* clear: right; */
     width: 210px;
-    bottom: 130px;
-    margin-left: 0;
+    left: 55%;
+    bottom: 13%;
+    /* margin-left: 0; */
     /* border: 3px solid black; */
   }
 
   @media (max-width: 1200px) {
-    .receiveNickname {
-      left: 200px;
-      bottom: 70px;
+    .senderNickname {
+      left: 60%;
+      bottom: 20%;
+      /* left: 200px;
+      bottom: 70px; */
       /* right: -200px; */
       /* left: 370px; */
       /* position: relative; */
@@ -279,14 +298,30 @@ const SenderNickname = styled.div`
   }
 
   @media (max-width: 600px) {
-    .receiveNickname {
-      width: 100px;
+    .senderNickname {
+      left: 63%;
+      bottom: 18%;
+      font-size: 20px;
+      /* width: 100px;
       margin: 0;
+      left: 200px; */
     }
   }
   @media (max-width: 400px) {
     .senderNickname {
-      left: 200px;
+      left: 62%;
+      bottom: 9%;
+      /* left: 220px;
+      width: 300px;
+      bottom: 50px; */
+      font-size: 20px;
+    }
+
+    @media (min-height: 800px) {
+      .senderNickname {
+        left: 65%;
+        bottom: 15%;
+      }
     }
   }
 `;

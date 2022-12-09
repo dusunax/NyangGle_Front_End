@@ -37,7 +37,7 @@ function CustomDone({ dough }) {
     });
   }, []);
 
-  setTimeout(() => navigate('/U184bdf21eb90001'), 3000);
+  // setTimeout(() => navigate('/U184bdf21eb90001'), 3000);
 
   return (
     <div>
