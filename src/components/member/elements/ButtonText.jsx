@@ -17,15 +17,13 @@ export default ButtonText;
 const StButtonText = styled.button`
   width: 100%;
   height: 70px;
-
   position: relative;
-
   background: transparent;
   border: none;
   color: #fff;
 
   font-family: 'kotra';
-  font-size: 24px;
+  font-size: 20px;
   line-height: 28px;
 
   cursor: pointer;
