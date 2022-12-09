@@ -220,7 +220,7 @@ const ReceiveNickname = styled.div`
     position: fixed;
     /* top: -20px; */
     top: 30%;
-    left: 43%;
+    left: 45%;
     width: 210px;
     /* margin-left: 150px; */
     font-size: 30px;
@@ -281,7 +281,6 @@ const SenderNickname = styled.div`
     width: 210px;
     left: 55%;
     bottom: 13%;
-    /* margin-left: 0; */
     /* border: 3px solid black; */
   }
 

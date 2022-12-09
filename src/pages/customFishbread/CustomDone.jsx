@@ -40,7 +40,7 @@ function CustomDone({ dough }) {
   // setTimeout(() => navigate('/U184bdf21eb90001'), 3000);
 
   return (
-    <div>
+    <Wrapper>
       <Header>
         <ContentsArea>
           <p className="message">노릇노릇해지고 있다냥</p>
@@ -67,89 +67,19 @@ function CustomDone({ dough }) {
           </Fish>
         </FishFrame>
       </Main>
-    </div>
+    </Wrapper>
   );
 }
 
 export default CustomDone;
 
-const ContentsArea = styled.div`
-  padding: 0 18px;
-`;
-
-const Fish = styled.div`
-  ${({ theme }) => theme.flex.col}
-  align-items: center;
+const Wrapper = styled.div`
   overflow: hidden;
-  top: 20px;
-  /* position: relative; */
-
-  .dough_prev {
-    overflow-x: hidden;
-    overflow-y: hidden;
-    position: absolute;
-    /* top: 120px; */
-    /* bottom: -13vw; */
-    width: 1000px;
-    /* height: 300px */
-    opacity: 1;
-    object-fit: cover;
-  }
-  .dough_next {
-    overflow-x: hidden;
-    overflow-y: hidden;
-    overflow: hidden;
-    object-fit: cover;
-    width: 1000px;
-    /* top: 120px; */
-    position: absolute;
-    /* bottom: -13vw; */
-    opacity: 0;
-    animation: fadeIn 2s 0.2s forwards;
-  }
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-`;
-
-const FishFrame = styled.section`
-  width: 100%;
-  /* height: 60vh; */
-  background: no-repeat top center / 110%, linear-gradient(transparent 0%, #9e9e9e 60%);
-  position: relative;
-
-  flex: 1;
-  /* background: linear-gradient(0, #8c8c8c, transparent); */
-  overflow: hidden;
-  bottom: 6vw;
-  z-index: 9;
-  .fishFrame {
-    overflow: hidden;
-    width: 120%;
-    bottom: 0;
-  }
-`;
-
-const Main = styled.main`
-  ${({ theme }) => theme.flex.col}
-
   height: 100vh;
-  /* justify-content: space-between; */
 `;
 
 const Header = styled.header`
   padding: 20px;
-
-  .btns {
-    ${({ theme }) => theme.flex.row}
-    align-items: center;
-    justify-content: space-between;
-  }
 
   .message {
     margin: 30px 0;
@@ -166,30 +96,110 @@ const Header = styled.header`
   }
 `;
 
+const ContentsArea = styled.div`
+  padding: 0 18px;
+`;
+
+const Main = styled.main`
+  ${({ theme }) => theme.flex.col}
+
+  height: 100vh;
+  /* justify-content: space-between; */
+`;
+
 const Contents = styled.section`
   flex: 1;
   display: flex;
   bottom: 0;
-  /* justify-content: flex-end;
-  align-items: center;
-  position: relative; */
   flex-direction: column;
   align-items: center;
-  /* position: relative; */
+
   overflow: hidden;
   .cat {
-    /* width: 70%; */
-    /* max-width: 188px; */
     height: 15vh;
     position: absolute;
-    top: 600px;
+    top: 42%;
 
     @media (max-width: 400px) {
       width: 40%;
-      top: -100px;
+      top: 35%;
+    }
+    /* @media (max-width: 350px) {
+      top: -80px;
+    } */
+  }
+`;
+
+const FishFrame = styled.section`
+  width: 100%;
+  background: no-repeat top center / 110%, linear-gradient(transparent 0%, #9e9e9e 60%);
+  position: relative;
+
+  flex: 1;
+  /* overflow: hidden; */
+  bottom: 10%;
+  z-index: 9;
+
+  .fishFrame {
+    overflow: hidden;
+    width: 120%;
+    bottom: 0;
+  }
+
+  @media (max-width: 600px) {
+    top: -15%;
+    width: 120%;
+    right: 10%;
+  }
+  @media (max-width: 400px) {
+    top: -30%;
+    width: 120%;
+    right: 10%;
+
+    @media (min-height: 700px) {
+      top: -28%;
+    }
+
+    @media (min-height: 800px) {
+      top: -25%;
+    }
+  }
+`;
+
+const Fish = styled.div`
+  ${({ theme }) => theme.flex.col}
+  align-items: center;
+  overflow: hidden;
+  top: 20%;
+  /* position: relative; */
+
+  .dough_prev {
+    position: absolute;
+    width: 120%;
+    opacity: 1;
+    object-fit: cover;
+
+    @media (max-width: 400px) {
+      top: 50%;
     }
     @media (max-width: 350px) {
       top: -80px;
+    }
+  }
+  .dough_next {
+    /* overflow: hidden; */
+    object-fit: cover;
+    width: 120%;
+    position: absolute;
+    opacity: 0;
+    animation: fadeIn 2s 0.2s forwards;
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
     }
   }
 `;
