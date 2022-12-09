@@ -179,12 +179,12 @@ const Fish = styled.div`
     opacity: 1;
     object-fit: cover;
 
-    @media (max-width: 400px) {
+    /* @media (max-width: 400px) {
       top: 50%;
     }
     @media (max-width: 350px) {
       top: -80px;
-    }
+    } */
   }
   .dough_next {
     /* overflow: hidden; */
@@ -193,6 +193,13 @@ const Fish = styled.div`
     position: absolute;
     opacity: 0;
     animation: fadeIn 2s 0.2s forwards;
+
+    /* @media (max-width: 400px) {
+      top: 50%;
+    }
+    @media (max-width: 350px) {
+      top: -80px;
+    } */
   }
   @keyframes fadeIn {
     0% {

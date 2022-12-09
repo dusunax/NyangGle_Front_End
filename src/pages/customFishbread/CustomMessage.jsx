@@ -76,12 +76,10 @@ const Wrapper = styled.section`
 
   display: flex;
   position: relative;
-  /* border: 3px solid black; */
-  position: absolute;
+  /* position: absolute; */
   left: 0;
   bottom: 0;
 
-  /* height: 70vh; */
   /* object-fit: cover; */
   @media (max-width: 600px) {
     bottom: -30px;
@@ -106,8 +104,6 @@ const Paper = styled.div`
   height: 800px;
   z-index: 3;
   /* object-fit: cover; */
-  /* margin: 0; */
-  /* border: 3px solid black; */
 
   background-size: cover;
   display: flex;
@@ -149,8 +145,7 @@ const Content = styled.div`
     background: transparent;
     border: none;
     height: 50px;
-    /* margin: 0 0 10px 60px; */
-    /* padding-top: 10px; */
+
     /* outline: none; */
     font-size: 30px;
     position: absolute;
@@ -162,11 +157,9 @@ const Content = styled.div`
   @media (max-width: 400px) {
     /* width: 100%; */
     height: 80%;
-    /* bottom: -20px; */
 
     input {
       position: fixed;
-      /* margin: 0 0 10px 60px; */
       font-size: 25px;
       height: 30px;
     }
@@ -207,10 +200,10 @@ const Textbox = styled.textarea`
       font-size: 20px;
     }
   }
-  @media (max-width: 350px) {
-    /* top: 10px; */
-    /* top: -80px; */
-  }
+  /* @media (max-width: 350px) {
+    top: 10px;
+    top: -80px;
+  } */
 `;
 
 const ReceiveNickname = styled.div`
@@ -218,52 +211,56 @@ const ReceiveNickname = styled.div`
 
   .receiveNickname {
     position: fixed;
-    /* top: -20px; */
     top: 30%;
-    left: 45%;
+    left: 43%;
     width: 210px;
-    /* margin-left: 150px; */
     font-size: 30px;
-    /* border: 3px solid black; */
   }
 
+  @media (max-width: 1500px) {
+    .receiveNickname {
+      left: 41%;
+    }
+  }
+  @media (max-width: 1200px) {
+    .receiveNickname {
+      left: 38%;
+    }
+  }
   @media (max-width: 900px) {
     .receiveNickname {
-      margin-left: 100px;
+      left: 35%;
     }
   }
   @media (max-width: 600px) {
     .receiveNickname {
-      margin-left: 100px;
+      top: 32%;
+      left: 32%;
       font-size: 20px;
     }
   }
   @media (max-width: 450px) {
     .receiveNickname {
-      /* margin-left: 80px; */
       top: 35%;
-      left: 5%;
+      left: 25%;
       font-size: 20px;
     }
   }
   @media (max-width: 400px) {
     .receiveNickname {
-      /* top: 280px; */
       top: 42%;
-      left: 5%;
-
-      /* margin-left: 60px; */
+      left: 27%;
     }
     @media (min-height: 700px) {
       .receiveNickname {
         top: 43%;
-        left: 0;
+        left: 30%;
       }
     }
     @media (min-height: 800px) {
       .receiveNickname {
         top: 37%;
-        left: 5%;
+        left: 25%;
       }
     }
   }
@@ -281,29 +278,30 @@ const SenderNickname = styled.div`
     width: 210px;
     left: 55%;
     bottom: 13%;
-    /* border: 3px solid black; */
   }
 
-  @media (max-width: 1200px) {
+  @media (max-width: 1400px) {
     .senderNickname {
       left: 60%;
-      bottom: 20%;
-      /* left: 200px;
-      bottom: 70px; */
-      /* right: -200px; */
-      /* left: 370px; */
-      /* position: relative; */
+      bottom: 12%;
     }
   }
-
-  @media (max-width: 600px) {
+  @media (max-width: 900px) {
+    .senderNickname {
+      left: 65%;
+    }
+  }
+  @media (max-width: 700px) {
     .senderNickname {
       left: 63%;
-      bottom: 18%;
+      bottom: 10%;
       font-size: 20px;
-      /* width: 100px;
-      margin: 0;
-      left: 200px; */
+    }
+  }
+  @media (max-width: 600px) {
+    .senderNickname {
+      left: 65%;
+      bottom: 23%;
     }
   }
   @media (max-width: 400px) {
