@@ -2,13 +2,12 @@ import { useRef, useState, useEffect } from 'react';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
 
-function SectionTitle({ fishData, isMyPage, logout, user, saveUser }) {
+function SectionTitle({ fishData, isMyPage, logout, user, saveUser, isLoggedUser }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [userName, setUserName] = useState(user?.nickname);
   const [newUserName, setNewUserName] = useState();
   const copyUrlRef = useRef();
   const { requestApi } = useAxios();
-
   const onChange = (event) => {
     const {
       target: { value },
@@ -30,9 +29,9 @@ function SectionTitle({ fishData, isMyPage, logout, user, saveUser }) {
       try {
         const { status } = await requestApi('patch', `/user`, { nickname: newUserName });
         if (status >= 200 && status < 400) {
-          const getData = { ...user }; //state
-          getData.nickname = newUserName;
-          saveUser(getData); // {...user, nickname: newUserName}
+          const changedUserData = { ...user };
+          changedUserData.nickname = newUserName;
+          saveUser(changedUserData);
           setUserName(newUserName);
         }
       } catch (error) {
@@ -78,9 +77,9 @@ function SectionTitle({ fishData, isMyPage, logout, user, saveUser }) {
         </NickNameChangeForm>
       ) : (
         <OtherUserWrap>
-          <span className="otherUserName">비 로그인 유저의</span>
+          <span className="otherUserName">{fishData ? fishData?.nickname : '알수없음'}의</span>
           <br />
-          붕어빵이 <span className="sizeAll">3</span>개 있다냥
+          붕어빵이 <span className="sizeAll">{fishData ? fishData?.totalCount : '?'}</span>개 있다냥
         </OtherUserWrap>
       )}
 
@@ -234,10 +233,16 @@ const CopyUrlWrap = styled.div`
     height: 1px;
     width: 1px;
     position: absolute;
+
     z-index: 99;
     border: none;
     color: transparent;
     outline: none;
+  }
+
+  img {
+    width: 66px;
+    height: 36px;
   }
 `;
 
@@ -264,6 +269,11 @@ const LogoutWrap = styled.div`
 
   &:hover {
     transform: translateY(-3px) rotate(0);
+  }
+
+  img {
+    width: 62px;
+    height: 40px;
   }
 `;
 

@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
-import styled from 'styled-components';
-
 import * as countFishTruckImages from './countFishTruckImages.json';
 import SectionTitle from '../../components/member/SectionTitle';
 import ButtonContainer from '../../components/member/ButtonContainer';
 import FishBreadTruck from '../../components/member/FishBreadTruck';
-
 import { getUser, hasToken, isTokenExpired, saveUser } from '../../utils/userAuth';
 import { getFish, saveFish } from '../../utils/fishCount';
+import styled from 'styled-components';
 
 function Member() {
   const { requestApi } = useAxios();
@@ -25,11 +23,8 @@ function Member() {
   const [fishData, setFishData] = useState();
   const [displayFishImage, setDisplayFishImage] = useState('cat_truck_0.png');
 
-  // console.log(fishData);
-
-  const memeberCheck = (isLogin) => {
+  const memberCheck = (isLogin) => {
     const matchedResult = user?.uuid === pageUuid;
-
     setIsMatchUuid(matchedResult);
     setIsMyPage(isLogin && matchedResult);
   };
@@ -88,10 +83,8 @@ function Member() {
       const fetchedFish = await fetchCount.call(null, `${pageUuid}`);
 
       if (fetchedFish?.nickname !== fishData?.nickname || !fishData) {
-        console.log(fetchedFish);
         saveFish(fetchedFish);
         setFishData(fetchedFish);
-
         matchCatTruckImage(fetchedFish.unreadCount);
       }
     } catch (e) {
@@ -105,7 +98,7 @@ function Member() {
     const isLogin = userTokenHandler(user, logout);
     setIsLoggedUser(isLogin);
 
-    if (isLogin) memeberCheck(isLogin);
+    if (isLogin) memberCheck(isLogin);
 
     const preventGoBack = () => {
       history.pushState(null, '', location.href);
@@ -146,6 +139,7 @@ function Member() {
             isMatchUuid={isMatchUuid}
             isLoggedUser={isLoggedUser}
             myUid={user ? user?.uuid : null}
+            fishData={fishData}
           />
         </div>
       </MemberWrap>
