@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const typeObj = {
-  밀가루: '1',
+  밀: '1',
   고구마: '2',
   녹차: '3',
   초코: '4',
