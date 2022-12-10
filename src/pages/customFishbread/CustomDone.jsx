@@ -6,7 +6,7 @@ function CustomDone({ dough }) {
   const navigate = useNavigate();
   console.log(dough);
 
-  const [imgs, setImgs] = useState('flour');
+  const [imgs, setImgs] = useState('');
 
   const doughs = [
     {

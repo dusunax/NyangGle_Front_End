@@ -103,7 +103,7 @@ const Paper = styled.div`
   width: 600px;
   height: 800px;
   z-index: 3;
-  /* object-fit: cover; */
+  object-fit: cover;
 
   background-size: cover;
   display: flex;
@@ -121,13 +121,21 @@ const Paper = styled.div`
   @media (max-width: 450px) {
     width: 350px;
     height: 500px;
+    @media (max-height: 900px) {
+      width: 370px;
+      height: 500px;
+    }
+    @media (max-height: 1000px) {
+      width: 380px;
+      height: 500px;
+    }
   }
   @media (max-width: 370px) {
     width: 320px;
     height: 420px;
   }
   @media (max-height: 700px) {
-    width: 290px;
+    width: 300px;
     height: 400px;
   }
 `;
@@ -179,6 +187,7 @@ const Textbox = styled.textarea`
   position: absolute;
   top: 10%;
   left: 5%;
+  border: 1px solid black;
 
   margin-top: 10px;
 
@@ -190,12 +199,19 @@ const Textbox = styled.textarea`
     top: 3%;
     font-size: 20px;
   }
+
+  @media (max-width: 450px) {
+    left: 5%;
+  }
   @media (max-width: 400px) {
     width: 85%;
     height: 70%;
     top: -2%;
     font-size: 20px;
 
+    @media (min-height: 800px) {
+      height: 80%;
+    }
     @media (min-height: 900px) {
       font-size: 20px;
     }
@@ -304,6 +320,30 @@ const SenderNickname = styled.div`
       bottom: 23%;
     }
   }
+  @media (max-width: 450px) {
+    .senderNickname {
+      left: 65%;
+      bottom: 23%;
+    }
+    @media (min-height: 800px) {
+      .senderNickname {
+        left: 65%;
+        bottom: 15%;
+      }
+    }
+    @media (min-height: 900px) {
+      .senderNickname {
+        left: 65%;
+        bottom: 17%;
+      }
+    }
+    @media (min-height: 1000px) {
+      .senderNickname {
+        left: 65%;
+        bottom: 15%;
+      }
+    }
+  }
   @media (max-width: 400px) {
     .senderNickname {
       left: 62%;
@@ -314,7 +354,19 @@ const SenderNickname = styled.div`
       font-size: 20px;
     }
 
+    @media (min-height: 600px) {
+      .senderNickname {
+        left: 65%;
+        bottom: 8%;
+      }
+    }
     @media (min-height: 800px) {
+      .senderNickname {
+        left: 65%;
+        bottom: 13%;
+      }
+    }
+    @media (min-height: 900px) {
       .senderNickname {
         left: 65%;
         bottom: 15%;
