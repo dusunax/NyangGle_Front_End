@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import CustomDone from './CustomDone';
 import { useState, useEffect, useMemo } from 'react';
 
-function CustomMessage({ inputs, onChangeMessage, onClickedSave }) {
+function CustomMessage({ inputs, onChangeMessage }) {
   const [imgs, setImgs] = useState('flour');
 
   const doughs = [
@@ -42,7 +42,12 @@ function CustomMessage({ inputs, onChangeMessage, onClickedSave }) {
           backgroundImage: `url("/assets/custommessage/${imgs}.svg")`,
         }}
       >
-        <input className="receiveNickname" name="receiveNickname" value="sooya" disabled />
+        <input
+          className="receiveNickname"
+          name="receiveNickname"
+          value={inputs.recipientNickname}
+          disabled
+        />
         <textarea
           name="message"
           className="message"
