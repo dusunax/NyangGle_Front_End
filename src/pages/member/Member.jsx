@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
+
 import * as countFishTruckImages from './countFishTruckImages.json';
 import SectionTitle from '../../components/member/SectionTitle';
 import ButtonContainer from '../../components/member/ButtonContainer';
 import FishBreadTruck from '../../components/member/FishBreadTruck';
 import { getUser, hasToken, isTokenExpired, saveUser } from '../../utils/userAuth';
-import { getFish, saveFish } from '../../utils/fishCount';
 import styled from 'styled-components';
+
+import { fishCartState } from '../../atoms/fishCartData';
+import { useRecoilState } from 'recoil';
 
 function Member() {
   const { requestApi } = useAxios();
   const navigate = useNavigate();
   const pageUuid = window.location.pathname.slice(1);
 
-  // user={nickname: string, token: string, uuid: string}
+  /** fishCart = {
+    totalCount: number,
+    unreadCount: number,
+    nickname: string,
+    uuid: null | string } */
+  const [fishCart, setFishCart] = useRecoilState(fishCartState);
+
+  /** user = {nickname: string, token: string, uuid: string} */
   const [user, setUser] = useState(getUser());
   const [isLoggedUser, setIsLoggedUser] = useState(false);
   const [isMatchUuid, setIsMatchUuid] = useState(false);
   const [isMyPage, setIsMyPage] = useState(false);
 
-  const [fishData, setFishData] = useState();
   const [displayFishImage, setDisplayFishImage] = useState('cat_truck_0.png');
 
   const memberCheck = (isLogin) => {
@@ -58,17 +67,16 @@ function Member() {
     }
   };
 
-  // this를 쓰고 싶었음
   const fetchCount = async (api) => {
     try {
       const response = await requestApi('get', '/fishbread/' + api);
       return response.status === 200 ? response.data : '';
     } catch (error) {
-      console.log(error.code);
+      console.log(error);
     }
   };
 
-  // 붕어빵 갯수 보여주기
+  // 붕어빵 갯수 트럭에 보여주기
   const matchCatTruckImage = (fishCount) => {
     // console.log(fishCount);
     if (fishCount < 6) {
@@ -78,14 +86,19 @@ function Member() {
     }
   };
 
+  /**  */
   async function fetchFishCountHandler() {
     try {
       const fetchedFish = await fetchCount.call(null, `${pageUuid}`);
+      // console.log('요청을 보냈습니다.');
 
-      if (fetchedFish?.nickname !== fishData?.nickname || !fishData) {
-        saveFish(fetchedFish);
-        setFishData(fetchedFish);
-        matchCatTruckImage(fetchedFish.unreadCount);
+      if (fetchedFish?.nickname !== fishCart?.nickname || !fishCart) {
+        setFishCart({
+          totalCount: fetchedFish.totalCount,
+          unreadCount: fetchedFish.unreadCount,
+          nickname: fetchedFish.nickname,
+          uuid: pageUuid,
+        });
       }
     } catch (e) {
       console.log(e);
@@ -93,23 +106,26 @@ function Member() {
   }
 
   useEffect(() => {
-    fetchFishCountHandler();
+    // console.log('리랜더링 되었습니다.');
+    if (fishCart?.uuid === null) fetchFishCountHandler();
+    matchCatTruckImage(fishCart.unreadCount);
 
+    // 로그인 확인
     const isLogin = userTokenHandler(user, logout);
     setIsLoggedUser(isLogin);
 
     if (isLogin) memberCheck(isLogin);
 
+    // 새로고침 & 뒤로가기
     const preventGoBack = () => {
-      history.pushState(null, '', location.href);
-      console.log('prevent go back!');
+      history.pushState({ prevFish: fishCart }, '', location.href);
+      setFishCart(...history.state.prevFish);
     };
 
-    history.pushState(null, '', location.href);
     window.addEventListener('popstate', preventGoBack);
 
     return () => window.removeEventListener('popstate', preventGoBack);
-  }, [location, matchCatTruckImage, userTokenHandler, setIsLoggedUser]);
+  }, [fishCart, location]);
 
   return (
     <>
@@ -117,7 +133,7 @@ function Member() {
         <div className="contents_area">
           {/* 타이틀 */}
           <SectionTitle
-            fishData={fishData}
+            fishData={fishCart}
             isMyPage={isMyPage}
             user={user}
             logout={logout}
@@ -138,7 +154,7 @@ function Member() {
             isMatchUuid={isMatchUuid}
             isLoggedUser={isLoggedUser}
             myUid={user ? user?.uuid : null}
-            fishData={fishData}
+            fishData={fishCart}
           />
         </div>
       </MemberWrap>

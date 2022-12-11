@@ -1,14 +1,20 @@
-import { REST_API_KEY, REDIRECT_URI } from './OAuth';
+import { REST_API_KEY, REDIRECT_URI } from '../../utils/OAuth';
 import { getUser, isTokenExpired } from '../../utils/userAuth';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
+import { fishCartState } from '../../atoms/fishCartData';
+import { useRecoilValue } from 'recoil';
+
 function Login() {
   const [setPage] = useRedirectPage();
   const user = getUser();
   const navigate = useNavigate();
+
+  const fishCart = useRecoilValue(fishCartState);
+  console.log(fishCart);
 
   /** 랜딩 페이지에서 토큰 확인 후 리디렉션합니다. */
   const redirectHandler = () => {
@@ -142,22 +148,23 @@ const KakaoLogin = styled.button`
   height: 70px;
   border-radius: 10px;
   overflow: hidden;
-
   margin-bottom: 55px;
   padding: 0;
   background-color: transparent;
   border: none;
   cursor: pointer;
-
   transition: all 0.2s;
   background-color: #fee500;
-
   position: relative;
 
   &:hover {
     opacity: 0.9;
     transform: translateY(-2px) scale(1.01);
     box-shadow: 0px 2px 4px rgba(55, 55, 55, 0.1);
+  }
+
+  @media (max-width: 280px) {
+    background-color: transparent;
   }
 `;
 
