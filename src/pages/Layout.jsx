@@ -6,9 +6,9 @@ function Layout({ children }) {
       <h1 className="site_title">
         냥냥편지
         <div className="logo">
-          <img src="./assets/images/logos/main_title.png" alt="냥냥편지" />
+          <img src="/assets/images/logos/main_title.png" alt="냥냥편지" />
           <img
-            src="./assets/images/logos/logo_title.png"
+            src="/assets/images/logos/logo_title.png"
             alt="따끈따끈 붕어빵"
             className="fish_img"
           />
