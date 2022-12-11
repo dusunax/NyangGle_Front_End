@@ -21,7 +21,6 @@ const StButtonText = styled.button`
   background: transparent;
   border: none;
   color: #fff;
-
   font-family: 'kotra';
   font-size: 20px;
   line-height: 28px;

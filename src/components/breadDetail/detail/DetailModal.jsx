@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import DetailAlert from './DetailAlert';
 
 const typeObj = {
+  밀: '1',
   밀가루: '1',
   고구마: '2',
   녹차: '3',
