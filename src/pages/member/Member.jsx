@@ -149,7 +149,7 @@ function Member() {
 export default Member;
 
 const MemberWrap = styled.div`
-  height: 100vh;
+  height: 100%;
 
   background: linear-gradient(to bottom, #e3edf2 68%, #000 68%, #000 68.3%, #faeac7 68.3%);
 

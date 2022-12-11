@@ -48,7 +48,7 @@ const LogoBox = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 `;
 
 const LogoWrap = styled.div`
