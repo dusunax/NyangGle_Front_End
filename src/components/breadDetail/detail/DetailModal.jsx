@@ -110,8 +110,11 @@ const ModalContainer = styled.div`
   `}
 
   @media screen and (min-width: 500px){
+    border-radius: 20px;
+    box-shadow: 4px, 4px, 4px, rgba(0,0,0,0.2);
     width: 390px;
     height: calc(100% - 15vh);
+    overflow: hidden;
   }
 `;
 
