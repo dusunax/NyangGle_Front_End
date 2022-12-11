@@ -148,22 +148,23 @@ const KakaoLogin = styled.button`
   height: 70px;
   border-radius: 10px;
   overflow: hidden;
-
   margin-bottom: 55px;
   padding: 0;
   background-color: transparent;
   border: none;
   cursor: pointer;
-
   transition: all 0.2s;
   background-color: #fee500;
-
   position: relative;
 
   &:hover {
     opacity: 0.9;
     transform: translateY(-2px) scale(1.01);
     box-shadow: 0px 2px 4px rgba(55, 55, 55, 0.1);
+  }
+
+  @media (max-width: 280px) {
+    background-color: transparent;
   }
 `;
 

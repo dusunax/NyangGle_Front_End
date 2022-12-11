@@ -3,7 +3,7 @@ import qs from 'qs';
 import { useEffect } from 'react';
 import font from '../../../public/assets/font/font.css';
 import styled from 'styled-components';
-import { BASE_URI } from './OAuth';
+import { BASE_URI } from '../../utils/OAuth';
 import { saveUser } from '../../utils/userAuth';
 import axios from 'axios';
 
