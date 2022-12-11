@@ -20,7 +20,7 @@ export default Button;
 
 const StButton = styled(ButtonText)``;
 
-const UnReadText = styled.div`
+const UnReadText = styled.span`
   position: absolute;
   top: 50%;
   right: 0;

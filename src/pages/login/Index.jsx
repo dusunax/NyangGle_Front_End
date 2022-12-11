@@ -59,7 +59,7 @@ function Login() {
 export default Login;
 
 const LoginWrap = styled.div`
-  height: 100vh;
+  height: 100%;
 
   background: linear-gradient(to bottom, #e3edf2 68%, #000 68%, #000 68.3%, #faeac7 68.3%);
 
@@ -109,6 +109,10 @@ const IntroTitle = styled.h1`
 
   color: #ed9a00;
   text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+
+  @media (min-width: 1000px) {
+    font-size: 60px;
+  }
 
   @media (max-width: 500px) {
     font-size: 60px;

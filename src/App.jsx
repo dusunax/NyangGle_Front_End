@@ -1,10 +1,12 @@
 import { RecoilRoot } from 'recoil';
+import { theme } from './theme';
 import GlobalStyle from './GlobalStyle';
 import { ThemeProvider } from 'styled-components';
-import { theme } from './theme';
-import { useEffect } from 'react';
-import Router from './pages/Router';
+
 import { CookiesProvider } from 'react-cookie';
+
+import Router from './pages/Router';
+import Layout from './pages/Layout';
 
 function App() {
   return (
@@ -13,9 +15,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <RecoilRoot>
           <CookiesProvider>
-            <main>
+            <Layout>
               <Router />
-            </main>
+            </Layout>
           </CookiesProvider>
         </RecoilRoot>
       </ThemeProvider>
