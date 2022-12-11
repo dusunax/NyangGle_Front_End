@@ -5,11 +5,13 @@ import DetailListTaps from './DetailListTaps';
 import DetailListButtons from './DetailListButtons';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { dataList, tapIndexState, currentIndexState } from '../../../atoms/fishBreadList';
-import { getBreadListData } from '../../../utils/fetchBreadDetail';
+import { getBreadListData, getUserData } from '../../../utils/fetchBreadDetail';
 import styled from 'styled-components';
+import { fishCartState } from '../../../atoms/fishCartData';
 
 function DetailList() {
   const [breadList, setBreadList] = useRecoilState(dataList);
+  const [fishCart, setFishCart] = useRecoilState(fishCartState);
   const setTapIndex = useSetRecoilState(tapIndexState);
   const [pageData, setPageData] = useState();
   const [lastId, setLastId] = useState(0);
@@ -47,12 +49,11 @@ function DetailList() {
       }
       setBreadList(dataSet);
       setPageData({ totalPages, last, first });
-      if(callingType !== 'Prev') {
+      if (callingType !== 'Prev') {
         setCurrentIndex(0);
       } else {
         setCurrentIndex(dataSet.length - 1);
       }
-      
     }
   }, []);
 
@@ -96,12 +97,22 @@ function DetailList() {
     navigate('/');
   };
 
+  const getUser = async () => {
+    if (token === null) return;
+    const { data, status } = await getUserData(uid);
+    if (status === 200) {
+      const { nickname, totalCount, unreadCount } = data;
+      setFishCart({ nickname, totalCount, unreadCount, uuid: uid });
+    }
+  };
+
   useEffect(() => {
     getBreadList(callingType, status, lastId, prevId, currentPage);
   }, [isRefetch]);
 
   useEffect(() => {
-   token ?? redirectNonMemeber();
+    token ?? redirectNonMemeber();
+    fishCart.uuid ?? getUser();
   }, []);
 
   return (
@@ -132,19 +143,19 @@ const DetailListWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  @media screen and (min-width: 500px){
+
+  @media screen and (min-width: 500px) {
     align-items: flex-start;
     overflow-y: auto;
     overflow-x: hidden;
-    &::-webkit-scrollbar{
+    &::-webkit-scrollbar {
       width: 4px;
     }
-    &::-webkit-scrollbar-thumb{
+    &::-webkit-scrollbar-thumb {
       width: 100%;
-      background-color: rgba(0,0,0,0.2);
+      background-color: rgba(0, 0, 0, 0.2);
     }
-    &::-webkit-scrollbar-track{
+    &::-webkit-scrollbar-track {
       width: 100%;
       background-color: #fff;
     }
@@ -158,8 +169,6 @@ const DetailLists = styled.div`
   max-height: 551px;
   position: relative;
   background: url('/assets/images/breadDetail/mailbox.png') no-repeat center/contain;
-  
-  
 `;
 
 const TurnBack = styled.div`

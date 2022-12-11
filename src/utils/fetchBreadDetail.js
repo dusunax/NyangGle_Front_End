@@ -57,3 +57,8 @@ export const deleteBread = async (fishId, token) => {
   const result = await callApi(`/fishbread/${fishId}`, token, 'delete');
   return result;
 };
+
+export const getUserData = async (uuid) => {
+  const result = await callApi(`/fishbread/${uuid}`);
+  return result;
+};
