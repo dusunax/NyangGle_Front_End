@@ -37,9 +37,10 @@ function DetailList() {
       currentPage,
     );
     const { content, totalPages, last, first } = data;
+    console.log(content)
     if (status === 200) {
-      setLastId(content?.at(-1).fishId);
-      setPrevId(content[0]?.fishId);
+      content.length && setLastId(content?.at(-1).fishId);
+      content.length && setPrevId(content[0]?.fishId);
       const dataSet = [];
       const size = 9;
       for (let i = 0; i < content.length; i += size) {
@@ -62,6 +63,7 @@ function DetailList() {
 
   const onClickTap = (type, index) => {
     if (type === status) return;
+    setCallingType(0);
     setStatus(type);
     setCurrentPage(1);
     setIsRefetch((state) => !state);
