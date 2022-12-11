@@ -100,33 +100,21 @@ const Paper = styled.div`
   margin-top: -15%;
   text-align: center;
 
-  @media (max-width: 999px) {
-    width: 470px;
-    height: 650px;
-  }
-  @media (max-width: 600px) {
-    width: 460px;
-    height: 650px;
-  }
-  @media (max-width: 450px) {
-    width: 400px;
-    height: 550px;
-  }
-
-  @media (max-width: 400px) {
-    width: 380px;
-    height: 550px;
-    @media (min-height: 800px) {
-      height: 530px;
-    }
-  }
-  @media (max-width: 370px) {
+  @media (max-height: 900px) {
     width: 320px;
-    height: 420px;
+    height: 450px;
+  }
+  @media (max-height: 800px) {
+    width: 230px;
+    height: 300px;
   }
   @media (max-height: 700px) {
-    width: 300px;
-    height: 400px;
+    width: 190px;
+    height: 250px;
+  }
+  @media (max-height: 600px) {
+    width: 150px;
+    height: 200px;
   }
 
   .receiveNickname {
@@ -135,42 +123,68 @@ const Paper = styled.div`
     border: none;
     padding-left: 50px;
     align-items: flex-start;
-    font-size: 25px;
+    font-size: 20px;
+
+    @media (min-height: 600px) {
+      padding-left: 18px;
+      font-size: 15px;
+    }
+    @media (min-height: 700px) {
+      padding-left: 25px;
+      font-size: 15px;
+    }
+    @media (min-height: 800px) {
+      padding-left: 40px;
+      font-size: 18px;
+    }
   }
 
   .message {
     border: none;
-    font-size: 25px;
+    font-size: 20px;
     resize: none;
     width: 95%;
     height: 75%;
     background: none;
+    @media (min-height: 600px) {
+      font-size: 15px;
+    }
   }
 
   .senderNickname {
     border: none;
     position: relative;
-    font-size: 25px;
+    font-size: 20px;
     align-self: flex-end;
     background: none;
-    width: 100px;
+    width: 120px;
     left: 2%;
     bottom: 10%;
+    @media (max-width: 400px) {
+      font-size: 18px;
+      @media (min-height: 800px) {
+        top: -6%;
+        left: 2%;
+        font-size: 18px;
+      }
+    }
 
     @media (min-height: 600px) {
-      top: -3%;
-      left: 10%;
+      top: -1%;
+      left: 50%;
+      font-size: 15px;
     }
     @media (min-height: 700px) {
-      top: 0%;
-      left: 10%;
+      top: 2%;
+      left: 32%;
     }
-    @media (min-height: 700px) {
-      top: -5%;
-      left: 10%;
+    @media (min-height: 800px) {
+      top: -6%;
+      left: 15%;
+      font-size: 18px;
     }
     @media (min-height: 900px) {
-      top: -5%;
+      top: -6%;
       left: 10%;
     }
   }
