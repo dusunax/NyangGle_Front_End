@@ -12,21 +12,27 @@ const KakaoLogin = () => {
   const navigate = useNavigate();
   const code = qs.parse(location.search, { ignoreQueryPrefix: true }).code;
   const postKakaoAuthCode = async () => {
-    await axios
-      .post(
-        `${BASE_URI}/oauth/login/kakao`,
-        {
-          code,
-        },
-        { 'Content-Type': 'application/json' },
-      )
-      .then((result) => {
-        const { status, data } = result;
-        if (status >= 200 && status < 400) {
-          saveUser(data);
-          navigate(`/${data.uuid}`);
-        }
-      });
+    try {
+      await axios
+        .post(
+          `${BASE_URI}/oauth/login/kakao`,
+          {
+            code,
+          },
+          { 'Content-Type': 'application/json' },
+        )
+        .then((result) => {
+          const { status, data } = result;
+          if (status >= 200 && status < 400) {
+            saveUser(data);
+            navigate(`/${data.uuid}`);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      navigate('/');
+    }
   };
 
   useEffect(() => {
@@ -36,7 +42,7 @@ const KakaoLogin = () => {
   return (
     <LogoBox>
       <LogoWrap>
-        <img className="catTruck" src="/assets/images/intro/cat_truck.png" alt="Cat Truck" />
+        <img className="catTruck" src="/assets/images/member/cat_truck_intro.png" alt="Cat Truck" />
         <LoginH1>붕어빵이 노릇노릇</LoginH1>
       </LogoWrap>
     </LogoBox>

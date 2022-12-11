@@ -44,7 +44,11 @@ function Login() {
       <div className="contents_area">
         <IntroTitle>냥냥편지</IntroTitle>
         <div className="imageWrap">
-          <img className="catTruck" src="./assets/images/intro/cat_truck.png" alt="Cat Truck" />
+          <img
+            className="catTruck"
+            src="/assets/images/member/cat_truck_intro.png"
+            alt="Cat Truck"
+          />
         </div>
 
         {
@@ -70,12 +74,9 @@ const LoginWrap = styled.div`
   .contents_area {
     height: 100%;
     max-width: 450px;
-
     margin: 0 auto;
     padding: 0 32px;
-
     position: relative;
-
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -86,7 +87,6 @@ const LoginWrap = styled.div`
     width: 100%;
     height: 47%;
     position: relative;
-
     margin-top: 5vh;
     margin-bottom: 5vh;
   }
@@ -95,7 +95,6 @@ const LoginWrap = styled.div`
     height: 100%;
     max-width: 100%;
     object-fit: contain;
-
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -121,6 +120,7 @@ const IntroTitle = styled.h1`
   @media (max-width: 500px) {
     font-size: 60px;
   }
+
   @media (max-width: 400px) {
     font-size: 50px;
   }
