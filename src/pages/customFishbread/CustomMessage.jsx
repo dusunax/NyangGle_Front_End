@@ -187,7 +187,6 @@ const Textbox = styled.textarea`
   position: absolute;
   top: 10%;
   left: 5%;
-  border: 1px solid black;
 
   margin-top: 10px;
 

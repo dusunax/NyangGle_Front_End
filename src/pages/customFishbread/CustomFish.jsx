@@ -16,7 +16,6 @@ function CustomFish({ countUp, setCountUp }) {
     dough: '밀가루',
     message: '',
     sediment: '',
-    senderIp: '',
     senderNickname: '',
   });
   const [imgs, setImgs] = useState({
@@ -41,7 +40,6 @@ function CustomFish({ countUp, setCountUp }) {
     const { status } = await requestApi('post', `/fishbread/U184bdf21eb90001`, {
       message: inputs.message,
       type: `${inputs.dough}/${inputs.sediment}`,
-      // senderIp: inputs.senderIp,
       senderNickname: inputs.senderNickname ? inputs.senderNickname : '익명',
     });
 
@@ -121,22 +119,6 @@ function CustomFish({ countUp, setCountUp }) {
       [name]: value,
     }));
   };
-
-  // ip 가져오기
-  const getSenderIp = async () => {
-    const { data, status } = await requestApi('get', 'https://api.ipify.org?format=json');
-
-    if (status >= 200 && status < 400) {
-      setInputs((prev) => ({
-        ...prev,
-        // senderIp: data.ip,
-      }));
-    }
-  };
-
-  useEffect(() => {
-    getSenderIp();
-  }, []);
 
   console.log(tabs);
 
