@@ -24,6 +24,7 @@ const StButtonText = styled.button`
   font-family: 'kotra';
   font-size: 20px;
   line-height: 28px;
+  white-space: nowrap;
 
   cursor: pointer;
   transition: all 0.2s;
@@ -60,5 +61,9 @@ const StButtonText = styled.button`
   span.text:hover {
     opacity: 0.8;
     box-shadow: none;
+  }
+
+  @media (max-width: 280px) {
+    font-size: 18px;
   }
 `;
