@@ -5,10 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
+import { fishCartState } from '../../atoms/fishCartData';
+import { useRecoilValue } from 'recoil';
+
 function Login() {
   const [setPage] = useRedirectPage();
   const user = getUser();
   const navigate = useNavigate();
+
+  const fishCart = useRecoilValue(fishCartState);
+  console.log(fishCart);
 
   /** 랜딩 페이지에서 토큰 확인 후 리디렉션합니다. */
   const redirectHandler = () => {
