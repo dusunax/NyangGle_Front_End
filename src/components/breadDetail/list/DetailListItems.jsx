@@ -1,19 +1,27 @@
-import { dataList, readingDataList, modalState, idState, currentIndexState } from '../../../atoms/fishBreadList';
+import {
+  dataList,
+  readingDataList,
+  modalState,
+  idState,
+  currentIndexState,
+} from '../../../atoms/fishBreadList';
 import { useSetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
 import { useCallback } from 'react';
 import { getBreadDetailData } from '../../../utils/fetchBreadDetail';
 import styled from 'styled-components';
 import DetailListItem from './DetailListItem';
+import { fishCartState } from '../../../atoms/fishCartData';
 
 function DetailListItems({ token }) {
   const currentIndex = useRecoilValue(currentIndexState);
+  const { uuid } = useRecoilValue(fishCartState);
   const [breadList, setBreadList] = useRecoilState(dataList);
   const [readingData, setReadingData] = useRecoilState(readingDataList);
   const [isOpened, setIsOpened] = useRecoilState(modalState);
   const setReadingId = useSetRecoilState(idState);
 
   const getBreadDetail = useCallback(async (fishId) => {
-    const { data, status } = await getBreadDetailData(fishId, token);
+    const { data, status } = await getBreadDetailData(fishId, token, uuid);
     if (status === 200) {
       setIsOpened(true);
       setReadingData((state) => [...state, { ...data }]);

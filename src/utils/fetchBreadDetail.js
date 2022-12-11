@@ -48,8 +48,8 @@ export const getBreadListData = async (token, callingType, status, lastId, prevI
   return result;
 };
 
-export const getBreadDetailData = async (fishId, token) => {
-  const result = await callApi(`/fishbread/${fishId}`, token);
+export const getBreadDetailData = async (fishId, token, uuid) => {
+  const result = await callApi(`/fishbread/${uuid}/${fishId}`, token);
   return result;
 };
 

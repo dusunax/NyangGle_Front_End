@@ -100,7 +100,7 @@ function DetailList() {
   }, [isRefetch]);
 
   useEffect(() => {
-    token ?? redirectNonMemeber();
+   token ?? redirectNonMemeber();
   }, []);
 
   return (
@@ -127,10 +127,27 @@ export default DetailList;
 
 const DetailListWrapper = styled.div`
   padding: 0 10px;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  
+  @media screen and (min-width: 500px){
+    align-items: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    &::-webkit-scrollbar{
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb{
+      width: 100%;
+      background-color: rgba(0,0,0,0.2);
+    }
+    &::-webkit-scrollbar-track{
+      width: 100%;
+      background-color: #fff;
+    }
+  }
 `;
 
 const DetailLists = styled.div`
@@ -140,6 +157,8 @@ const DetailLists = styled.div`
   max-height: 551px;
   position: relative;
   background: url('/assets/images/breadDetail/mailbox.png') no-repeat center/contain;
+  
+  
 `;
 
 const TurnBack = styled.div`

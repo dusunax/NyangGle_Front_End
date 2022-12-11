@@ -108,6 +108,11 @@ const ModalContainer = styled.div`
   ${({ backSrc }) => css`
     background: #fff url('../../../assets/images/breadDetail/${backSrc}.png') no-repeat center/cover;
   `}
+
+  @media screen and (min-width: 500px){
+    width: 390px;
+    height: calc(100% - 15vh);
+  }
 `;
 
 const ModalContent = styled.div`
@@ -118,6 +123,22 @@ const ModalContent = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  @media screen and (min-width: 500px) {
+    overflow-y: overlay;
+    display: block;
+    &::-webkit-scrollbar{
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb{
+      width: 100%;
+      background-color: rgba(0,0,0,0.2);
+    }
+    &::-webkit-scrollbar-track{
+      width: 100%;
+      background-color: #fff;
+    }
+  }
 `;
 
 const MessageWrapper = styled.div`
@@ -145,7 +166,6 @@ const MessageContent = styled.div`
   bottom: 16%;
   transform: translateX(-50%);
   overflow-y: auto;
-
   white-space: pre-wrap;
   word-break: keep-all;
 `;
@@ -153,7 +173,7 @@ const MessageContent = styled.div`
 const MessageUser = styled.div`
   position: absolute;
   width: 28%;
-  top: 23.5%;
+  top: 22.5%;
   left: 22.5%;
   word-break: keep-all;
 `;
@@ -161,8 +181,8 @@ const MessageUser = styled.div`
 const MessageSender = styled.div`
   position: absolute;
   width: 26%;
-  bottom: 10%;
-  right: 11%;
+  bottom: 11%;
+  right: 13%;
   word-break: keep-all;
 `;
 
