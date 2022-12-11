@@ -1,20 +1,23 @@
+import styled from 'styled-components';
 import CustomMessage from './CustomMessage';
 import CustomDone from './CustomDone';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
-import styled from 'styled-components';
-// import img from '../../../public/assets/customfish/';
+import { useRecoilValue } from 'recoil';
+import { fishCartState } from '../../atoms/fishCartData';
 
 function CustomFish({ countUp, setCountUp }) {
   const navigate = useNavigate();
+  // 받는 사람
+  const recipient = useRecoilValue(fishCartState);
   const { requestApi } = useAxios();
-  const tabs = ['붕어빵 커스텀', '메세지 작성'];
-  const [isActiveTab, setIsActiveTab] = useState(tabs[0]);
-  const [message, setMessage] = useState('앙금을 고르라냥');
+  const tabs = ['커스텀', '메세지', '완성'];
+  const [activeTab, setActiveTab] = useState(tabs[0]);
   const [inputs, setInputs] = useState({
     dough: '밀가루',
     message: '',
+    recipientNickname: recipient.nickname,
     sediment: '',
     senderNickname: '',
   });
@@ -24,16 +27,12 @@ function CustomFish({ countUp, setCountUp }) {
     message: 'flour',
     sediment: '',
   });
-  const [isDone, setIsDone] = useState(false);
+  const [message, setMessage] = useState('앙금을 고르라냥');
 
   // 저장
   const onClickSave = async () => {
-    console.log(!!!inputs.message);
-    console.log(inputs.message);
-
     if (!!!inputs.message) {
       setMessage('내용을 입력해 주라냥');
-
       return;
     }
 
@@ -43,47 +42,52 @@ function CustomFish({ countUp, setCountUp }) {
       senderNickname: inputs.senderNickname ? inputs.senderNickname : '익명',
     });
 
-    setCountUp(countUp + 1);
-    setIsDone(true);
+    if (status >= 200 && status < 400) {
+      setCountUp(countUp + 1);
+      setActiveTab(tabs[2]);
+    }
   };
 
   /**
-   * @param {'붕어빵 커스텀' | '메세지 작성'} tab
+   * @param {'커스텀' | '메세지'} tab
    * @param {'prev' | 'next'} direction
    */
 
   // 화살표 선택 시
   const onClickNav = (tab, direction) => {
-    console.log(tab === '메시지 작성', direction);
-    if (tab === '메세지 작성' && direction === 'next') {
-      console.log('넘어가자냥');
-      onClickSave();
-      // setIsDone(true);
+    // 커스텀 페이지 이전 버튼 클릭 시
+    if (tab === '커스텀' && direction === 'prev') {
+      if (window.confirm('붕어빵 만들기를 취소하시겠습니까?')) {
+        navigate(`/${recipient.uuid}`);
+      }
     }
 
-    if (tab === '붕어빵 커스텀') {
-      if (direction === 'prev') {
-        if (window.confirm('붕어빵 만들기를 취소하시겠습니까?')) {
-          navigate('/U184bdf21eb90001');
-        }
-      } else {
-        if (!!!inputs.sediment) {
-          setMessage('앙금 먼저 고르라냥!');
-          return;
-        }
-        setIsActiveTab(tabs[1]);
-        setMessage('붕어빵에 전하고 싶은 말을 적으라냥');
-        setImgs((prev) => ({
-          ...prev,
-          cat: 'cat3',
-        }));
+    // 커스텀 페이지 다음 버튼 클릭 시
+    if (tab === '커스텀' && direction === 'next') {
+      if (!!!inputs.sediment) {
+        setMessage('앙금 먼저 고르라냥!');
+        return;
       }
-    } else {
-      if (direction === 'prev') {
-        setIsActiveTab(tabs[0]);
-      } else {
-        console.log('다음');
+      setActiveTab(tabs[1]);
+      setMessage('붕어빵에 전하고 싶은 말을 적으라냥');
+      setImgs((prev) => ({
+        ...prev,
+        cat: 'cat3',
+      }));
+    }
+
+    // 메세지 페이지 이전 버튼 클릭 시
+    if (tab === '메세지' && direction === 'prev') {
+      setActiveTab(tabs[0]);
+    }
+
+    // 메세지 페이지 다음 버튼 클릭 시
+    if (tab === '메세지' && direction === 'next') {
+      if (!!!inputs.message) {
+        setMessage('메세지 작성을 해달라냥');
+        return;
       }
+      onClickSave();
     }
   };
 
@@ -110,7 +114,7 @@ function CustomFish({ countUp, setCountUp }) {
     }));
   };
 
-  // 닉네임, 메세지 작성
+  // 닉네임, 메세지 작성 시
   const onChangeMessage = (e) => {
     const { value, name } = e.target;
 
@@ -120,16 +124,14 @@ function CustomFish({ countUp, setCountUp }) {
     }));
   };
 
-  console.log(tabs);
-
-  return isDone ? (
+  return activeTab === tabs[2] ? (
     <CustomDone dough={inputs.dough} />
   ) : (
     <Main>
       <Header>
         <ContentsArea>
           {tabs.map((tab, idx) => {
-            if (isActiveTab === tab) {
+            if (activeTab === tab) {
               return (
                 <section className="btns" key={tab}>
                   <LeftBtn onClick={() => onClickNav(tabs[idx], 'prev')} />
@@ -150,7 +152,7 @@ function CustomFish({ countUp, setCountUp }) {
         {imgs.sediment && (
           <img src={`/assets/customfish/${imgs.sediment}.svg`} alt="앙금" className="sediment" />
         )}
-        {isActiveTab === tabs[0] && (
+        {activeTab === tabs[0] && (
           <FishFrame>
             <img src={`/assets/customfish/${imgs.dough}.svg`} alt="반죽" className="dough" />
             <Types>
@@ -173,12 +175,8 @@ function CustomFish({ countUp, setCountUp }) {
             </Types>
           </FishFrame>
         )}
-        {isActiveTab === tabs[1] && (
-          <CustomMessage
-            inputs={inputs}
-            onChangeMessage={onChangeMessage}
-            onClickSave={onClickSave}
-          />
+        {activeTab === tabs[1] && (
+          <CustomMessage inputs={inputs} onChangeMessage={onChangeMessage} />
         )}
       </Contents>
     </Main>
@@ -279,14 +277,13 @@ const Contents = styled.section`
   flex-direction: column;
   align-items: center;
   position: relative;
-  overflow: hidden;
 
   .cat {
-    height: 18%;
+    height: 15%;
   }
 
   .dough {
-    height: 80%;
+    width: 100%;
   }
 
   .sediment {
@@ -297,8 +294,8 @@ const Contents = styled.section`
 `;
 
 const FishFrame = styled.section`
-  flex: 1;
-  background: linear-gradient(0, #8c8c8c, transparent);
+  /* flex: 1; */
+  /* background-color: #8e8c8c; */
 `;
 
 const Types = styled.section`
@@ -307,7 +304,7 @@ const Types = styled.section`
   padding: 0 20px;
   position: absolute;
   left: 50%;
-  bottom: 23%;
+  bottom: 10%;
   transform: translate(-50%, 0);
 
   article {
@@ -321,9 +318,10 @@ const Types = styled.section`
     border-radius: 15px;
     grid-template-columns: 1fr 1fr;
 
-    /* @media (max-width: 580px) {
+    @media (max-width: 600px) {
+      bottom: 30%;
       grid-template-columns: 1fr 1fr;
-    } */
+    }
 
     button {
       ${({ theme }) => theme.flex.col}

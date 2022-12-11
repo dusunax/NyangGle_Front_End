@@ -1,11 +1,15 @@
 import React from 'react';
 import ButtonText from './elements/ButtonText';
 import Button from './elements/Button';
+import { useRecoilValue } from 'recoil';
+import { fishCartState } from '../../atoms/fishCartData';
 
 function ButtonContainer({ isMyPage, myUid, isLoggedUser, fishData }) {
+  const recipient = useRecoilValue(fishCartState);
+
   // 버튼 components
   const buttonToMyTruck = <ButtonText goTo={`/${myUid}`} text="내 붕어빵 트럭 가기" type="text" />;
-  const buttonToCustomFish = <Button goTo={`/customFish/`} text="붕어빵 만들기" />;
+  const buttonToCustomFish = <Button goTo={`/customFish/${recipient.uuid}`} text="붕어빵 만들기" />;
   const buttonToMyList = (
     <Button
       goTo={`/list/${myUid}`}
