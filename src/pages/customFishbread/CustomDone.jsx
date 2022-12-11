@@ -6,7 +6,7 @@ function CustomDone({ dough }) {
   const navigate = useNavigate();
   console.log(dough);
 
-  const [imgs, setImgs] = useState('flour');
+  const [imgs, setImgs] = useState('');
 
   const doughs = [
     {
@@ -37,10 +37,10 @@ function CustomDone({ dough }) {
     });
   }, []);
 
-  setTimeout(() => navigate('/U184bdf21eb90001'), 3000);
+  // setTimeout(() => navigate('/U184bdf21eb90001'), 3000);
 
   return (
-    <div>
+    <Wrapper>
       <Header>
         <ContentsArea>
           <p className="message">노릇노릇해지고 있다냥</p>
@@ -51,7 +51,6 @@ function CustomDone({ dough }) {
           <img src="/assets/custommessage/cat4.svg" className="cat" />
         </Contents>
         <FishFrame>
-          {/* <img src="/assets/customfish/fishframe.svg" className="fishFrame" /> */}
           <Fish>
             <img
               src={`/assets/custommessage/${imgs}1.svg`}
@@ -68,30 +67,139 @@ function CustomDone({ dough }) {
           </Fish>
         </FishFrame>
       </Main>
-    </div>
+    </Wrapper>
   );
 }
 
 export default CustomDone;
 
+const Wrapper = styled.div`
+  overflow: hidden;
+  height: 100vh;
+`;
+
+const Header = styled.header`
+  padding: 20px;
+
+  .message {
+    margin: 30px 0;
+    padding: 30px;
+    background-color: #eee;
+    border-radius: 14px;
+    text-align: center;
+
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+
+    word-break: keep-all;
+  }
+`;
+
 const ContentsArea = styled.div`
   padding: 0 18px;
+`;
+
+const Main = styled.main`
+  ${({ theme }) => theme.flex.col}
+
+  height: 100vh;
+  /* justify-content: space-between; */
+`;
+
+const Contents = styled.section`
+  flex: 1;
+  display: flex;
+  bottom: 0;
+  flex-direction: column;
+  align-items: center;
+
+  overflow: hidden;
+  .cat {
+    height: 15vh;
+    position: absolute;
+    top: 42%;
+
+    @media (max-width: 400px) {
+      width: 40%;
+      top: 35%;
+    }
+    /* @media (max-width: 350px) {
+      top: -80px;
+    } */
+  }
+`;
+
+const FishFrame = styled.section`
+  width: 100%;
+  background: no-repeat top center / 110%, linear-gradient(transparent 0%, #9e9e9e 60%);
+  position: relative;
+
+  flex: 1;
+  /* overflow: hidden; */
+  bottom: 10%;
+  z-index: 9;
+
+  .fishFrame {
+    overflow: hidden;
+    width: 120%;
+    bottom: 0;
+  }
+
+  @media (max-width: 600px) {
+    top: -15%;
+    width: 120%;
+    right: 10%;
+  }
+  @media (max-width: 400px) {
+    top: -30%;
+    width: 120%;
+    right: 10%;
+
+    @media (min-height: 700px) {
+      top: -28%;
+    }
+
+    @media (min-height: 800px) {
+      top: -25%;
+    }
+  }
 `;
 
 const Fish = styled.div`
   ${({ theme }) => theme.flex.col}
   align-items: center;
+  overflow: hidden;
+  top: 20%;
+  /* position: relative; */
 
   .dough_prev {
     position: absolute;
-    bottom: 0;
+    width: 120%;
     opacity: 1;
+    object-fit: cover;
+
+    /* @media (max-width: 400px) {
+      top: 50%;
+    }
+    @media (max-width: 350px) {
+      top: -80px;
+    } */
   }
   .dough_next {
+    /* overflow: hidden; */
+    object-fit: cover;
+    width: 120%;
     position: absolute;
-    bottom: 0;
     opacity: 0;
     animation: fadeIn 2s 0.2s forwards;
+
+    /* @media (max-width: 400px) {
+      top: 50%;
+    }
+    @media (max-width: 350px) {
+      top: -80px;
+    } */
   }
   @keyframes fadeIn {
     0% {
@@ -99,65 +207,6 @@ const Fish = styled.div`
     }
     100% {
       opacity: 1;
-    }
-  }
-`;
-
-const FishFrame = styled.section`
-  width: 100%;
-  height: 60vh;
-  background: no-repeat top center / 110%, linear-gradient(transparent 0%, #9e9e9e 40%);
-
-  z-index: 9;
-  .fishFrame {
-    width: 120%;
-    bottom: 0;
-  }
-`;
-
-const Main = styled.main`
-  ${({ theme }) => theme.flex.col}
-  height: 100vh;
-  justify-content: space-between;
-`;
-
-const Header = styled.header`
-  padding: 20px;
-  .btns {
-    ${({ theme }) => theme.flex.row}
-    align-items: center;
-    justify-content: space-between;
-  }
-  .message {
-    margin: 30px 0;
-    padding: 30px;
-    background-color: #eee;
-    border-radius: 14px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 28px;
-    word-break: keep-all;
-  }
-`;
-
-const Contents = styled.section`
-  flex: 1;
-  ${({ theme }) => theme.flex.col}
-  justify-content: flex-end;
-  align-items: center;
-  position: relative;
-  .cat {
-    /* width: 70%; */
-    /* max-width: 188px; */
-    position: absolute;
-    top: 400px;
-    @media (max-width: 400px) {
-      width: 40%;
-      top: -100px;
-    }
-    @media (max-width: 350px) {
-      top: -80px;
     }
   }
 `;
