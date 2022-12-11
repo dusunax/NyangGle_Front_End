@@ -44,11 +44,7 @@ function Login() {
       <div className="contents_area">
         <IntroTitle>냥냥편지</IntroTitle>
         <div className="imageWrap">
-          <img
-            className="catTruck"
-            src="/assets/images/member/cat_truck_intro.png"
-            alt="Cat Truck"
-          />
+          <img className="catTruck" src="/assets/images/member/cat_truck_3.png" alt="Cat Truck" />
         </div>
 
         {
