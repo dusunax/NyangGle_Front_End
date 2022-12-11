@@ -1,11 +1,9 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-
 import { REST_API_KEY, REDIRECT_URI } from './OAuth';
 import { getUser, isTokenExpired } from '../../utils/userAuth';
 import { useRedirectPage } from '../../hooks/useRedirectPage';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import styled from 'styled-components';
 
 function Login() {
   const [setPage] = useRedirectPage();

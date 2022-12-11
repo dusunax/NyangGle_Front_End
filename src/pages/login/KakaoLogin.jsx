@@ -1,30 +1,32 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'qs';
 import { useEffect } from 'react';
-import useAxios from '../../hooks/useAxios';
 import font from '../../../public/assets/font/font.css';
 import styled from 'styled-components';
-import { REST_API_KEY, REDIRECT_URI } from './OAuth';
+import { BASE_URI } from './OAuth';
 import { saveUser } from '../../utils/userAuth';
+import axios from 'axios';
 
 const KakaoLogin = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { requestApi } = useAxios();
   const code = qs.parse(location.search, { ignoreQueryPrefix: true }).code;
-
   const postKakaoAuthCode = async () => {
-    const { data, status } = await requestApi('post', '/oauth/login/kakao', {
-      grant_type: 'autorization_code',
-      client_id: REST_API_KEY,
-      redirect_uri: REDIRECT_URI,
-      code,
-    });
-
-    if (status >= 200 && status < 400) {
-      saveUser(data);
-      navigate(`/${data.uuid}`);
-    }
+    await axios
+      .post(
+        `${BASE_URI}/oauth/login/kakao`,
+        {
+          code,
+        },
+        { 'Content-Type': 'application/json' },
+      )
+      .then((result) => {
+        const { status, data } = result;
+        if (status >= 200 && status < 400) {
+          saveUser(data);
+          navigate(`/${data.uuid}`);
+        }
+      });
   };
 
   useEffect(() => {
