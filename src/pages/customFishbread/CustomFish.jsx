@@ -258,11 +258,10 @@ const Header = styled.header`
 
   .message {
     margin: 30px 0;
-    padding: 30px;
+    padding: 15px;
     background-color: #eee;
     border-radius: 14px;
     text-align: center;
-
     font-weight: 600;
     font-size: 20px;
     line-height: 28px;
@@ -276,19 +275,30 @@ const Contents = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
 
   .cat {
     height: 15%;
   }
 
   .dough {
+    height: 100%;
   }
 
   .sediment {
-    height: 10%;
+    height: 11%;
     position: absolute;
-    top: 30%;
+    bottom: 30%;
+  }
+
+  @media (min-width: 500px) and (max-width: 1000px) {
+    .dough {
+      height: 90%;
+    }
+  }
+  @media (max-width: 500px) {
+    .sediment {
+      bottom: 42%;
+    }
   }
 `;
 
@@ -297,8 +307,9 @@ const FishFrame = styled.section``;
 const Types = styled.section`
   ${({ theme }) => theme.flex.row}
   width: 100%;
-  padding: 0 20px;
+  padding: 0 10px;
   position: absolute;
+  bottom: 10px;
   left: 50%;
   transform: translate(-50%, 0);
 
@@ -306,8 +317,8 @@ const Types = styled.section`
     flex: 1;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 10px;
-    padding: 10px;
+    gap: 5px;
+    padding: 5px;
     background-color: #fff;
     border: 2px solid #191919;
     border-radius: 15px;
@@ -336,9 +347,5 @@ const Types = styled.section`
     &:first-child {
       margin-right: 10px;
     }
-  }
-
-  @media screen and (min-width: 1000px) {
-    bottom: 40%;
   }
 `;
