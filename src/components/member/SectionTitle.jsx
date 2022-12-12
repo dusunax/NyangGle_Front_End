@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import AlertModal from '../member/elements/AlertModal';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
 
@@ -6,6 +7,7 @@ function SectionTitle({ fishData, isMyPage, logout, user, saveUser, isLoggedUser
   const [isEditMode, setIsEditMode] = useState(false);
   const [userName, setUserName] = useState(user?.nickname);
   const [newUserName, setNewUserName] = useState();
+  const [isAlertOpened, setIsAlertOpened] = useState(false);
   const copyUrlRef = useRef();
   const { requestApi } = useAxios();
   const onChange = (event) => {
@@ -55,55 +57,63 @@ function SectionTitle({ fishData, isMyPage, logout, user, saveUser, isLoggedUser
     alert('복사되었습니다.');
   };
 
-  return (
-    <SectionTitleWrap>
-      {/* 붕어빵이 n개 있습니다냥 */}
-      {isMyPage ? (
-        <NickNameChangeForm onSubmit={onSubmit} onClick={onClickNickName}>
-          {isEditMode ? (
-            <input
-              className="username"
-              defaultValue={userName}
-              onChange={onChange}
-              minLength={2}
-              maxLength={10}
-              autoFocus
-            />
-          ) : (
-            <span className="username">{userName}!</span>
-          )}
-          <br />
-          붕어빵이 <span className="sizeAll">{fishData ? fishData?.totalCount : '?'}</span>개 있다냥
-        </NickNameChangeForm>
-      ) : (
-        <OtherUserWrap>
-          <span className="otherUserName">{fishData ? fishData?.nickname : '알수없음'}의</span>
-          <br />
-          붕어빵이 <span className="sizeAll">{fishData ? fishData?.totalCount : '?'}</span>개 있다냥
-        </OtherUserWrap>
-      )}
+  const onClickLogOut = () => setIsAlertOpened(true);
+  const onClickCancel = () => setIsAlertOpened(false);
 
-      <RightButtonsWrap>
-        {/* url 복사 */}
-        <CopyUrlWrap>
-          <input id="copyUrl" type="text" ref={copyUrlRef} defaultValue={window.location.href} />
-          <img
-            src="./assets/images/member/link_button.png"
-            alt="링크 복사 버튼"
-            onClick={copyUrl}
-          />
-        </CopyUrlWrap>
-        {isLoggedUser && isMyPage && (
-          <LogoutWrap>
-            <img
-              src="./assets/images/member/logout_button.png"
-              alt="로그아웃 버튼"
-              onClick={logout}
-            />
-          </LogoutWrap>
+  return (
+    <>
+      <SectionTitleWrap>
+        {/* 붕어빵이 n개 있습니다냥 */}
+        {isMyPage ? (
+          <NickNameChangeForm onSubmit={onSubmit} onClick={onClickNickName}>
+            {isEditMode ? (
+              <input
+                className="username"
+                defaultValue={userName}
+                onChange={onChange}
+                minLength={2}
+                maxLength={10}
+                autoFocus
+              />
+            ) : (
+              <span className="username">{userName}!</span>
+            )}
+            <br />
+            붕어빵이 <span className="sizeAll">{fishData ? fishData?.totalCount : '?'}</span>개
+            있다냥
+          </NickNameChangeForm>
+        ) : (
+          <OtherUserWrap>
+            <span className="otherUserName">{fishData ? fishData?.nickname : '알수없음'}의</span>
+            <br />
+            붕어빵이 <span className="sizeAll">{fishData ? fishData?.totalCount : '?'}</span>개
+            있다냥
+          </OtherUserWrap>
         )}
-      </RightButtonsWrap>
-    </SectionTitleWrap>
+
+        <RightButtonsWrap>
+          {/* url 복사 */}
+          <CopyUrlWrap>
+            <input id="copyUrl" type="text" ref={copyUrlRef} defaultValue={window.location.href} />
+            <img
+              src="./assets/images/member/link_button.png"
+              alt="링크 복사 버튼"
+              onClick={copyUrl}
+            />
+          </CopyUrlWrap>
+          {isLoggedUser && isMyPage && (
+            <LogoutWrap>
+              <img
+                src="./assets/images/member/logout_button.png"
+                alt="로그아웃 버튼"
+                onClick={onClickLogOut}
+              />
+            </LogoutWrap>
+          )}
+        </RightButtonsWrap>
+      </SectionTitleWrap>
+      {isAlertOpened && <AlertModal logout={logout} onClickCancel={onClickCancel} />}
+    </>
   );
 }
 
@@ -129,6 +139,10 @@ const NickNameChangeForm = styled.form`
   text-shadow: -1px 0 #e3edf2, 0 1px #e3edf2, 1px 0 #e3edf2, 0 -1px #e3edf2;
   z-index: 99;
 
+  @media (min-width: 1000px) {
+    font-size: 22px;
+  }
+
   @media (max-width: 500px) {
     font-size: 28px;
   }
@@ -148,6 +162,9 @@ const NickNameChangeForm = styled.form`
     padding: 5px 0;
     white-space: nowrap;
     transform: translateX(-50%);
+
+    @media (max-width: 390px) {
+    }
   }
 
   input.username {
