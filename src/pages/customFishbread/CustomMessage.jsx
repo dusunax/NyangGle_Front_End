@@ -150,6 +150,7 @@ const Paper = styled.div`
     align-items: flex-start;
     color: black !important;
     font-size: 20px;
+    font-family: 'kotra';
 
     @media (min-height: 600px) {
       padding-left: 18px;
@@ -175,6 +176,8 @@ const Paper = styled.div`
     width: 95%;
     height: 75%;
     background: none;
+    font-family: 'kotra';
+
     @media (min-height: 600px) {
       font-size: 15px;
     }
@@ -189,6 +192,7 @@ const Paper = styled.div`
     width: 120px;
     left: 2%;
     bottom: 10%;
+    font-family: 'kotra';
 
     @media (max-width: 400px) {
       font-size: 18px;
