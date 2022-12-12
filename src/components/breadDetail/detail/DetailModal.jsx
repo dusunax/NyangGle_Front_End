@@ -20,7 +20,7 @@ function DetailModal() {
   const [backSrc, setBackSrc] = useState('background1');
   const [letterSrc, setLetterSrc] = useState('letter1');
   const { type, message, senderNickname } = data.find((e) => e.id === readingId);
-  
+
   const onClickClose = () => setIsOpened(false);
   const onClickWrapper = () => setIsOpened(false);
 
@@ -109,12 +109,16 @@ const ModalContainer = styled.div`
     background: #fff url('../../../assets/images/breadDetail/${backSrc}.png') no-repeat center/cover;
   `}
 
-  @media screen and (min-width: 500px){
+  @media screen and (min-width: 500px) {
     border-radius: 20px;
-    box-shadow: 4px 4px 4px rgba(0,0,0,0.2);
-    width: 390px;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+    width: 550px;
     height: calc(100% - 15vh);
     overflow: hidden;
+  }
+
+  @media screen and (min-width: 1000px) {
+    width: 390px;
   }
 `;
 
@@ -130,16 +134,10 @@ const ModalContent = styled.div`
   @media screen and (min-width: 500px) {
     overflow-y: overlay;
     display: block;
-    &::-webkit-scrollbar{
-      width: 4px;
-    }
-    &::-webkit-scrollbar-thumb{
-      width: 100%;
-      background-color: rgba(0,0,0,0.2);
-    }
-    &::-webkit-scrollbar-track{
-      width: 100%;
-      background-color: #fff;
+    max-height: 700px;
+    padding: 0 20px;
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 `;
@@ -194,8 +192,12 @@ const ModalCloseButton = styled.div`
   margin: 30px 0;
   height: 60px;
   position: relative;
-
   cursor: pointer;
+
+  @media screen and (min-width: 500px) {
+    margin: 0;
+    margin-bottom: 30px;
+  }
 `;
 
 const ButtonWrapper = styled.div`
