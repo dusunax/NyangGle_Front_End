@@ -47,8 +47,10 @@ const LogoBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
   width: 100%;
   height: 100%;
+  margin: 0 auto;
 `;
 
 const LogoWrap = styled.div`
@@ -56,10 +58,15 @@ const LogoWrap = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 400px;
-  height: 400px;
+
+  flex: 0 0 60%;
+  text-align: center;
+  word-break: keep-all;
 
   .catTruck {
+    max-width: 300px;
+    width: 100%;
+
     -webkit-animation: wobble-hor-bottom 2s infinite both;
     animation: wobble-hor-bottom 2s infinite both;
 
@@ -129,6 +136,10 @@ const LoginH1 = styled.h1`
   font-family: 'EF_jejudoldam';
   font-size: 40px;
   line-height: 1.3em;
+
+  @media (max-width: 500px) {
+    font-size: 30px;
+  }
 `;
 
 export default KakaoLogin;
