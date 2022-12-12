@@ -92,8 +92,8 @@ const Wrapper = styled.section`
 `;
 
 const Paper = styled.div`
-  width: 350px;
-  height: 490px;
+  width: 330px;
+  height: 470px;
   display: flex;
   justify-content: space-between;
   padding: 10% 10%;
@@ -113,7 +113,7 @@ const Paper = styled.div`
     }
   }
   @media (max-height: 1000px) {
-    width: 340px;
+    width: 330px;
     height: 440px;
   }
   @media (max-height: 900px) {

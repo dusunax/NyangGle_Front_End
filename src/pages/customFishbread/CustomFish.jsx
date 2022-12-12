@@ -287,7 +287,7 @@ const Contents = styled.section`
   .sediment {
     height: 11%;
     position: absolute;
-    bottom: 30%;
+    bottom: 40%;
   }
 
   @media (min-width: 500px) and (max-width: 1000px) {
