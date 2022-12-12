@@ -38,7 +38,7 @@ const StButtonText = styled.button`
   }
 
   img {
-    width: 100%;
+    width: 90%;
   }
 
   span {

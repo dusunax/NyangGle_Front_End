@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default function useAxios() {
-  axios.defaults.baseURL = '/api';
+  axios.defaults.baseURL = 'https://www.nyangnyang-letter.xyz/api';
 
   // 요청 인터셉터
   axios.interceptors.request.use((config) => {

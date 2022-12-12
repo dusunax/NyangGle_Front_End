@@ -170,16 +170,13 @@ const MemberWrap = styled.div`
   background: linear-gradient(to bottom, #e3edf2 68%, #000 68%, #000 68.3%, #faeac7 68.3%);
 
   .contents_area {
-    height: 100%;
-    max-width: 450px;
-
-    margin: 0 auto;
-    padding: 0 32px;
-
     position: relative;
-
     display: flex;
     flex-flow: column;
     justify-content: center;
+    height: 100%;
+    /* max-width: 450px; */
+    margin: 0 auto;
+    padding: 0 32px;
   }
 `;
