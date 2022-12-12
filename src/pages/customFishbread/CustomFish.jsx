@@ -150,7 +150,11 @@ function CustomFish({ countUp, setCountUp }) {
       <Contents>
         <img src={`/assets/customfish/${imgs.cat}.svg`} alt="고양이" className="cat" />
         {imgs.sediment && (
-          <img src={`/assets/customfish/${imgs.sediment}.svg`} alt="앙금" className="sediment" />
+          <img
+            src={`/assets/customfish/${imgs.sediment}_wide.png`}
+            alt="앙금"
+            className="sediment"
+          />
         )}
         {activeTab === tabs[0] && (
           <FishFrame>
@@ -230,14 +234,17 @@ const ContentsArea = styled.div`
 const Main = styled.main`
   ${({ theme }) => theme.flex.col}
 
-  height: 100vh;
+  height: 100%;
+  padding: 25px 0 0;
+
   justify-content: space-between;
 `;
 
 const LeftBtn = styled.button`
   background: none;
   background: url('/assets/customfish/leftBtn.svg') no-repeat;
-  background-size: cover;
+  background-size: contain;
+
   width: 36.25px;
   height: 32.5px;
   border: none;
@@ -248,8 +255,6 @@ const RightBtn = styled(LeftBtn)`
 `;
 
 const Header = styled.header`
-  padding-top: 20px;
-
   .btns {
     ${({ theme }) => theme.flex.row}
     align-items: center;
@@ -257,8 +262,8 @@ const Header = styled.header`
   }
 
   .message {
-    margin: 30px 0;
-    padding: 15px;
+    margin: 30px 0 0;
+    padding: 30px;
     background-color: #eee;
     border-radius: 14px;
     text-align: center;
@@ -271,38 +276,52 @@ const Header = styled.header`
 `;
 
 const Contents = styled.section`
-  flex: 1;
+  height: 100%;
+  max-height: 60%;
+
   display: flex;
   flex-direction: column;
   align-items: center;
 
+  position: relative;
+  z-index: 9;
+
   .cat {
-    height: 110px;
+    height: 30%;
+
+    position: absolute;
+    top: 0;
+    transform: translateY(calc(-100% + 20px));
+    z-index: -9;
   }
 
   .dough {
     height: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .sediment {
-    height: 11%;
+    height: 100%;
     position: absolute;
-    bottom: 40%;
+    z-index: 9;
   }
 
-  @media (min-width: 500px) and (max-width: 1000px) {
-    .dough {
-      height: 90%;
-    }
-  }
   @media (max-width: 500px) {
-    .sediment {
-      bottom: 42%;
-    }
+    /* .sediment {
+      height: 17%;
+      position: absolute;
+      bottom: 63%;
+    } */
   }
 `;
 
-const FishFrame = styled.section``;
+const FishFrame = styled.section`
+  width: 100%;
+  flex: 1;
+  position: relative;
+`;
 
 const Types = styled.section`
   ${({ theme }) => theme.flex.row}
@@ -318,7 +337,7 @@ const Types = styled.section`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 5px;
-    padding: 5px;
+    padding: 10px 5px;
     background-color: #fff;
     border: 2px solid #191919;
     border-radius: 15px;
