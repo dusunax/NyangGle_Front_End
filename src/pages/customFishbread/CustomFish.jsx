@@ -36,7 +36,7 @@ function CustomFish({ countUp, setCountUp }) {
       return;
     }
 
-    const { status } = await requestApi('post', `/fishbread/U184bdf21eb90001`, {
+    const { status } = await requestApi('post', `/fishbread/${recipient.uuid}`, {
       message: inputs.message,
       type: `${inputs.dough}/${inputs.sediment}`,
       senderNickname: inputs.senderNickname ? inputs.senderNickname : '익명',
@@ -283,7 +283,6 @@ const Contents = styled.section`
   }
 
   .dough {
-    width: 100%;
   }
 
   .sediment {
@@ -293,10 +292,7 @@ const Contents = styled.section`
   }
 `;
 
-const FishFrame = styled.section`
-  /* flex: 1; */
-  /* background-color: #8e8c8c; */
-`;
+const FishFrame = styled.section``;
 
 const Types = styled.section`
   ${({ theme }) => theme.flex.row}
@@ -304,7 +300,6 @@ const Types = styled.section`
   padding: 0 20px;
   position: absolute;
   left: 50%;
-  bottom: 10%;
   transform: translate(-50%, 0);
 
   article {
@@ -341,5 +336,9 @@ const Types = styled.section`
     &:first-child {
       margin-right: 10px;
     }
+  }
+
+  @media screen and (min-width: 1000px) {
+    bottom: 40%;
   }
 `;
