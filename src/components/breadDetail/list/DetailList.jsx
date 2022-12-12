@@ -111,31 +111,44 @@ function DetailList() {
   }, [isRefetch]);
 
   useEffect(() => {
-    token ?? redirectNonMemeber();
-    fishCart.uuid ?? getUser();
+    //token ?? redirectNonMemeber();
+    //fishCart.uuid ?? getUser();
   }, []);
 
   return (
-    <DetailListWrapper>
-      <div>
-        <TurnBack onClick={onClickLocation}>돌아가기</TurnBack>
-        <DetailListTaps onClickTap={onClickTap} />
-        <DetailLists>
-          <DetailListItems token={token} />
-        </DetailLists>
-        {pageData && (
-          <DetailListButtons
-            pageData={pageData}
-            onClickNext={onClickNext}
-            onClickPrev={onClickPrev}
-          />
-        )}
-      </div>
-    </DetailListWrapper>
+    <Wrapper>
+      <DetailListWrapper>
+        <div>
+          <TurnBack onClick={onClickLocation}>돌아가기</TurnBack>
+          <DetailListTaps onClickTap={onClickTap} />
+          <DetailLists>
+            <DetailListItems token={token} />
+          </DetailLists>
+          {pageData ? (
+            <DetailListButtons
+              pageData={pageData}
+              onClickNext={onClickNext}
+              onClickPrev={onClickPrev}
+            />
+          ) : (
+            <ButtonArea />
+          )}
+        </div>
+      </DetailListWrapper>
+    </Wrapper>
   );
 }
 
 export default DetailList;
+
+const Wrapper = styled.div`
+  display: contents;
+  @media screen and (min-width: 500px) {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+`;
 
 const DetailListWrapper = styled.div`
   padding: 0 10px;
@@ -145,6 +158,9 @@ const DetailListWrapper = styled.div`
   align-items: center;
 
   @media screen and (min-width: 500px) {
+    width: 100%;
+    max-height: 770px;
+    margin: auto;
     align-items: flex-start;
     overflow-y: auto;
     overflow-x: hidden;
@@ -179,3 +195,9 @@ const TurnBack = styled.div`
   cursor: pointer;
   margin-bottom: 14px;
 `;
+
+const ButtonArea = styled.div`
+  @media screen and (min-width: 500px) {
+    height: 50px;
+  }
+`
