@@ -78,7 +78,9 @@ function CustomFish({ countUp, setCountUp }) {
 
     // 메세지 페이지 이전 버튼 클릭 시
     if (tab === '메세지' && direction === 'prev') {
-      setActiveTab(tabs[0]);
+      if (window.confirm('내용 작성을 취소하시겠습니까?')) {
+        setActiveTab(tabs[0]);
+      }
     }
 
     // 메세지 페이지 다음 버튼 클릭 시
