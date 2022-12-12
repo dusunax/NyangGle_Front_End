@@ -105,17 +105,37 @@ const Paper = styled.div`
   margin-top: -15%;
   text-align: center;
 
+  @media (max-height: 1200px) {
+    @media (max-width: 900px) {
+      top: 5%;
+      width: 370px;
+      height: 480px;
+    }
+  }
+  @media (max-height: 1000px) {
+    width: 340px;
+    height: 440px;
+  }
   @media (max-height: 900px) {
     width: 320px;
-    height: 450px;
+    height: 420px;
   }
   @media (max-height: 800px) {
     width: 230px;
     height: 300px;
+    @media (max-width: 400px) {
+      width: 270px;
+      height: 350px;
+    }
   }
   @media (max-height: 700px) {
     width: 190px;
     height: 250px;
+    @media (max-width: 700px) {
+      width: 270px;
+      height: 360px;
+      top: -7%;
+    }
   }
   @media (max-height: 600px) {
     width: 150px;
@@ -128,14 +148,18 @@ const Paper = styled.div`
     border: none;
     padding-left: 50px;
     align-items: flex-start;
+    color: black !important;
     font-size: 20px;
 
     @media (min-height: 600px) {
       padding-left: 18px;
       font-size: 15px;
+      @media (max-width: 700px) {
+        padding-left: 20%;
+      }
     }
     @media (min-height: 700px) {
-      padding-left: 25px;
+      padding-left: 30px;
       font-size: 15px;
     }
     @media (min-height: 800px) {
@@ -165,6 +189,7 @@ const Paper = styled.div`
     width: 120px;
     left: 2%;
     bottom: 10%;
+
     @media (max-width: 400px) {
       font-size: 18px;
       @media (min-height: 800px) {
@@ -178,19 +203,32 @@ const Paper = styled.div`
       top: -1%;
       left: 50%;
       font-size: 15px;
+      @media (max-width: 400px) {
+        left: 35%;
+      }
     }
     @media (min-height: 700px) {
       top: 2%;
       left: 32%;
+      @media (max-width: 400px) {
+        top: -3%;
+      }
     }
     @media (min-height: 800px) {
       top: -6%;
       left: 15%;
       font-size: 18px;
+      @media (max-width: 450px) {
+        top: -3%;
+      }
     }
     @media (min-height: 900px) {
       top: -6%;
       left: 10%;
+      @media (max-width: 450px) {
+        top: -3%;
+        left: 13%;
+      }
     }
   }
 `;

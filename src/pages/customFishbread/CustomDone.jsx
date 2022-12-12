@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-function CustomDone({ dough }) {
+function CustomDone({ uuid, dough }) {
   const navigate = useNavigate();
-  console.log(dough);
-
-  const [imgs, setImgs] = useState('');
+  const [doughImg, setDoughImg] = useState('');
 
   const doughs = [
     {
@@ -28,44 +26,38 @@ function CustomDone({ dough }) {
   ];
 
   useEffect(() => {
-    doughs.map((doughs) => {
+    doughs.forEach((doughs) => {
       if (doughs.label === dough) {
-        console.log(doughs.label);
-        setImgs(doughs.img);
-        console.log(doughs.img);
+        setDoughImg(doughs.img);
       }
     });
   }, []);
 
-  // setTimeout(() => navigate('/U184bdf21eb90001'), 3000);
+  useEffect(() => {
+    setTimeout(() => navigate(`/${uuid}`), 3000);
+  }, []);
 
   return (
     <Wrapper>
       <Header>
-        <ContentsArea>
-          <p className="message">노릇노릇해지고 있다냥</p>
-        </ContentsArea>
+        <p className="message">노릇노릇해지고 있다냥</p>
       </Header>
       <Main>
-        <Contents>
-          <img src="/assets/custommessage/cat4.svg" className="cat" />
-        </Contents>
-        <FishFrame>
-          <Fish>
-            <img
-              src={`/assets/custommessage/${imgs}1.svg`}
-              alt="반죽"
-              className="dough_prev"
-              id="dough_prev"
-            />
-            <img
-              src={`/assets/custommessage/${imgs}12.svg`}
-              alt="반죽"
-              className="dough_next"
-              id="dough_prev"
-            />
-          </Fish>
-        </FishFrame>
+        <img src="/assets/custommessage/cat4.svg" className="cat" />
+        <Fish>
+          <img
+            src={`/assets/custommessage/${doughImg}1.svg`}
+            alt="반죽"
+            className="dough_prev"
+            id="dough_prev"
+          />
+          <img
+            src={`/assets/custommessage/${doughImg}12.svg`}
+            alt="반죽"
+            className="dough_next"
+            id="dough_prev"
+          />
+        </Fish>
       </Main>
     </Wrapper>
   );
@@ -96,111 +88,35 @@ const Header = styled.header`
   }
 `;
 
-const ContentsArea = styled.div`
-  padding: 0 18px;
-`;
-
 const Main = styled.main`
+  height: 100vh;
   ${({ theme }) => theme.flex.col}
 
-  height: 100vh;
-  /* justify-content: space-between; */
-`;
-
-const Contents = styled.section`
-  flex: 1;
-  display: flex;
-  bottom: 0;
-  flex-direction: column;
-  align-items: center;
-
-  overflow: hidden;
   .cat {
-    height: 15vh;
-    position: absolute;
-    top: 42%;
-
-    @media (max-width: 400px) {
-      width: 40%;
-      top: 35%;
-    }
-    /* @media (max-width: 350px) {
-      top: -80px;
-    } */
-  }
-`;
-
-const FishFrame = styled.section`
-  width: 100%;
-  background: no-repeat top center / 110%, linear-gradient(transparent 0%, #9e9e9e 60%);
-  position: relative;
-
-  flex: 1;
-  /* overflow: hidden; */
-  bottom: 10%;
-  z-index: 9;
-
-  .fishFrame {
-    overflow: hidden;
-    width: 120%;
-    bottom: 0;
-  }
-
-  @media (max-width: 600px) {
-    top: -15%;
-    width: 120%;
-    right: 10%;
-  }
-  @media (max-width: 400px) {
-    top: -30%;
-    width: 120%;
-    right: 10%;
-
-    @media (min-height: 700px) {
-      top: -28%;
-    }
-
-    @media (min-height: 800px) {
-      top: -25%;
-    }
+    height: 110px;
   }
 `;
 
 const Fish = styled.div`
   ${({ theme }) => theme.flex.col}
   align-items: center;
-  overflow: hidden;
   top: 20%;
-  /* position: relative; */
+
+  img {
+    height: 100%;
+    position: absolute;
+    object-fit: cover;
+  }
 
   .dough_prev {
-    position: absolute;
-    width: 120%;
     opacity: 1;
-    object-fit: cover;
-
-    /* @media (max-width: 400px) {
-      top: 50%;
-    }
-    @media (max-width: 350px) {
-      top: -80px;
-    } */
   }
+
   .dough_next {
-    /* overflow: hidden; */
-    object-fit: cover;
-    width: 120%;
-    position: absolute;
     opacity: 0;
     animation: fadeIn 2s 0.2s forwards;
-
-    /* @media (max-width: 400px) {
-      top: 50%;
-    }
-    @media (max-width: 350px) {
-      top: -80px;
-    } */
   }
+
   @keyframes fadeIn {
     0% {
       opacity: 0;

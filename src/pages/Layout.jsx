@@ -71,6 +71,8 @@ const StLayout = styled.main`
     border: 12px solid #fff;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
 
+    position: relative;
+
     overflow: hidden;
   }
 
