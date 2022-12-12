@@ -42,7 +42,7 @@ const StButtonText = styled.button`
   }
 
   span {
-    transform: translate(-50%, calc(-50% - 2px));
+    transform: translate(-50%, calc(-50% - 4px));
   }
 
   span.text {

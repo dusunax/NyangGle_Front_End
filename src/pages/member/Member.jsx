@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
 
-import * as countFishTruckImages from './countFishTruckImages.json';
 import SectionTitle from '../../components/member/SectionTitle';
 import ButtonContainer from '../../components/member/ButtonContainer';
 import FishBreadTruck from '../../components/member/FishBreadTruck';
@@ -32,6 +31,7 @@ function Member() {
 
   const [displayFishImage, setDisplayFishImage] = useState('cat_truck_0.png');
 
+  /** 로그인 여부, 내 페이지 여부를 확인해서 state에 저장합니다. */
   const memberCheck = (isLogin) => {
     const matchedResult = user?.uuid === pageUuid;
     setIsMatchUuid(matchedResult);
@@ -42,11 +42,10 @@ function Member() {
     try {
       await requestApi('post', 'oauth/logout/kakao');
 
-      // 요청 성공여부와 상관없이 token을 지워야 할 수도 있음
-      console.log('로그아웃 되었습니다.');
       localStorage.removeItem('user');
     } catch (error) {
       console.log(error);
+      localStorage.removeItem('user');
     } finally {
       navigate('/');
     }
@@ -67,26 +66,27 @@ function Member() {
     }
   };
 
-  const fetchCount = async (api) => {
+  /** 붕어빵 갯수를 요청합니다.(갯수 타입, id에 따라 재사용 용도) */
+  const fetchCount = async (id) => {
     try {
-      const response = await requestApi('get', '/fishbread/' + api);
+      const response = await requestApi('get', '/fishbread/' + id);
       return response.status === 200 ? response.data : '';
     } catch (error) {
       console.log(error);
     }
   };
 
-  // 붕어빵 갯수 트럭에 보여주기
+  /** 붕어빵 갯수를 트럭에 보여줍니다. */
   const matchCatTruckImage = (fishCount) => {
     // console.log(fishCount);
     if (fishCount < 6) {
-      setDisplayFishImage(countFishTruckImages.default[fishCount].imageURL);
+      setDisplayFishImage(`cat_truck_${fishCount}.png`);
     } else {
       setDisplayFishImage('cat_truck_6.png');
     }
   };
 
-  /**  */
+  /** 붕어빵 갯수를 요청하는 Handler입니다. */
   async function fetchFishCountHandler() {
     try {
       const fetchedFish = await fetchCount.call(null, `${pageUuid}`);
@@ -106,9 +106,14 @@ function Member() {
   }
 
   useEffect(() => {
+    fetchFishCountHandler();
+  }, []);
+
+  useEffect(() => {
+    if (fishCart?.uuid !== null) {
+      matchCatTruckImage(fishCart.unreadCount);
+    }
     // console.log('리랜더링 되었습니다.');
-    if (fishCart?.uuid === null) fetchFishCountHandler();
-    matchCatTruckImage(fishCart.unreadCount);
 
     // 로그인 확인
     const isLogin = userTokenHandler(user, logout);
@@ -125,7 +130,7 @@ function Member() {
     window.addEventListener('popstate', preventGoBack);
 
     return () => window.removeEventListener('popstate', preventGoBack);
-  }, [fishCart, location]);
+  }, [fishCart, location.href]);
 
   return (
     <>
