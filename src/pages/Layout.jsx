@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 
 function Layout({ children }) {
+  const goToMain = () => {
+    location.replace('/');
+  };
+
   return (
     <StLayout>
-      <h1 className="site_title">
+      <h1 className="site_title" onClick={goToMain}>
         냥냥편지
         <div className="logo">
           <img src="/assets/images/logos/main_title.png" alt="냥냥편지" />
@@ -31,9 +35,12 @@ const StLayout = styled.main`
   justify-content: center;
 
   .site_title {
-    margin: 0 0 20px;
+    line-height: 0;
+    margin: 30px 0;
 
     text-indent: -9999px;
+
+    cursor: pointer;
 
     .logo {
       text-indent: 0px;
@@ -55,7 +62,7 @@ const StLayout = styled.main`
 
   & > .contents_area {
     width: 100%;
-    max-width: 600px;
+    max-width: 550px;
     height: calc(100% - 15vh);
 
     margin-bottom: 5vh;
