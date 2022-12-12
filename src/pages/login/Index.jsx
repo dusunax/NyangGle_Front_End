@@ -107,7 +107,7 @@ const IntroTitle = styled.h1`
   text-align: center;
 
   color: #ed9a00;
-  text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+  text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
 
   @media (min-width: 1000px) {
     font-size: 60px;

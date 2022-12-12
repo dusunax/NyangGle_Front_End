@@ -9,7 +9,7 @@ function ButtonContainer({ isMyPage, myUid, isLoggedUser, fishData }) {
 
   // 버튼 components
   const buttonToMyTruck = <ButtonText goTo={`/${myUid}`} text="내 붕어빵 트럭 가기" type="text" />;
-  const buttonToCustomFish = <Button goTo={`/customFish/${recipient.uuid}`} text="붕어빵 만들기" />;
+  const buttonToCustomFish = <Button goTo={`/customFish/${recipient.uuid}`} text="붕어빵 보내기" />;
   const buttonToMyList = (
     <Button
       goTo={`/list/${myUid}`}

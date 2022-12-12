@@ -25,7 +25,7 @@ export const fishCartState = atom({
   default: {
     totalCount: 0,
     unreadCount: 0,
-    nickname: 'name',
+    nickname: '',
     uuid: null,
   },
 });
