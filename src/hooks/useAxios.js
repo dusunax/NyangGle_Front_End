@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default function useAxios() {
-  axios.defaults.baseURL = '/api';
+  axios.defaults.baseURL = 'https://www.nyangnyang-letter.xyz/api';
 
   // 요청 인터셉터
   axios.interceptors.request.use((config) => {
@@ -27,7 +27,16 @@ export default function useAxios() {
         data: res.data,
       }))
       .catch((err) => {
-        console.error('Axios Error', err);
+        const errorCode = err?.response?.data?.errorCode;
+        if (errorCode) {
+          if (errorCode === 'U001') {
+            // history.pushState
+            location.replace('/');
+          }
+          console.log(errorCode);
+        }
+        // console.error('Axios Error', err);
+
         return {
           status: err.response.status,
           data: {},

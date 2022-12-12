@@ -38,11 +38,11 @@ const StButtonText = styled.button`
   }
 
   img {
-    width: 100%;
+    width: 90%;
   }
 
   span {
-    transform: translate(-50%, calc(-50% - 2px));
+    transform: translate(-50%, calc(-50% - 4px));
   }
 
   span.text {
