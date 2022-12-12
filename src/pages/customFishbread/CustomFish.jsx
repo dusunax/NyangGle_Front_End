@@ -125,7 +125,7 @@ function CustomFish({ countUp, setCountUp }) {
   };
 
   return activeTab === tabs[2] ? (
-    <CustomDone dough={inputs.dough} />
+    <CustomDone uuid={recipient.uuid} dough={inputs.dough} />
   ) : (
     <Main>
       <Header>
@@ -277,7 +277,7 @@ const Contents = styled.section`
   align-items: center;
 
   .cat {
-    height: 15%;
+    height: 110px;
   }
 
   .dough {
