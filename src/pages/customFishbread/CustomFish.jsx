@@ -95,6 +95,7 @@ function CustomFish({ countUp, setCountUp }) {
 
   // 반죽/앙금 선택 시
   const onClickType = (type, value) => {
+    console.log(type, value);
     // 메세지 변경
     if (type === 'dough' && !!!inputs.sediment) {
       setMessage('앙금을 고르라냥');
@@ -250,6 +251,15 @@ const LeftBtn = styled.button`
   width: 36.25px;
   height: 32.5px;
   border: none;
+
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover,
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
 `;
 
 const RightBtn = styled(LeftBtn)`
@@ -269,8 +279,8 @@ const Header = styled.header`
     background-color: #eee;
     border-radius: 14px;
     text-align: center;
-    font-weight: 600;
-    font-size: 20px;
+    font-weight: 400;
+    font-size: 24px;
     line-height: 28px;
 
     word-break: keep-all;
@@ -334,6 +344,8 @@ const Types = styled.section`
   left: 50%;
   transform: translate(-50%, 0);
 
+  z-index: 9;
+
   article {
     flex: 1;
     display: grid;
@@ -356,12 +368,22 @@ const Types = styled.section`
       background: none;
       border: none;
 
+      margin: 3px 0;
+
       word-break: keep-all;
-      font-weight: 600;
-      font-size: 12px;
+      font-weight: 400;
+      font-size: 16px;
+
+      cursor: pointer;
 
       img {
         margin-bottom: 5px;
+        transition: all 0.3s;
+      }
+
+      &:hover img,
+      &:active img {
+        transform: translateY(2px);
       }
     }
 

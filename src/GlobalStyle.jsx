@@ -10,10 +10,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
 
     -webkit-tap-highlight-color:rgba(255,255,255,0);
-	  user-select: none;
   }
 
-  body {
+  body, button, input, textarea {
     font-family:'kotra',"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   }
 
