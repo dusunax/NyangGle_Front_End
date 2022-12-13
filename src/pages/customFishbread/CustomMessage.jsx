@@ -53,7 +53,7 @@ function CustomMessage({ inputs, onChangeMessage }) {
               className="message"
               onChange={onChangeMessage}
               value={inputs.message}
-              maxLength="500"
+              maxLength="300"
               placeholder="내용을 입력하세요"
             />
             <input
@@ -76,6 +76,7 @@ export default CustomMessage;
 const Wrapper = styled.section`
   ${({ theme }) => theme.flex.col}
 
+  align-self: flex-end;
   width: 100%;
   flex: 1;
 
@@ -99,13 +100,14 @@ const Paper = styled.div`
   justify-content: center;
 
   position: relative;
+
   font-size: 20px;
+  text-align: center;
 
   .paper_image {
     max-height: 100%;
     max-width: 100%;
 
-    /* background-color: red; */
     object-fit: contain;
   }
 
@@ -114,6 +116,7 @@ const Paper = styled.div`
     position: absolute;
 
     @media (max-width: 500px) {
+      width: 80%;
       height: auto;
     }
   }
@@ -121,7 +124,7 @@ const Paper = styled.div`
   .text_contents_area {
     width: 100%;
     height: 100%;
-    padding: 10% 10% 17%;
+    padding: 10% 10% 18%;
 
     position: absolute;
     top: 0;
@@ -129,21 +132,33 @@ const Paper = styled.div`
     display: flex;
     flex-flow: column;
     justify-content: space-between;
+    gap: 16px;
+
+    * {
+      font-size: 20px;
+    }
 
     @media (max-width: 500px) {
+      padding: 10% 14% 17%;
+    }
+    @media (max-width: 400px) {
+      padding: 10% 10% 18%;
     }
   }
 
   input {
     /* background-color: red !important; */
+    text-shadow: -1px 0 #ffefcc, 0 1px #ffefcc, 1px 0 #ffefcc, 0 -1px #ffefcc;
   }
   textarea {
-    height: 65%;
+    flex: 1;
+    outline: none;
     /* background-color: blue !important; */
   }
 
   .receiveNickname {
     max-width: 180px;
+    margin-left: 33px;
 
     background: none;
     border: none;
@@ -156,21 +171,17 @@ const Paper = styled.div`
     border: none;
     resize: none;
     background: none;
-
-    font-size: 20px;
-
-    @media (min-height: 500px) {
-    }
   }
 
   .senderNickname {
     border: none;
     position: relative;
-    font-size: 20px;
+    font-size: 16px;
     align-self: flex-end;
     background: none;
 
-    width: 30%;
+    text-align: right;
+    width: 50%;
     max-width: 180px;
   }
 `;
