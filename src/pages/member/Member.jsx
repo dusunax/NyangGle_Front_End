@@ -92,14 +92,12 @@ function Member() {
       const fetchedFish = await fetchCount.call(null, `${pageUuid}`);
       // console.log('요청을 보냈습니다.');
 
-      if (fetchedFish?.nickname !== fishCart?.nickname || !fishCart) {
-        setFishCart({
-          totalCount: fetchedFish.totalCount,
-          unreadCount: fetchedFish.unreadCount,
-          nickname: fetchedFish.nickname,
-          uuid: pageUuid,
-        });
-      }
+      setFishCart({
+        totalCount: fetchedFish.totalCount,
+        unreadCount: fetchedFish.unreadCount,
+        nickname: fetchedFish.nickname,
+        uuid: pageUuid,
+      });
     } catch (e) {
       console.log(e);
     }
