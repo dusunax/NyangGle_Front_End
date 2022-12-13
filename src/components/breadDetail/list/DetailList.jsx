@@ -111,8 +111,8 @@ function DetailList() {
   }, [isRefetch]);
 
   useEffect(() => {
-    //token ?? redirectNonMemeber();
-    //fishCart.uuid ?? getUser();
+    token ?? redirectNonMemeber();
+    fishCart.uuid ?? getUser();
   }, []);
 
   return (
