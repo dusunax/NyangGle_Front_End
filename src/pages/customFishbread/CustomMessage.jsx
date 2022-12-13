@@ -37,33 +37,35 @@ function CustomMessage({ inputs, onChangeMessage }) {
 
   return (
     <Wrapper>
-      <Paper
-        style={{
-          backgroundImage: `url("/assets/custommessage/${imgs}.svg")`,
-        }}
-      >
-        <input
-          className="receiveNickname"
-          name="receiveNickname"
-          value={inputs.recipientNickname}
-          disabled
-        />
-        <textarea
-          name="message"
-          className="message"
-          onChange={onChangeMessage}
-          value={inputs.message}
-          maxLength="500"
-          placeholder="내용을 입력하세요"
-        />
-        <input
-          className="senderNickname"
-          name="senderNickname"
-          onChange={onChangeMessage}
-          placeholder="익명"
-          value={inputs.senderNickname}
-          maxLength="6"
-        />
+      <Paper>
+        <div className="contents_area">
+          <img src={`/assets/custommessage/${imgs}.svg`} alt="편지지" className="paper_image" />
+
+          <div className="text_contents_area">
+            <input
+              className="receiveNickname"
+              name="receiveNickname"
+              value={inputs.recipientNickname}
+              disabled
+            />
+            <textarea
+              name="message"
+              className="message"
+              onChange={onChangeMessage}
+              value={inputs.message}
+              maxLength="500"
+              placeholder="내용을 입력하세요"
+            />
+            <input
+              className="senderNickname"
+              name="senderNickname"
+              onChange={onChangeMessage}
+              placeholder="익명"
+              value={inputs.senderNickname}
+              maxLength="6"
+            />
+          </div>
+        </div>
       </Paper>
     </Wrapper>
   );
@@ -74,112 +76,86 @@ export default CustomMessage;
 const Wrapper = styled.section`
   ${({ theme }) => theme.flex.col}
 
-  display: flex;
-  position: relative;
-  left: 0;
-  bottom: 0;
+  width: 100%;
+  flex: 1;
 
-  /* object-fit: cover; */
-  @media (max-width: 600px) {
-    bottom: -30px;
-  }
-  @media (max-width: 400px) {
-    bottom: -25px;
-  }
-  @media (max-width: 300px) {
-    bottom: -40px;
-  }
+  position: relative;
+  z-index: 9;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: -20px;
 `;
 
 const Paper = styled.div`
-  width: 330px;
-  height: 470px;
+  width: 100%;
+  flex: 1;
+
+  padding: 0 20px;
+
   display: flex;
-  justify-content: space-between;
-  padding: 10% 10%;
-  flex-direction: column;
+  justify-content: center;
+
   position: relative;
   font-size: 20px;
-  background-size: cover;
 
-  margin-top: -15%;
-  text-align: center;
+  .paper_image {
+    max-height: 100%;
+    max-width: 100%;
 
-  @media (max-height: 1200px) {
-    @media (max-width: 900px) {
-      top: 5%;
-      width: 370px;
-      height: 480px;
+    /* background-color: red; */
+    object-fit: contain;
+  }
+
+  .contents_area {
+    height: 100%;
+    position: absolute;
+
+    @media (max-width: 500px) {
+      height: auto;
     }
   }
-  @media (max-height: 1000px) {
-    width: 330px;
-    height: 440px;
-  }
-  @media (max-height: 900px) {
-    width: 320px;
-    height: 420px;
-  }
-  @media (max-height: 800px) {
-    width: 230px;
-    height: 300px;
-    @media (max-width: 400px) {
-      width: 270px;
-      height: 350px;
+
+  .text_contents_area {
+    width: 100%;
+    height: 100%;
+    padding: 10% 10% 17%;
+
+    position: absolute;
+    top: 0;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+
+    @media (max-width: 500px) {
     }
   }
-  @media (max-height: 700px) {
-    width: 190px;
-    height: 250px;
-    @media (max-width: 700px) {
-      width: 270px;
-      height: 360px;
-      top: -7%;
-    }
+
+  input {
+    /* background-color: red !important; */
   }
-  @media (max-height: 600px) {
-    width: 150px;
-    height: 200px;
+  textarea {
+    height: 65%;
+    /* background-color: blue !important; */
   }
 
   .receiveNickname {
-    line-height: 10px;
+    max-width: 180px;
+
     background: none;
     border: none;
-    padding-left: 50px;
-    align-items: flex-start;
+
     color: black !important;
     font-size: 20px;
-    font-family: 'kotra';
-
-    @media (min-height: 600px) {
-      padding-left: 18px;
-      font-size: 15px;
-      @media (max-width: 700px) {
-        padding-left: 20%;
-      }
-    }
-    @media (min-height: 700px) {
-      padding-left: 30px;
-      font-size: 15px;
-    }
-    @media (min-height: 800px) {
-      padding-left: 40px;
-      font-size: 18px;
-    }
   }
 
   .message {
     border: none;
-    font-size: 20px;
     resize: none;
-    width: 95%;
-    height: 75%;
     background: none;
-    font-family: 'kotra';
-
-    @media (min-height: 600px) {
-      font-size: 15px;
     }
   }
 
@@ -189,50 +165,8 @@ const Paper = styled.div`
     font-size: 20px;
     align-self: flex-end;
     background: none;
-    width: 120px;
-    left: 2%;
-    bottom: 10%;
-    font-family: 'kotra';
 
-    @media (max-width: 400px) {
-      font-size: 18px;
-      @media (min-height: 800px) {
-        top: -6%;
-        left: 2%;
-        font-size: 18px;
-      }
-    }
-
-    @media (min-height: 600px) {
-      top: -1%;
-      left: 50%;
-      font-size: 15px;
-      @media (max-width: 400px) {
-        left: 35%;
-      }
-    }
-    @media (min-height: 700px) {
-      top: 2%;
-      left: 32%;
-      @media (max-width: 400px) {
-        top: -3%;
-      }
-    }
-    @media (min-height: 800px) {
-      top: -6%;
-      left: 15%;
-      font-size: 18px;
-      @media (max-width: 450px) {
-        top: -3%;
-      }
-    }
-    @media (min-height: 900px) {
-      top: -6%;
-      left: 10%;
-      @media (max-width: 450px) {
-        top: -3%;
-        left: 13%;
-      }
-    }
+    width: 30%;
+    max-width: 180px;
   }
 `;
