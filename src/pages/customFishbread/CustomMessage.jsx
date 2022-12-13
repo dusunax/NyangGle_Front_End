@@ -156,10 +156,6 @@ const Paper = styled.div`
     border: none;
     resize: none;
     background: none;
-
-    font-size: 20px;
-
-    @media (min-height: 500px) {
     }
   }
 

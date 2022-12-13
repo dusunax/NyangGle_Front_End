@@ -6,7 +6,7 @@ const Button = ({ text, goTo, myUid, fishData }) => {
     <StButton text={text} goTo={goTo}>
       <img src="./assets/images/member/button.png" alt={text + ' 버튼'} />
 
-      {goTo === `/list/${myUid}` && (
+      {goTo === `/list/${myUid}` && fishData?.unreadCount > 0 && (
         <UnReadText>
           <img src="./assets/images/member/pink_jelly.png" alt="냥젤리" />
           <span>{fishData && fishData?.unreadCount}</span>
