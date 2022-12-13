@@ -35,6 +35,7 @@ const TapContent = styled.div`
   font-size: 16px;
   letter-spacing: -0.04em;
   font-family: 'kotra';
+  cursor: pointer;
 
   ${({ index, tapIndex }) =>
     index === tapIndex &&
