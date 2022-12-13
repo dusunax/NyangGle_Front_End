@@ -21,10 +21,10 @@ const StButtonText = styled.button`
   background: transparent;
   border: none;
   color: #fff;
-
   font-family: 'kotra';
   font-size: 20px;
   line-height: 28px;
+  white-space: nowrap;
 
   cursor: pointer;
   transition: all 0.2s;
@@ -38,11 +38,11 @@ const StButtonText = styled.button`
   }
 
   img {
-    width: 100%;
+    width: 90%;
   }
 
   span {
-    transform: translate(-50%, calc(-50% - 2px));
+    transform: translate(-50%, calc(-50% - 4px));
   }
 
   span.text {
@@ -61,5 +61,9 @@ const StButtonText = styled.button`
   span.text:hover {
     opacity: 0.8;
     box-shadow: none;
+  }
+
+  @media (max-width: 280px) {
+    font-size: 18px;
   }
 `;

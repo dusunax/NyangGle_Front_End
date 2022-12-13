@@ -6,7 +6,7 @@ function DetailListButtons({ pageData, onClickNext, onClickPrev }) {
   const currentIndex = useRecoilValue(currentIndexState)
   const breadList = useRecoilValue(dataList);
   const { first, last } = pageData;
-
+  
   return (
     <ButtonWrapper>
       {(first && currentIndex === 0) || (
@@ -14,7 +14,7 @@ function DetailListButtons({ pageData, onClickNext, onClickPrev }) {
           Prev
         </Button>
       )}
-      {(last && currentIndex === breadList.length - 1) || (
+      {(!(last && currentIndex === breadList.length - 1) && breadList.length !== 0) && (
         <Button type="button" onClick={onClickNext} call="next">
           Next
         </Button>

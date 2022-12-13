@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import DetailAlert from './DetailAlert';
 
 const typeObj = {
+  밀: '1',
   밀가루: '1',
   고구마: '2',
   녹차: '3',
@@ -19,7 +20,7 @@ function DetailModal() {
   const [backSrc, setBackSrc] = useState('background1');
   const [letterSrc, setLetterSrc] = useState('letter1');
   const { type, message, senderNickname } = data.find((e) => e.id === readingId);
-  
+
   const onClickClose = () => setIsOpened(false);
   const onClickWrapper = () => setIsOpened(false);
 
@@ -107,6 +108,18 @@ const ModalContainer = styled.div`
   ${({ backSrc }) => css`
     background: #fff url('../../../assets/images/breadDetail/${backSrc}.png') no-repeat center/cover;
   `}
+
+  @media screen and (min-width: 500px) {
+    border-radius: 20px;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+    width: 550px;
+    height: calc(100% - 15vh);
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 1000px) {
+    width: 390px;
+  }
 `;
 
 const ModalContent = styled.div`
@@ -117,6 +130,16 @@ const ModalContent = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  @media screen and (min-width: 500px) {
+    overflow-y: overlay;
+    display: block;
+    max-height: 700px;
+    padding: 0 20px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const MessageWrapper = styled.div`
@@ -144,7 +167,6 @@ const MessageContent = styled.div`
   bottom: 16%;
   transform: translateX(-50%);
   overflow-y: auto;
-
   white-space: pre-wrap;
   word-break: keep-all;
 `;
@@ -152,7 +174,7 @@ const MessageContent = styled.div`
 const MessageUser = styled.div`
   position: absolute;
   width: 28%;
-  top: 23.5%;
+  top: 22.5%;
   left: 22.5%;
   word-break: keep-all;
 `;
@@ -160,8 +182,8 @@ const MessageUser = styled.div`
 const MessageSender = styled.div`
   position: absolute;
   width: 26%;
-  bottom: 10%;
-  right: 11%;
+  bottom: 11%;
+  right: 13%;
   word-break: keep-all;
 `;
 
@@ -170,8 +192,12 @@ const ModalCloseButton = styled.div`
   margin: 30px 0;
   height: 60px;
   position: relative;
-
   cursor: pointer;
+
+  @media screen and (min-width: 500px) {
+    margin: 0;
+    margin-bottom: 30px;
+  }
 `;
 
 const ButtonWrapper = styled.div`

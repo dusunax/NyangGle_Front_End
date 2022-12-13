@@ -1,22 +1,24 @@
+import styled from 'styled-components';
 import CustomMessage from './CustomMessage';
 import CustomDone from './CustomDone';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
-import styled from 'styled-components';
-// import img from '../../../public/assets/customfish/';
+import { useRecoilValue } from 'recoil';
+import { fishCartState } from '../../atoms/fishCartData';
 
 function CustomFish({ countUp, setCountUp }) {
   const navigate = useNavigate();
+  // 받는 사람
+  const recipient = useRecoilValue(fishCartState);
   const { requestApi } = useAxios();
-  const tabs = ['붕어빵 커스텀', '메세지 작성'];
-  const [isActiveTab, setIsActiveTab] = useState(tabs[0]);
-  const [message, setMessage] = useState('앙금을 고르라냥');
+  const tabs = ['커스텀', '메세지', '완성'];
+  const [activeTab, setActiveTab] = useState(tabs[0]);
   const [inputs, setInputs] = useState({
     dough: '밀가루',
     message: '',
+    recipientNickname: recipient.nickname,
     sediment: '',
-    senderIp: '',
     senderNickname: '',
   });
   const [imgs, setImgs] = useState({
@@ -25,72 +27,75 @@ function CustomFish({ countUp, setCountUp }) {
     message: 'flour',
     sediment: '',
   });
-  const [isDone, setIsDone] = useState(false);
+  const [message, setMessage] = useState('앙금을 고르라냥');
 
   // 저장
   const onClickSave = async () => {
-    console.log(!!!inputs.message);
-    console.log(inputs.message);
-
     if (!!!inputs.message) {
       setMessage('내용을 입력해 주라냥');
-
       return;
     }
 
-    const { status } = await requestApi('post', `/fishbread/U184bdf21eb90001`, {
+    const { status } = await requestApi('post', `/fishbread/${recipient.uuid}`, {
       message: inputs.message,
       type: `${inputs.dough}/${inputs.sediment}`,
-      // senderIp: inputs.senderIp,
       senderNickname: inputs.senderNickname ? inputs.senderNickname : '익명',
     });
 
-    setCountUp(countUp + 1);
-    setIsDone(true);
+    if (status >= 200 && status < 400) {
+      setCountUp(countUp + 1);
+      setActiveTab(tabs[2]);
+    }
   };
 
   /**
-   * @param {'붕어빵 커스텀' | '메세지 작성'} tab
+   * @param {'커스텀' | '메세지'} tab
    * @param {'prev' | 'next'} direction
    */
 
   // 화살표 선택 시
   const onClickNav = (tab, direction) => {
-    console.log(tab === '메시지 작성', direction);
-    if (tab === '메세지 작성' && direction === 'next') {
-      console.log('넘어가자냥');
-      onClickSave();
-      // setIsDone(true);
+    // 커스텀 페이지 이전 버튼 클릭 시
+    if (tab === '커스텀' && direction === 'prev') {
+      if (window.confirm('붕어빵 만들기를 취소하시겠습니까?')) {
+        navigate(`/${recipient.uuid}`);
+      }
     }
 
-    if (tab === '붕어빵 커스텀') {
-      if (direction === 'prev') {
-        if (window.confirm('붕어빵 만들기를 취소하시겠습니까?')) {
-          navigate('/U184bdf21eb90001');
-        }
-      } else {
-        if (!!!inputs.sediment) {
-          setMessage('앙금 먼저 고르라냥!');
-          return;
-        }
-        setIsActiveTab(tabs[1]);
-        setMessage('붕어빵에 전하고 싶은 말을 적으라냥');
-        setImgs((prev) => ({
-          ...prev,
-          cat: 'cat3',
-        }));
+    // 커스텀 페이지 다음 버튼 클릭 시
+    if (tab === '커스텀' && direction === 'next') {
+      if (!!!inputs.sediment) {
+        setMessage('앙금 먼저 고르라냥!');
+        return;
       }
-    } else {
-      if (direction === 'prev') {
-        setIsActiveTab(tabs[0]);
-      } else {
-        console.log('다음');
+      setActiveTab(tabs[1]);
+      setMessage('붕어빵에 전하고 싶은 말을 적으라냥');
+      setImgs((prev) => ({
+        ...prev,
+        cat: 'cat3',
+      }));
+    }
+
+    // 메세지 페이지 이전 버튼 클릭 시
+    if (tab === '메세지' && direction === 'prev') {
+      if (window.confirm('내용 작성을 취소하시겠습니까?')) {
+        setActiveTab(tabs[0]);
       }
+    }
+
+    // 메세지 페이지 다음 버튼 클릭 시
+    if (tab === '메세지' && direction === 'next') {
+      if (!!!inputs.message) {
+        setMessage('메세지 작성을 해달라냥');
+        return;
+      }
+      onClickSave();
     }
   };
 
   // 반죽/앙금 선택 시
   const onClickType = (type, value) => {
+    console.log(type, value);
     // 메세지 변경
     if (type === 'dough' && !!!inputs.sediment) {
       setMessage('앙금을 고르라냥');
@@ -112,7 +117,7 @@ function CustomFish({ countUp, setCountUp }) {
     }));
   };
 
-  // 닉네임, 메세지 작성
+  // 닉네임, 메세지 작성 시
   const onChangeMessage = (e) => {
     const { value, name } = e.target;
 
@@ -122,32 +127,14 @@ function CustomFish({ countUp, setCountUp }) {
     }));
   };
 
-  // ip 가져오기
-  const getSenderIp = async () => {
-    const { data, status } = await requestApi('get', 'https://api.ipify.org?format=json');
-
-    if (status >= 200 && status < 400) {
-      setInputs((prev) => ({
-        ...prev,
-        // senderIp: data.ip,
-      }));
-    }
-  };
-
-  useEffect(() => {
-    getSenderIp();
-  }, []);
-
-  console.log(tabs);
-
-  return isDone ? (
-    <CustomDone dough={inputs.dough} />
+  return activeTab === tabs[2] ? (
+    <CustomDone uuid={recipient.uuid} dough={inputs.dough} />
   ) : (
     <Main>
       <Header>
         <ContentsArea>
           {tabs.map((tab, idx) => {
-            if (isActiveTab === tab) {
+            if (activeTab === tab) {
               return (
                 <section className="btns" key={tab}>
                   <LeftBtn onClick={() => onClickNav(tabs[idx], 'prev')} />
@@ -164,24 +151,17 @@ function CustomFish({ countUp, setCountUp }) {
         </ContentsArea>
       </Header>
       <Contents>
-        <img
-          src={`/assets/customfish/${imgs.cat}.svg`}
-          alt="고양이"
-          className={imgs.cat === 'cat3' ? 'cat heart' : 'cat'}
-        />
-        {isActiveTab === tabs[0] && (
+        <img src={`/assets/customfish/${imgs.cat}.svg`} alt="고양이" className="cat" />
+        {imgs.sediment && (
+          <img
+            src={`/assets/customfish/${imgs.sediment}_wide.png`}
+            alt="앙금"
+            className="sediment"
+          />
+        )}
+        {activeTab === tabs[0] && (
           <FishFrame>
-            <Fish>
-              <img src={`/assets/customfish/${imgs.dough}.svg`} alt="반죽" className="dough" />
-              {imgs.sediment && (
-                <img
-                  src={`/assets/customfish/${imgs.sediment}.svg`}
-                  alt="앙금"
-                  className="sediment"
-                />
-              )}
-            </Fish>
-            <img src="/assets/customfish/fishframe.svg" className="fishFrame" />
+            <img src={`/assets/customfish/${imgs.dough}.svg`} alt="반죽" className="dough" />
             <Types>
               <article>
                 {doughs.map((dough) => (
@@ -202,12 +182,8 @@ function CustomFish({ countUp, setCountUp }) {
             </Types>
           </FishFrame>
         )}
-        {isActiveTab === tabs[1] && (
-          <CustomMessage
-            inputs={inputs}
-            onChangeMessage={onChangeMessage}
-            onClickSave={onClickSave}
-          />
+        {activeTab === tabs[1] && (
+          <CustomMessage inputs={inputs} onChangeMessage={onChangeMessage} />
         )}
       </Contents>
     </Main>
@@ -261,17 +237,29 @@ const ContentsArea = styled.div`
 const Main = styled.main`
   ${({ theme }) => theme.flex.col}
 
-  height: 100vh;
+  height: 100%;
+  padding: 25px 0 0;
+
   justify-content: space-between;
 `;
 
 const LeftBtn = styled.button`
   background: none;
   background: url('/assets/customfish/leftBtn.svg') no-repeat;
-  background-size: cover;
+  background-size: contain;
+
   width: 36.25px;
   height: 32.5px;
   border: none;
+
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover,
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
 `;
 
 const RightBtn = styled(LeftBtn)`
@@ -279,8 +267,6 @@ const RightBtn = styled(LeftBtn)`
 `;
 
 const Header = styled.header`
-  padding-top: 20px;
-
   .btns {
     ${({ theme }) => theme.flex.row}
     align-items: center;
@@ -288,14 +274,13 @@ const Header = styled.header`
   }
 
   .message {
-    margin: 30px 0;
+    margin: 30px 0 0;
     padding: 30px;
     background-color: #eee;
     border-radius: 14px;
     text-align: center;
-
-    font-weight: 600;
-    font-size: 20px;
+    font-weight: 400;
+    font-size: 24px;
     line-height: 28px;
 
     word-break: keep-all;
@@ -303,112 +288,77 @@ const Header = styled.header`
 `;
 
 const Contents = styled.section`
-  ${({ theme }) => theme.flex.col}
+  height: 100%;
+  max-height: 60%;
 
-  justify-content: flex-end;
+  display: flex;
+  flex-direction: column;
   align-items: center;
 
   position: relative;
+  z-index: 9;
 
   .cat {
-    width: 50%;
-    max-width: 188px;
+    height: 30%;
+
     position: absolute;
-    top: -120px;
-
-    @media (max-width: 400px) {
-      width: 40%;
-      top: -100px;
-    }
-
-    @media (max-width: 350px) {
-      top: -80px;
-    }
+    top: 0;
+    transform: translateY(calc(-100% + 20px));
+    z-index: -9;
   }
-  .cat.heart {
-    top: -120px;
+
+  .dough {
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .sediment {
+    height: 100%;
+    position: absolute;
+    z-index: 9;
+  }
+
+  @media (max-width: 500px) {
+    /* .sediment {
+      height: 17%;
+      position: absolute;
+      bottom: 63%;
+    } */
   }
 `;
 
 const FishFrame = styled.section`
   width: 100%;
-  /* max-width: 80% */
-  height: 60vh;
-  /* background: linear-gradient(transparent, #8c8c8c); */
-  background: url('/assets/customfish/fishframe_wide.png') no-repeat top center / 110%,
-    linear-gradient(transparent 40%, #9e9e9e 40%);
-
-  z-index: 9;
-
-  /* 
-  ::after {
-    content: '~~';
-    background-color: red;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  } */
-
-  .fishFrame {
-    width: 100%;
-    bottom: 0;
-
-    /* margin-bottom: 10vh; */
-  }
-`;
-
-const Fish = styled.div`
-  ${({ theme }) => theme.flex.col}
-  align-items: center;
-
-  img,
-  .dough,
-  .sediment {
-    width: 27%;
-
-    position: absolute;
-    top: 15%;
-    transform: translateX(6%);
-  }
-
-  .sediment {
-    width: 12%;
-    transform: translate(0%, 44%);
-  }
-
-  @media (max-width: 580px) {
-    .dough {
-      top: 8.5%;
-    }
-    .sediment {
-      width: 12%;
-      top: 8.5%;
-    }
-  }
+  flex: 1;
+  position: relative;
 `;
 
 const Types = styled.section`
   ${({ theme }) => theme.flex.row}
   width: 100%;
-
-  padding: 0 16px;
-
+  padding: 0 10px;
   position: absolute;
+  bottom: 10px;
   left: 50%;
-  bottom: 20px;
   transform: translate(-50%, 0);
+
+  z-index: 9;
 
   article {
     flex: 1;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 10px;
-    padding: 10px;
+    gap: 5px;
+    padding: 10px 5px;
     background-color: #fff;
     border: 2px solid #191919;
     border-radius: 15px;
+    grid-template-columns: 1fr 1fr;
 
-    @media (max-width: 580px) {
+    @media (max-width: 600px) {
+      bottom: 30%;
       grid-template-columns: 1fr 1fr;
     }
 
@@ -418,12 +368,22 @@ const Types = styled.section`
       background: none;
       border: none;
 
+      margin: 3px 0;
+
       word-break: keep-all;
-      font-weight: 600;
-      font-size: 12px;
+      font-weight: 400;
+      font-size: 16px;
+
+      cursor: pointer;
 
       img {
         margin-bottom: 5px;
+        transition: all 0.3s;
+      }
+
+      &:hover img,
+      &:active img {
+        transform: translateY(2px);
       }
     }
 

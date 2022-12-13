@@ -1,28 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
-import * as countFishTruckImages from './countFishTruckImages.json';
+
 import SectionTitle from '../../components/member/SectionTitle';
 import ButtonContainer from '../../components/member/ButtonContainer';
 import FishBreadTruck from '../../components/member/FishBreadTruck';
 import { getUser, hasToken, isTokenExpired, saveUser } from '../../utils/userAuth';
-import { getFish, saveFish } from '../../utils/fishCount';
 import styled from 'styled-components';
+
+import { fishCartState } from '../../atoms/fishCartData';
+import { useRecoilState } from 'recoil';
 
 function Member() {
   const { requestApi } = useAxios();
   const navigate = useNavigate();
   const pageUuid = window.location.pathname.slice(1);
 
-  // user={nickname: string, token: string, uuid: string}
+  /** fishCart = {
+    totalCount: number,
+    unreadCount: number,
+    nickname: string,
+    uuid: null | string } */
+  const [fishCart, setFishCart] = useRecoilState(fishCartState);
+
+  /** user = {nickname: string, token: string, uuid: string} */
   const [user, setUser] = useState(getUser());
   const [isLoggedUser, setIsLoggedUser] = useState(false);
   const [isMatchUuid, setIsMatchUuid] = useState(false);
   const [isMyPage, setIsMyPage] = useState(false);
 
-  const [fishData, setFishData] = useState();
   const [displayFishImage, setDisplayFishImage] = useState('cat_truck_0.png');
 
+  /** 로그인 여부, 내 페이지 여부를 확인해서 state에 저장합니다. */
   const memberCheck = (isLogin) => {
     const matchedResult = user?.uuid === pageUuid;
     setIsMatchUuid(matchedResult);
@@ -33,11 +42,10 @@ function Member() {
     try {
       await requestApi('post', 'oauth/logout/kakao');
 
-      // 요청 성공여부와 상관없이 token을 지워야 할 수도 있음
-      console.log('로그아웃 되었습니다.');
       localStorage.removeItem('user');
     } catch (error) {
       console.log(error);
+      localStorage.removeItem('user');
     } finally {
       navigate('/');
     }
@@ -58,35 +66,38 @@ function Member() {
     }
   };
 
-  // this를 쓰고 싶었음
-  const fetchCount = async (api) => {
+  /** 붕어빵 갯수를 요청합니다.(갯수 타입, id에 따라 재사용 용도) */
+  const fetchCount = async (id) => {
     try {
-      const response = await requestApi('get', '/fishbread/' + api);
+      const response = await requestApi('get', '/fishbread/' + id);
       return response.status === 200 ? response.data : '';
     } catch (error) {
-      console.log(error.code);
+      console.log(error);
     }
   };
 
-  // 붕어빵 갯수 보여주기
+  /** 붕어빵 갯수를 트럭에 보여줍니다. */
   const matchCatTruckImage = (fishCount) => {
     // console.log(fishCount);
     if (fishCount < 6) {
-      setDisplayFishImage(countFishTruckImages.default[fishCount].imageURL);
+      setDisplayFishImage(`cat_truck_${fishCount}.png`);
     } else {
       setDisplayFishImage('cat_truck_6.png');
     }
   };
 
+  /** 붕어빵 갯수를 요청하는 Handler입니다. */
   async function fetchFishCountHandler() {
     try {
       const fetchedFish = await fetchCount.call(null, `${pageUuid}`);
+      // console.log('요청을 보냈습니다.');
 
-      if (fetchedFish?.nickname !== fishData?.nickname || !fishData) {
-        saveFish(fetchedFish);
-        setFishData(fetchedFish);
-        matchCatTruckImage(fetchedFish.unreadCount);
-      }
+      setFishCart({
+        totalCount: fetchedFish.totalCount,
+        unreadCount: fetchedFish.unreadCount,
+        nickname: fetchedFish.nickname,
+        uuid: pageUuid,
+      });
     } catch (e) {
       console.log(e);
     }
@@ -94,22 +105,30 @@ function Member() {
 
   useEffect(() => {
     fetchFishCountHandler();
+  }, []);
 
+  useEffect(() => {
+    if (fishCart?.uuid !== null) {
+      matchCatTruckImage(fishCart.unreadCount);
+    }
+    // console.log('리랜더링 되었습니다.');
+
+    // 로그인 확인
     const isLogin = userTokenHandler(user, logout);
     setIsLoggedUser(isLogin);
 
     if (isLogin) memberCheck(isLogin);
 
+    // 새로고침 & 뒤로가기
     const preventGoBack = () => {
-      history.pushState(null, '', location.href);
-      console.log('prevent go back!');
+      history.pushState({ prevFish: fishCart }, '', location.href);
+      setFishCart(...history.state.prevFish);
     };
 
-    history.pushState(null, '', location.href);
     window.addEventListener('popstate', preventGoBack);
 
     return () => window.removeEventListener('popstate', preventGoBack);
-  }, [location, matchCatTruckImage, userTokenHandler, setIsLoggedUser]);
+  }, [fishCart, location.href]);
 
   return (
     <>
@@ -117,7 +136,7 @@ function Member() {
         <div className="contents_area">
           {/* 타이틀 */}
           <SectionTitle
-            fishData={fishData}
+            fishData={fishCart}
             isMyPage={isMyPage}
             user={user}
             logout={logout}
@@ -138,7 +157,7 @@ function Member() {
             isMatchUuid={isMatchUuid}
             isLoggedUser={isLoggedUser}
             myUid={user ? user?.uuid : null}
-            fishData={fishData}
+            fishData={fishCart}
           />
         </div>
       </MemberWrap>
@@ -149,21 +168,18 @@ function Member() {
 export default Member;
 
 const MemberWrap = styled.div`
-  height: 100vh;
+  height: 100%;
 
   background: linear-gradient(to bottom, #e3edf2 68%, #000 68%, #000 68.3%, #faeac7 68.3%);
 
   .contents_area {
-    height: 100%;
-    max-width: 450px;
-
-    margin: 0 auto;
-    padding: 0 32px;
-
     position: relative;
-
     display: flex;
     flex-flow: column;
     justify-content: center;
+    height: 100%;
+    /* max-width: 450px; */
+    margin: 0 auto;
+    padding: 0 32px;
   }
 `;

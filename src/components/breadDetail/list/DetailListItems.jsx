@@ -1,22 +1,40 @@
-import { dataList, readingDataList, modalState, idState, currentIndexState } from '../../../atoms/fishBreadList';
+import {
+  dataList,
+  readingDataList,
+  modalState,
+  idState,
+  currentIndexState,
+} from '../../../atoms/fishBreadList';
 import { useSetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
 import { useCallback } from 'react';
 import { getBreadDetailData } from '../../../utils/fetchBreadDetail';
 import styled from 'styled-components';
 import DetailListItem from './DetailListItem';
+import { fishCartState } from '../../../atoms/fishCartData';
+import { useParams } from 'react-router-dom';
 
 function DetailListItems({ token }) {
   const currentIndex = useRecoilValue(currentIndexState);
+  const [cartState, setCartState] = useRecoilState(fishCartState);
   const [breadList, setBreadList] = useRecoilState(dataList);
   const [readingData, setReadingData] = useRecoilState(readingDataList);
   const [isOpened, setIsOpened] = useRecoilState(modalState);
   const setReadingId = useSetRecoilState(idState);
+  const { uid } = useParams();
 
-  const getBreadDetail = useCallback(async (fishId) => {
-    const { data, status } = await getBreadDetailData(fishId, token);
+  const getBreadDetail = useCallback(async (fishId, uuid) => {
+    const { data, status } = await getBreadDetailData(fishId, token, uuid);
     if (status === 200) {
       setIsOpened(true);
       setReadingData((state) => [...state, { ...data }]);
+      if (data.status === 'UNREAD') {
+        setCartState((state) => {
+          return {
+            ...state,
+            unreadCount: cartState.unreadCount - 1,
+          };
+        });
+      }
     } else {
       alert('붕어빵을 가져오는데 실패했습니다...');
     }
@@ -32,7 +50,7 @@ function DetailListItems({ token }) {
     totalList[currentIndex] = currentList;
     setBreadList(totalList);
     const hasReadingData = readingData.find((e) => e.id === fishId);
-    hasReadingData ? setIsOpened(true) : getBreadDetail(fishId);
+    hasReadingData ? setIsOpened(true) : getBreadDetail(fishId, uid);
   };
 
   return (

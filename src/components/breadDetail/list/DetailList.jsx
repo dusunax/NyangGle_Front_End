@@ -5,11 +5,13 @@ import DetailListTaps from './DetailListTaps';
 import DetailListButtons from './DetailListButtons';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { dataList, tapIndexState, currentIndexState } from '../../../atoms/fishBreadList';
-import { getBreadListData } from '../../../utils/fetchBreadDetail';
+import { getBreadListData, getUserData } from '../../../utils/fetchBreadDetail';
 import styled from 'styled-components';
+import { fishCartState } from '../../../atoms/fishCartData';
 
 function DetailList() {
   const [breadList, setBreadList] = useRecoilState(dataList);
+  const [fishCart, setFishCart] = useRecoilState(fishCartState);
   const setTapIndex = useSetRecoilState(tapIndexState);
   const [pageData, setPageData] = useState();
   const [lastId, setLastId] = useState(0);
@@ -38,8 +40,8 @@ function DetailList() {
     );
     const { content, totalPages, last, first } = data;
     if (status === 200) {
-      setLastId(content?.at(-1).fishId);
-      setPrevId(content[0]?.fishId);
+      content.length && setLastId(content?.at(-1).fishId);
+      content.length && setPrevId(content[0]?.fishId);
       const dataSet = [];
       const size = 9;
       for (let i = 0; i < content.length; i += size) {
@@ -47,12 +49,11 @@ function DetailList() {
       }
       setBreadList(dataSet);
       setPageData({ totalPages, last, first });
-      if(callingType !== 'Prev') {
+      if (callingType !== 'Prev') {
         setCurrentIndex(0);
       } else {
         setCurrentIndex(dataSet.length - 1);
       }
-      
     }
   }, []);
 
@@ -62,6 +63,7 @@ function DetailList() {
 
   const onClickTap = (type, index) => {
     if (type === status) return;
+    setCallingType(0);
     setStatus(type);
     setCurrentPage(1);
     setIsRefetch((state) => !state);
@@ -95,42 +97,85 @@ function DetailList() {
     navigate('/');
   };
 
+  const getUser = async () => {
+    if (token === null) return;
+    const { data, status } = await getUserData(uid);
+    if (status === 200) {
+      const { nickname, totalCount, unreadCount } = data;
+      setFishCart({ nickname, totalCount, unreadCount, uuid: uid });
+    }
+  };
+
   useEffect(() => {
     getBreadList(callingType, status, lastId, prevId, currentPage);
   }, [isRefetch]);
 
   useEffect(() => {
     token ?? redirectNonMemeber();
+    fishCart.uuid ?? getUser();
   }, []);
 
   return (
-    <DetailListWrapper>
-      <div>
-        <TurnBack onClick={onClickLocation}>돌아가기</TurnBack>
-        <DetailListTaps onClickTap={onClickTap} />
-        <DetailLists>
-          <DetailListItems token={token} />
-        </DetailLists>
-        {pageData && (
-          <DetailListButtons
-            pageData={pageData}
-            onClickNext={onClickNext}
-            onClickPrev={onClickPrev}
-          />
-        )}
-      </div>
-    </DetailListWrapper>
+    <Wrapper>
+      <DetailListWrapper>
+        <div>
+          <TurnBack onClick={onClickLocation}>돌아가기</TurnBack>
+          <DetailListTaps onClickTap={onClickTap} />
+          <DetailLists>
+            <DetailListItems token={token} />
+          </DetailLists>
+          {pageData ? (
+            <DetailListButtons
+              pageData={pageData}
+              onClickNext={onClickNext}
+              onClickPrev={onClickPrev}
+            />
+          ) : (
+            <ButtonArea />
+          )}
+        </div>
+      </DetailListWrapper>
+    </Wrapper>
   );
 }
 
 export default DetailList;
 
+const Wrapper = styled.div`
+  display: contents;
+  @media screen and (min-width: 500px) {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+`;
+
 const DetailListWrapper = styled.div`
   padding: 0 10px;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (min-width: 500px) {
+    width: 100%;
+    max-height: 770px;
+    margin: auto;
+    align-items: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+    &::-webkit-scrollbar-track {
+      width: 100%;
+      background-color: #fff;
+    }
+  }
 `;
 
 const DetailLists = styled.div`
@@ -150,3 +195,9 @@ const TurnBack = styled.div`
   cursor: pointer;
   margin-bottom: 14px;
 `;
+
+const ButtonArea = styled.div`
+  @media screen and (min-width: 500px) {
+    height: 50px;
+  }
+`

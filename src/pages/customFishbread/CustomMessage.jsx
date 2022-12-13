@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import CustomDone from './CustomDone';
 import { useState, useEffect, useMemo } from 'react';
 
-function CustomMessage({ inputs, onChangeMessage, onClickedSave }) {
+function CustomMessage({ inputs, onChangeMessage }) {
   const [imgs, setImgs] = useState('flour');
 
   const doughs = [
@@ -36,43 +36,36 @@ function CustomMessage({ inputs, onChangeMessage, onClickedSave }) {
   }, []);
 
   return (
-    <Wrapper style={{ display: 'flex', position: 'relative' }}>
-      <Paper
-        style={{
-          backgroundImage: `url("/assets/custommessage/${imgs}.svg")`,
-          zIndex: '3',
-          objectFit: 'cover',
-          margin: '0',
-        }}
-      >
-        <Content>
-          <input
-            className="receiveNickname"
-            name="receiveNickname"
-            value="sooya"
-            style={{ float: 'left', marginLeft: '100px' }}
-            disabled
-          />
-          <Textbox
-            name="message"
-            onChange={onChangeMessage}
-            value={inputs.message}
-            maxLength="500"
-            style={{ marginTop: '10px' }}
-          />
-          <input
-            name="senderNickname"
-            onChange={onChangeMessage}
-            placeholder="익명"
-            value={inputs.senderNickname}
-            maxLength="6"
-            style={{
-              float: 'right',
-              width: '120px',
-              marginLeft: '0',
-            }}
-          />
-        </Content>
+    <Wrapper>
+      <Paper>
+        <div className="contents_area">
+          <img src={`/assets/custommessage/${imgs}.svg`} alt="편지지" className="paper_image" />
+
+          <div className="text_contents_area">
+            <input
+              className="receiveNickname"
+              name="receiveNickname"
+              value={inputs.recipientNickname}
+              disabled
+            />
+            <textarea
+              name="message"
+              className="message"
+              onChange={onChangeMessage}
+              value={inputs.message}
+              maxLength="500"
+              placeholder="내용을 입력하세요"
+            />
+            <input
+              className="senderNickname"
+              name="senderNickname"
+              onChange={onChangeMessage}
+              placeholder="익명"
+              value={inputs.senderNickname}
+              maxLength="6"
+            />
+          </div>
+        </div>
       </Paper>
     </Wrapper>
   );
@@ -83,44 +76,97 @@ export default CustomMessage;
 const Wrapper = styled.section`
   ${({ theme }) => theme.flex.col}
 
-  height: 70vh;
-  /* justify-content: space-between; */
-  object-fit: cover;
+  width: 100%;
+  flex: 1;
+
+  position: relative;
+  z-index: 9;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: -20px;
 `;
 
 const Paper = styled.div`
-  background-size: cover;
+  width: 100%;
+  flex: 1;
+
+  padding: 0 20px;
+
   display: flex;
-  width: 470px;
-  height: 610px;
-  margin: auto;
-  margin-top: -50px;
-  text-align: center;
   justify-content: center;
-  font-size: 20px;
-  margin-bottom: 10vh;
-`;
 
-const Content = styled.div`
-  margin: 30px 20px;
-  bottom: 100px;
-  flex-direction: column;
+  position: relative;
   font-size: 20px;
-  input {
-    background: transparent;
-    border: none;
-    margin: 0 0 10px 60px;
-    padding-top: 10px;
-    outline: none;
-    font-size: 30px;
+
+  .paper_image {
+    max-height: 100%;
+    max-width: 100%;
+
+    /* background-color: red; */
+    object-fit: contain;
   }
-`;
 
-const Textbox = styled.textarea`
-  width: 95%;
-  height: 435px;
-  resize: none;
-  background: none;
-  border: none;
-  font-size: 30px;
+  .contents_area {
+    height: 100%;
+    position: absolute;
+
+    @media (max-width: 500px) {
+      height: auto;
+    }
+  }
+
+  .text_contents_area {
+    width: 100%;
+    height: 100%;
+    padding: 10% 10% 17%;
+
+    position: absolute;
+    top: 0;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+
+    @media (max-width: 500px) {
+    }
+  }
+
+  input {
+    /* background-color: red !important; */
+  }
+  textarea {
+    height: 65%;
+    /* background-color: blue !important; */
+  }
+
+  .receiveNickname {
+    max-width: 180px;
+
+    background: none;
+    border: none;
+
+    color: black !important;
+    font-size: 20px;
+  }
+
+  .message {
+    border: none;
+    resize: none;
+    background: none;
+    }
+  }
+
+  .senderNickname {
+    border: none;
+    position: relative;
+    font-size: 20px;
+    align-self: flex-end;
+    background: none;
+
+    width: 30%;
+    max-width: 180px;
+  }
 `;

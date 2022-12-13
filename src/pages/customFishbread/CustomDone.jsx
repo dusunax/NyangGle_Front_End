@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-function CustomDone({ dough }) {
+function CustomDone({ uuid, dough }) {
   const navigate = useNavigate();
-  console.log(dough);
-
-  const [imgs, setImgs] = useState('flour');
+  const [doughImg, setDoughImg] = useState('');
 
   const doughs = [
     {
@@ -28,136 +26,103 @@ function CustomDone({ dough }) {
   ];
 
   useEffect(() => {
-    doughs.map((doughs) => {
+    doughs.forEach((doughs) => {
       if (doughs.label === dough) {
-        console.log(doughs.label);
-        setImgs(doughs.img);
-        console.log(doughs.img);
+        setDoughImg(doughs.img);
       }
     });
   }, []);
 
-  setTimeout(() => navigate('/U184bdf21eb90001'), 3000);
+  useEffect(() => {
+    setTimeout(() => navigate(`/${uuid}`), 3000);
+  }, []);
 
   return (
-    <div>
+    <Wrapper>
       <Header>
-        <ContentsArea>
-          <p className="message">노릇노릇해지고 있다냥</p>
-        </ContentsArea>
+        <p className="message">노릇노릇해지고 있다냥</p>
       </Header>
       <Main>
-        <Contents>
-          <img src="/assets/custommessage/cat4.svg" className="cat" />
-        </Contents>
-        <FishFrame>
-          {/* <img src="/assets/customfish/fishframe.svg" className="fishFrame" /> */}
-          <Fish>
-            <img
-              src={`/assets/custommessage/${imgs}1.svg`}
-              alt="반죽"
-              className="dough_prev"
-              id="dough_prev"
-            />
-            <img
-              src={`/assets/custommessage/${imgs}12.svg`}
-              alt="반죽"
-              className="dough_next"
-              id="dough_prev"
-            />
-          </Fish>
-        </FishFrame>
+        <img src="/assets/custommessage/cat4.svg" className="cat" />
+        <Fish>
+          <img
+            src={`/assets/custommessage/${doughImg}1.svg`}
+            alt="반죽"
+            className="dough_prev"
+            id="dough_prev"
+          />
+          <img
+            src={`/assets/custommessage/${doughImg}12.svg`}
+            alt="반죽"
+            className="dough_next"
+            id="dough_prev"
+          />
+        </Fish>
       </Main>
-    </div>
+    </Wrapper>
   );
 }
 
 export default CustomDone;
 
-const ContentsArea = styled.div`
-  padding: 0 18px;
-`;
-
-const Fish = styled.div`
-  ${({ theme }) => theme.flex.col}
-  align-items: center;
-
-  .dough_prev {
-    position: absolute;
-    bottom: 0;
-    opacity: 1;
-  }
-  .dough_next {
-    position: absolute;
-    bottom: 0;
-    opacity: 0;
-    animation: fadeIn 2s 0.2s forwards;
-  }
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-`;
-
-const FishFrame = styled.section`
-  width: 100%;
-  height: 60vh;
-  background: no-repeat top center / 110%, linear-gradient(transparent 0%, #9e9e9e 40%);
-
-  z-index: 9;
-  .fishFrame {
-    width: 120%;
-    bottom: 0;
-  }
-`;
-
-const Main = styled.main`
-  ${({ theme }) => theme.flex.col}
+const Wrapper = styled.div`
+  overflow: hidden;
   height: 100vh;
-  justify-content: space-between;
 `;
 
 const Header = styled.header`
   padding: 20px;
-  .btns {
-    ${({ theme }) => theme.flex.row}
-    align-items: center;
-    justify-content: space-between;
-  }
+
   .message {
     margin: 30px 0;
     padding: 30px;
     background-color: #eee;
     border-radius: 14px;
     text-align: center;
+
     font-weight: 600;
     font-size: 20px;
     line-height: 28px;
+
     word-break: keep-all;
   }
 `;
 
-const Contents = styled.section`
-  flex: 1;
+const Main = styled.main`
+  height: 100vh;
   ${({ theme }) => theme.flex.col}
-  justify-content: flex-end;
-  align-items: center;
-  position: relative;
+
   .cat {
-    /* width: 70%; */
-    /* max-width: 188px; */
+    height: 110px;
+  }
+`;
+
+const Fish = styled.div`
+  ${({ theme }) => theme.flex.col}
+  align-items: center;
+  top: 20%;
+
+  img {
+    height: 100%;
     position: absolute;
-    top: 400px;
-    @media (max-width: 400px) {
-      width: 40%;
-      top: -100px;
+    object-fit: cover;
+  }
+
+  .dough_prev {
+    opacity: 1;
+  }
+
+  .dough_next {
+    opacity: 0;
+    animation: fadeIn 2s 0.2s forwards;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
     }
-    @media (max-width: 350px) {
-      top: -80px;
+    100% {
+      opacity: 1;
     }
   }
 `;

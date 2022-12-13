@@ -75,7 +75,7 @@ const ModalBackground = styled.div`
 
 const AlertContainer = styled.div`
   width: calc(100% - 26px);
-  max-width: 742px;
+  max-width: 380px;
   height: 220px;
   background-color: #fff;
   z-index: 4;

@@ -1,29 +1,37 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'qs';
 import { useEffect } from 'react';
-import useAxios from '../../hooks/useAxios';
 import font from '../../../public/assets/font/font.css';
 import styled from 'styled-components';
-import { REST_API_KEY, REDIRECT_URI } from './OAuth';
+import { BASE_URI } from '../../utils/OAuth';
 import { saveUser } from '../../utils/userAuth';
+import axios from 'axios';
 
 const KakaoLogin = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { requestApi } = useAxios();
   const code = qs.parse(location.search, { ignoreQueryPrefix: true }).code;
-
   const postKakaoAuthCode = async () => {
-    const { data, status } = await requestApi('post', '/oauth/login/kakao', {
-      grant_type: 'autorization_code',
-      client_id: REST_API_KEY,
-      redirect_uri: REDIRECT_URI,
-      code,
-    });
-
-    if (status >= 200 && status < 400) {
-      saveUser(data);
-      navigate(`/${data.uuid}`);
+    try {
+      await axios
+        .post(
+          `${BASE_URI}/oauth/login/kakao`,
+          {
+            code,
+          },
+          { 'Content-Type': 'application/json' },
+        )
+        .then((result) => {
+          const { status, data } = result;
+          if (status >= 200 && status < 400) {
+            saveUser(data);
+            navigate(`/${data.uuid}`);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      navigate('/');
     }
   };
 
@@ -34,7 +42,7 @@ const KakaoLogin = () => {
   return (
     <LogoBox>
       <LogoWrap>
-        <img className="catTruck" src="/assets/images/intro/cat_truck.png" alt="Cat Truck" />
+        <img className="catTruck" src="/assets/images/member/cat_truck_intro.png" alt="Cat Truck" />
         <LoginH1>붕어빵이 노릇노릇</LoginH1>
       </LogoWrap>
     </LogoBox>
@@ -45,8 +53,10 @@ const LogoBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  margin: 0 auto;
 `;
 
 const LogoWrap = styled.div`
@@ -54,10 +64,15 @@ const LogoWrap = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 400px;
-  height: 400px;
+
+  flex: 0 0 60%;
+  text-align: center;
+  word-break: keep-all;
 
   .catTruck {
+    max-width: 300px;
+    width: 100%;
+
     -webkit-animation: wobble-hor-bottom 2s infinite both;
     animation: wobble-hor-bottom 2s infinite both;
 
@@ -127,6 +142,10 @@ const LoginH1 = styled.h1`
   font-family: 'EF_jejudoldam';
   font-size: 40px;
   line-height: 1.3em;
+
+  @media (max-width: 500px) {
+    font-size: 30px;
+  }
 `;
 
 export default KakaoLogin;
