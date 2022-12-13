@@ -55,6 +55,8 @@ function SectionTitle({ fishData, isMyPage, logout, user, saveUser, isLoggedUser
     copyUrlRef.current.select();
     document.execCommand('copy');
     alert('복사되었습니다.');
+    //확대 되는지 확인 필요
+    copyUrlRef.current.blur();
   };
 
   const onClickLogOut = () => setIsAlertOpened(true);
