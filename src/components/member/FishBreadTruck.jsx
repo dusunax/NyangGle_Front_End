@@ -25,7 +25,7 @@ const FishBreadTruckWrap = styled.section`
   height: 47%;
   position: relative;
 
-  margin-bottom: 3%;
+  margin-bottom: 4%;
 `;
 
 const FishBreadTruckBox = styled.div`
