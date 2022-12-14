@@ -56,7 +56,7 @@ function Login() {
             />
           </KakaoLogin>
 
-          <ButtonText goTo="/nyanglenyangle" text="사장에게 붕어빵 보내기" type="text" />
+          <ButtonText goTo="/nyangle" text="사장에게 붕어빵 보내기" type="text" />
         </div>
       </div>
     </LoginWrap>
