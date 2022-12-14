@@ -30,12 +30,11 @@ export default function useAxios() {
         const errorCode = err?.response?.data?.errorCode;
         if (errorCode) {
           if (errorCode === 'U001') {
-            // history.pushState
             location.replace('/');
           }
           console.log(errorCode);
         }
-        // console.error('Axios Error', err);
+        console.error('Axios Error', err);
 
         return {
           status: err.response.status,
