@@ -118,10 +118,11 @@ function DetailList() {
   return (
     <Wrapper>
       <DetailListWrapper>
-        <div>
+        <div className="contents_area">
           <TurnBack onClick={onClickLocation}>돌아가기</TurnBack>
           <DetailListTaps onClickTap={onClickTap} />
           <DetailLists>
+            <img src="/assets/images/breadDetail/mailbox.png" alt="" />
             <DetailListItems token={token} />
           </DetailLists>
           {pageData ? (
@@ -151,11 +152,29 @@ const Wrapper = styled.div`
 `;
 
 const DetailListWrapper = styled.div`
-  padding: 0 10px;
+  max-width: 350px;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0 40px;
+  margin: 0 auto;
+
+  @media screen and (max-width: 500px) {
+    padding: 5% 24px;
+  }
+
+  .contents_area {
+    height: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+
+    @media screen and (max-width: 500px) {
+      max-width: 355px;
+    }
+  }
 
   @media screen and (min-width: 500px) {
     width: 100%;
@@ -179,25 +198,28 @@ const DetailListWrapper = styled.div`
 `;
 
 const DetailLists = styled.div`
-  width: calc(100vw - 20px);
-  height: calc(100vh - 262px);
-  max-width: 354px;
-  max-height: 551px;
+  width: 100%;
   position: relative;
-  background: url('/assets/images/breadDetail/mailbox.png') no-repeat center/contain;
+
+  img {
+    width: 100%;
+  }
 `;
 
 const TurnBack = styled.div`
+  align-self: flex-start;
+
   text-indent: -9999px;
-  width: 50px;
-  height: 50px;
-  background: url('/assets/images/breadDetail/turnBack.png') no-repeat center/cover;
+  width: 45px;
+  height: 45px;
+  background: url('/assets/images/breadDetail/turnBack.png') no-repeat center/contain;
   cursor: pointer;
   margin-bottom: 14px;
 `;
 
 const ButtonArea = styled.div`
   @media screen and (min-width: 500px) {
-    height: 50px;
+    width: 38px;
+    height: 36px;
   }
-`
+`;

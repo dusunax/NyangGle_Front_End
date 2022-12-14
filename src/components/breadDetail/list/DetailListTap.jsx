@@ -34,7 +34,7 @@ const TapContent = styled.div`
   color: #fff;
   font-size: 16px;
   letter-spacing: -0.04em;
-  font-family: 'kotra';
+  white-space: nowrap;
   cursor: pointer;
 
   ${({ index, tapIndex }) =>

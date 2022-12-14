@@ -49,13 +49,16 @@ function DetailModal() {
   return (
     <ModalWrapper>
       <ModalBackground onClick={onClickWrapper} />
+      {/* 편지지 */}
       <ModalContainer backSrc={backSrc}>
         <ModalContent>
+          {/* 텍스트 영역 */}
           <MessageWrapper letterSrc={letterSrc}>
             <MessageUser>{nickname && nickname}</MessageUser>
             <MessageContent>{message}</MessageContent>
             <MessageSender>{senderNickname}</MessageSender>
           </MessageWrapper>
+          {/* 버튼 박스 */}
           <ButtonWrapper>
             <ModalCloseButton onClick={onClickDelete}>
               <ButtonContent type="delete">삭제</ButtonContent>
@@ -76,11 +79,13 @@ function DetailModal() {
 export default DetailModal;
 
 const ModalWrapper = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
+
   width: 100%;
   height: 100%;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -91,6 +96,7 @@ const ModalBackground = styled.div`
   position: absolute;
   top: 0;
   left: 0;
+
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -99,7 +105,6 @@ const ModalBackground = styled.div`
 const ModalContainer = styled.div`
   width: 100%;
   height: 100%;
-  max-width: 768px;
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -108,18 +113,6 @@ const ModalContainer = styled.div`
   ${({ backSrc }) => css`
     background: #fff url('../../../assets/images/breadDetail/${backSrc}.png') no-repeat center/cover;
   `}
-
-  @media screen and (min-width: 500px) {
-    border-radius: 20px;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
-    width: 550px;
-    height: calc(100% - 15vh);
-    overflow: hidden;
-  }
-
-  @media screen and (min-width: 1000px) {
-    width: 390px;
-  }
 `;
 
 const ModalContent = styled.div`
@@ -131,20 +124,18 @@ const ModalContent = styled.div`
   align-items: center;
   flex-direction: column;
 
+  padding: 0 24px;
+
   @media screen and (min-width: 500px) {
     overflow-y: overlay;
     display: block;
-    max-height: 700px;
     padding: 0 20px;
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
 `;
 
 const MessageWrapper = styled.div`
-  font-family: 'kotra';
   font-weight: 400;
+
   font-size: 22px;
   position: relative;
   width: 100%;

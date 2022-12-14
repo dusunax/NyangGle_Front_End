@@ -75,13 +75,10 @@ export default DetailListItems;
 
 const DetailListItemsWrapper = styled.div`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 76%;
-  height: 69%;
-  min-width: 32vh;
-  max-width: 34vh;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20% 5%;
 `;
 
 const DetailListItemsContainer = styled.ul`
