@@ -26,8 +26,9 @@ function DetailListTaps({ onClickTap }) {
 export default DetailListTaps;
 
 const DetailListTapsWrapper = styled.ul`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   gap: 5px;
-  margin-bottom: 36px;
+  margin-bottom: 10%;
 `;

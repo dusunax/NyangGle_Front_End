@@ -74,7 +74,7 @@ const LoginWrap = styled.div`
     height: 100%;
     max-width: 450px;
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 0 40px;
     position: relative;
     display: flex;
     flex-flow: column;
