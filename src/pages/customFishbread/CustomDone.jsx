@@ -33,9 +33,9 @@ function CustomDone({ uuid, dough }) {
     });
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => navigate(`/${uuid}`), 3000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => navigate(`/${uuid}`), 3000);
+  // }, []);
 
   return (
     <Wrapper>
@@ -43,20 +43,26 @@ function CustomDone({ uuid, dough }) {
         <p className="message">노릇노릇해지고 있다냥</p>
       </Header>
       <Main>
+        {/* <div className="cat_area"> */}
         <img src="/assets/custommessage/cat4.svg" className="cat" />
+        {/* </div> */}
         <Fish>
-          <img
-            src={`/assets/custommessage/${doughImg}1.svg`}
-            alt="반죽"
-            className="dough_prev"
-            id="dough_prev"
-          />
-          <img
-            src={`/assets/custommessage/${doughImg}12.svg`}
-            alt="반죽"
-            className="dough_next"
-            id="dough_prev"
-          />
+          <div className="prev_area">
+            <img
+              src={`/assets/images/customDone/${doughImg}1.svg`}
+              alt="반죽"
+              className="dough_prev"
+              id="dough_prev"
+            />
+          </div>
+          <div className="next_area">
+            <img
+              src={`/assets/images/customDone/${doughImg}2.svg`}
+              alt="반죽"
+              className="dough_next"
+              id="dough_next"
+            />
+          </div>
         </Fish>
       </Main>
     </Wrapper>
@@ -74,14 +80,13 @@ const Header = styled.header`
   padding: 20px;
 
   .message {
-    margin: 30px 0;
+    margin: 30px 0 0;
     padding: 30px;
     background-color: #eee;
     border-radius: 14px;
     text-align: center;
-
-    font-weight: 600;
-    font-size: 20px;
+    font-weight: 400;
+    font-size: 24px;
     line-height: 28px;
 
     word-break: keep-all;
@@ -89,30 +94,33 @@ const Header = styled.header`
 `;
 
 const Main = styled.main`
-  height: 100vh;
+  /* height: 100vh; */
   ${({ theme }) => theme.flex.col}
+  height: 100%;
+  padding: 25px 0 0;
+  position: relative;
 
   .cat {
-    height: 110px;
+    height: 15%;
   }
 `;
 
 const Fish = styled.div`
-  ${({ theme }) => theme.flex.col}
-  align-items: center;
-  top: 20%;
+  flex: 1;
+
+  background: linear-gradient(#ffffff 5%, #9e9e9e 50%);
 
   img {
-    height: 100%;
+    width: 120%;
     position: absolute;
-    object-fit: cover;
+    transform: translateX(-10%);
   }
 
-  .dough_prev {
+  .prev_area {
     opacity: 1;
   }
 
-  .dough_next {
+  .next_area {
     opacity: 0;
     animation: fadeIn 2s 0.2s forwards;
   }
