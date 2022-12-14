@@ -16,7 +16,7 @@ export default ButtonText;
 
 const StButtonText = styled.button`
   width: 100%;
-  height: 60px;
+  height: 70px;
   position: relative;
   background: transparent;
   border: none;
@@ -38,7 +38,8 @@ const StButtonText = styled.button`
   }
 
   img {
-    width: 90%;
+    width: 100%;
+    max-height: 70px;
   }
 
   span {

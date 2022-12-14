@@ -29,6 +29,8 @@ const StLayout = styled.main`
   width: 100%;
   height: 100vh;
 
+  padding: 0 32px;
+
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -95,6 +97,8 @@ const StLayout = styled.main`
 
   // 전체 화면
   @media (max-width: 500px) {
+    padding: 0;
+
     & > .contents_area {
       height: 100%;
 

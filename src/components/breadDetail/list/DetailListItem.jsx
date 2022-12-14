@@ -61,15 +61,13 @@ const ItemNickname = styled.p`
   width: 100%;
   height: 22px;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
   background-color: #fff;
   border: 1.5px solid #000;
   border-radius: 4px;
   font-size: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'kotra';
+  text-align: center;
 `;
 
 const ItemImage = styled.img`
