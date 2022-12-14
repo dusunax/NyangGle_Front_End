@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import { fishCartState } from '../../atoms/fishCartData';
 import { useRecoilValue } from 'recoil';
+import ButtonText from '../../components/member/elements/ButtonText';
 
 function Login() {
   const [setPage] = useRedirectPage();
@@ -47,14 +48,16 @@ function Login() {
           <img className="catTruck" src="/assets/images/member/cat_truck_3.png" alt="Cat Truck" />
         </div>
 
-        {
+        <div className="button_container">
           <KakaoLogin onClick={onClickKakaoLoginButton}>
             <KakaoLoginImage
               src="./assets/images/logos/kakao_login_large_wide.png"
               alt="카카오 로그인 버튼"
             />
           </KakaoLogin>
-        }
+
+          <ButtonText goTo="/nyangle" text="사장에게 붕어빵 보내기" type="text" />
+        </div>
       </div>
     </LoginWrap>
   );
@@ -79,12 +82,17 @@ const LoginWrap = styled.div`
     justify-content: center;
   }
 
+  .button_container {
+    width: 100%;
+    margin-bottom: 5%;
+  }
+
   .imageWrap {
     width: 100%;
     height: 47%;
     position: relative;
     margin-top: 5vh;
-    margin-bottom: 5vh;
+    margin-bottom: 4%;
   }
 
   .catTruck {
@@ -141,10 +149,9 @@ const IntroTitle = styled.h1`
 
 const KakaoLogin = styled.button`
   width: 100%;
-  height: 70px;
+  height: 55px;
   border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 55px;
   padding: 0;
   background-color: transparent;
   border: none;
