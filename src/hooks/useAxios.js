@@ -34,7 +34,7 @@ export default function useAxios() {
           }
           console.log(errorCode);
         }
-        // console.error('Axios Error', err);
+        console.error('Axios Error', err);
 
         return {
           status: err.response.status,
