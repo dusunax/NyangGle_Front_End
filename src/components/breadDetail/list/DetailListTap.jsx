@@ -32,10 +32,20 @@ const TapContent = styled.div`
   border-radius: 10px;
   border: 2px solid #000;
   color: #fff;
-  font-size: 16px;
+  font-size: 22px;
   letter-spacing: -0.04em;
   white-space: nowrap;
   cursor: pointer;
+
+  @media (min-width: 1000px) {
+    font-size: 16px;
+  }
+  @media (max-width: 400px) {
+    font-size: 20px;
+  }
+  @media (max-width: 300px) {
+    font-size: 16px;
+  }
 
   ${({ index, tapIndex }) =>
     index === tapIndex &&

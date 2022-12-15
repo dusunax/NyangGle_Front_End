@@ -3,10 +3,10 @@ import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
 
 function DetailListButtons({ pageData, onClickNext, onClickPrev }) {
-  const currentIndex = useRecoilValue(currentIndexState)
+  const currentIndex = useRecoilValue(currentIndexState);
   const breadList = useRecoilValue(dataList);
   const { first, last } = pageData;
-  
+
   return (
     <ButtonWrapper>
       {(first && currentIndex === 0) || (
@@ -14,7 +14,7 @@ function DetailListButtons({ pageData, onClickNext, onClickPrev }) {
           Prev
         </Button>
       )}
-      {(!(last && currentIndex === breadList.length - 1) && breadList.length !== 0) && (
+      {!(last && currentIndex === breadList.length - 1) && breadList.length !== 0 && (
         <Button type="button" onClick={onClickNext} call="next">
           Next
         </Button>
@@ -27,7 +27,7 @@ export default DetailListButtons;
 
 const ButtonWrapper = styled.div`
   position: relative;
-  margin-top: 24px;
+  width: 100%;
   height: 50px;
 `;
 
@@ -39,15 +39,17 @@ const Button = styled.div`
   cursor: pointer;
 
   ${({ call }) => css`
-    background: url('../../../../assets/images/breadDetail/${call}.png') no-repeat center/contain;
+    background: url('../../../../assets/images/breadDetail/${call}.png') no-repeat center / 38px;
   `}
 
   ${({ call }) =>
     call === 'next'
       ? css`
+          background-position: 12px center;
           right: 0;
         `
       : css`
+          background-position: 0px center;
           left: 0;
         `}
 `;
