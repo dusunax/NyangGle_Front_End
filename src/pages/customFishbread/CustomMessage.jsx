@@ -62,7 +62,7 @@ function CustomMessage({ inputs, onChangeMessage }) {
               onChange={onChangeMessage}
               placeholder="익명"
               value={inputs.senderNickname}
-              maxLength="6"
+              maxLength={12}
             />
           </div>
         </div>
@@ -179,6 +179,7 @@ const Paper = styled.div`
     font-size: 16px;
     align-self: flex-end;
     background: none;
+    outline: none;
 
     text-align: right;
     width: 50%;

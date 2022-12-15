@@ -34,7 +34,7 @@ function CustomDone({ uuid, dough }) {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => navigate(`/${uuid}`), 3000);
+    setTimeout(() => navigate(`/${uuid}`), 2250);
   }, []);
 
   return (
