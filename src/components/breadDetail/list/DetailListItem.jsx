@@ -54,11 +54,11 @@ const ItemWrapper = styled.li`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 8%;
+  padding-bottom: 13%;
 `;
 
 const ItemNickname = styled.p`
-  width: 100%;
+  width: calc(100% - 5px);
   height: 22px;
   overflow: hidden;
   white-space: nowrap;
@@ -66,8 +66,13 @@ const ItemNickname = styled.p`
   background-color: #fff;
   border: 1.5px solid #000;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 15px;
   text-align: center;
+
+  @media (max-width: 400px) {
+    height: 20px;
+    font-size: 13px;
+  }
 `;
 
 const ItemImage = styled.img`

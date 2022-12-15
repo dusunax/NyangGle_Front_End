@@ -144,26 +144,23 @@ export default DetailList;
 
 const Wrapper = styled.div`
   display: contents;
-  @media screen and (min-width: 500px) {
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
 `;
 
 const DetailListWrapper = styled.div`
-  max-width: 350px;
   height: 100%;
-  padding: 0 40px;
+  padding: 2% 50px;
   margin: 0 auto;
 
+  @media screen and (min-width: 1000px) {
+    padding: 2% 14px;
+  }
   @media screen and (max-width: 500px) {
-    padding: 5% 24px;
+    padding: 2% 14px;
   }
 
   .contents_area {
     height: 100%;
-    max-width: 320px;
+    max-width: 350px;
     margin: 0 auto;
 
     display: flex;
@@ -171,29 +168,7 @@ const DetailListWrapper = styled.div`
     justify-content: center;
     align-items: center;
 
-    @media screen and (max-width: 500px) {
-      max-width: 355px;
-    }
-  }
-
-  @media screen and (min-width: 500px) {
-    width: 100%;
-    max-height: 770px;
-    margin: auto;
-    align-items: flex-start;
-    overflow-y: auto;
-    overflow-x: hidden;
-    &::-webkit-scrollbar {
-      width: 4px;
-    }
-    &::-webkit-scrollbar-thumb {
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.2);
-    }
-    &::-webkit-scrollbar-track {
-      width: 100%;
-      background-color: #fff;
-    }
+    gap: 14px;
   }
 `;
 
@@ -210,16 +185,13 @@ const TurnBack = styled.div`
   align-self: flex-start;
 
   text-indent: -9999px;
-  width: 45px;
-  height: 45px;
-  background: url('/assets/images/breadDetail/turnBack.png') no-repeat center/contain;
+  width: 50px;
+  height: 50px;
+  background: url('/assets/images/breadDetail/turnBack.png') no-repeat 0px center / 38px;
   cursor: pointer;
-  margin-bottom: 14px;
 `;
 
 const ButtonArea = styled.div`
-  @media screen and (min-width: 500px) {
-    width: 38px;
-    height: 36px;
-  }
+  width: 100%;
+  height: 50px;
 `;

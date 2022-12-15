@@ -74,6 +74,7 @@ const BtnWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 40px;
+  margin-top: 10%;
 `;
 
 const Button = styled.div`
