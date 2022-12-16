@@ -33,9 +33,9 @@ function CustomDone({ uuid, dough }) {
     });
   }, []);
 
-  // useEffect(() => {
-  //   setTimeout(() => navigate(`/${uuid}`), 3000);
-  // }, []);
+  useEffect(() => {
+    setTimeout(() => navigate(`/${uuid}`), 3000);
+  }, []);
 
   return (
     <Wrapper>
@@ -43,11 +43,11 @@ function CustomDone({ uuid, dough }) {
         <p className="message">노릇노릇해지고 있다냥</p>
       </Header>
       <Main>
-        <img src="/assets/images/customFish/cat/cat4.svg" className="cat" />
+        <img src="../public/assets/images/customFish/cat/cat4.png" className="cat" />
         <Fish>
           <div className="prev_area">
             <img
-              src={`/assets/images/customDone/${doughImg}1.svg`}
+              src={`../public/assets/images/customFish/fishDone/${doughImg}1.png`}
               alt="반죽"
               className="dough_prev"
               id="dough_prev"
@@ -55,7 +55,7 @@ function CustomDone({ uuid, dough }) {
           </div>
           <div className="next_area">
             <img
-              src={`/assets/images/customDone/${doughImg}2.svg`}
+              src={`../public/assets/images/customFish/fishDone/${doughImg}2.png`}
               alt="반죽"
               className="dough_next"
               id="dough_next"
@@ -94,12 +94,19 @@ const Header = styled.header`
 const Main = styled.main`
   /* height: 100vh; */
   ${({ theme }) => theme.flex.col}
-  height: 100%;
+  height: 90%;
   padding: 25px 0 0;
   position: relative;
 
+  @media (min-height: 800px) {
+    transform: translateY(10%);
+  }
+
   .cat {
-    height: 15%;
+    height: 23%;
+    object-fit: contain;
+    transform: translateY(20px);
+    /* width: 30%; */
   }
 `;
 
@@ -112,6 +119,10 @@ const Fish = styled.div`
     width: 120%;
     position: absolute;
     transform: translateX(-10%);
+
+    @media (min-height: 800px) {
+      transform: translateX(-10%) translateY(5%) scale(1.1);
+    }
   }
 
   .prev_area {
