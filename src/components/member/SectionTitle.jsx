@@ -2,12 +2,14 @@ import { useRef, useState, useEffect } from 'react';
 import AlertModal from '../member/elements/AlertModal';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
+import AlertCopy from './elements/AlertCopy';
 
 function SectionTitle({ fishData, isMyPage, logout, user, saveUser, isLoggedUser }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [userName, setUserName] = useState(user?.nickname);
   const [newUserName, setNewUserName] = useState();
   const [isAlertOpened, setIsAlertOpened] = useState(false);
+  const [urlAlert, setUrlAlert] = useState(false);
   const copyUrlRef = useRef();
   const { requestApi } = useAxios();
   const onChange = (event) => {
@@ -54,7 +56,7 @@ function SectionTitle({ fishData, isMyPage, logout, user, saveUser, isLoggedUser
     }
     copyUrlRef.current.select();
     document.execCommand('copy');
-    alert('복사되었습니다.');
+    setUrlAlert(true);
     //확대 되는지 확인 필요
     copyUrlRef.current.blur();
   };
@@ -115,6 +117,7 @@ function SectionTitle({ fishData, isMyPage, logout, user, saveUser, isLoggedUser
         </RightButtonsWrap>
       </SectionTitleWrap>
       {isAlertOpened && <AlertModal logout={logout} onClickCancel={onClickCancel} />}
+      {urlAlert && <AlertCopy setUrlAlert={setUrlAlert} />}
     </>
   );
 }
@@ -164,9 +167,6 @@ const NickNameChangeForm = styled.form`
     padding: 5px 0;
     white-space: nowrap;
     transform: translateX(-50%);
-
-    @media (max-width: 390px) {
-    }
   }
 
   input.username {
@@ -305,6 +305,10 @@ const OtherUserWrap = styled.div`
   position: relative;
   z-index: 99;
   text-shadow: -1px 0 #e3edf2, 0 1px #e3edf2, 1px 0 #e3edf2, 0 -1px #e3edf2;
+
+  @media (min-width: 1000px) {
+    font-size: 22px;
+  }
 
   @media (max-width: 500px) {
     font-size: 28px;
