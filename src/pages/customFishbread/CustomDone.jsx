@@ -43,9 +43,7 @@ function CustomDone({ uuid, dough }) {
         <p className="message">노릇노릇해지고 있다냥</p>
       </Header>
       <Main>
-        {/* <div className="cat_area"> */}
-        <img src="/assets/custommessage/cat4.svg" className="cat" />
-        {/* </div> */}
+        <img src="/assets/images/customFish/cat/cat4.svg" className="cat" />
         <Fish>
           <div className="prev_area">
             <img

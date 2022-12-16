@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'qs';
 import { useEffect } from 'react';
-import font from '../../../public/assets/font/font.css';
 import styled from 'styled-components';
 import { BASE_URI } from '../../utils/OAuth';
 import { saveUser } from '../../utils/userAuth';
@@ -42,7 +41,7 @@ const KakaoLogin = () => {
   return (
     <LogoBox>
       <LogoWrap>
-        <img className="catTruck" src="/assets/images/member/cat_truck_intro.png" alt="Cat Truck" />
+        <img className="catTruck" src="/assets/images/intro/cat_truck.png" alt="Cat Truck" />
         <LoginH1>붕어빵이 노릇노릇</LoginH1>
       </LogoWrap>
     </LogoBox>
