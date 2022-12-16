@@ -97,16 +97,14 @@ const LoginWrap = styled.div`
     position: relative;
     margin-top: 5vh;
     margin-bottom: 4%;
+    display: flex;
+    justify-content: center;
   }
 
   .catTruck {
     height: 100%;
     max-width: 100%;
     object-fit: contain;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
   }
 `;
 
