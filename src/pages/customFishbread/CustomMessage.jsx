@@ -39,13 +39,16 @@ function CustomMessage({ inputs, onChangeMessage }) {
     <Wrapper>
       <Paper>
         <div className="contents_area">
-          <img src={`/assets/custommessage/${imgs}.svg`} alt="편지지" className="paper_image" />
-
+          <img
+            src={`../public/assets/images/customFish/paper/${imgs}.png`}
+            alt="편지지"
+            className="paper_image"
+          />
           <div className="text_contents_area">
             <input
               className="receiveNickname"
               name="receiveNickname"
-              value={inputs.recipientNickname}
+              value="{inputs.recipientNickname}"
               disabled
             />
             <textarea
@@ -124,7 +127,7 @@ const Paper = styled.div`
   .text_contents_area {
     width: 100%;
     height: 100%;
-    padding: 10% 10% 18%;
+    padding: 10% 17% 18%;
 
     position: absolute;
     top: 0;
@@ -152,7 +155,7 @@ const Paper = styled.div`
   }
   textarea {
     flex: 1;
-    outline: none;
+
     /* background-color: blue !important; */
   }
 
