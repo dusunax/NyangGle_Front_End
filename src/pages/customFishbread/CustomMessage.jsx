@@ -48,7 +48,7 @@ function CustomMessage({ inputs, onChangeMessage }) {
             <input
               className="receiveNickname"
               name="receiveNickname"
-              value="{inputs.recipientNickname}"
+              value={inputs.recipientNickname}
               disabled
             />
             <textarea
