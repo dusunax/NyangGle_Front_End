@@ -43,7 +43,10 @@ function Login() {
   return (
     <LoginWrap>
       <div className="contents_area">
-        <IntroTitle>냥냥편지</IntroTitle>
+        <IntroTitle>
+          냥냥편지
+          <img src="/assets/images/logos/main_title_border.png" alt="냥냥편지 로고" />
+        </IntroTitle>
         <div className="imageWrap">
           <img
             className="catTruck"
@@ -88,15 +91,13 @@ const LoginWrap = styled.div`
 
   .button_container {
     width: 100%;
-    margin-bottom: 5%;
+    margin: 5% 0;
   }
 
   .imageWrap {
     width: 100%;
     height: 47%;
     position: relative;
-    margin-top: 5vh;
-    margin-bottom: 4%;
     display: flex;
     justify-content: center;
   }
@@ -109,33 +110,29 @@ const LoginWrap = styled.div`
 `;
 
 const IntroTitle = styled.h1`
-  margin-top: 8vh;
-  margin-bottom: 7vh;
+  margin-top: 15%;
+  margin-bottom: 18%;
 
   font-family: 'EF_jejudoldam';
-  font-size: 80px;
+  font-size: 0px;
   text-align: center;
+  text-indent: -9999px;
 
   color: #ed9a00;
   text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
 
-  @media (min-width: 1000px) {
-    font-size: 60px;
-  }
+  img {
+    display: block;
+    width: 70%;
+    margin: 0 auto;
 
-  @media (max-width: 500px) {
-    font-size: 60px;
-  }
+    @media (max-width: 500px) {
+      width: 90%;
+    }
 
-  @media (max-width: 400px) {
-    font-size: 50px;
+    animation: up 0.5s 0.2s forwards;
+    opacity: 0;
   }
-  @media (max-width: 300px) {
-    font-size: 42px;
-  }
-
-  animation: up 0.5s 0.2s forwards;
-  opacity: 0;
 
   @keyframes up {
     0% {
