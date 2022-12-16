@@ -30,5 +30,6 @@ const DetailListTapsWrapper = styled.ul`
   display: flex;
   justify-content: space-between;
   gap: 5px;
-  margin-bottom: 10%;
+
+  padding-bottom: 7%;
 `;

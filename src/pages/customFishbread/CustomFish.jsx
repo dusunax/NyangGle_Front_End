@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
 import { useRecoilValue } from 'recoil';
 import { fishCartState } from '../../atoms/fishCartData';
+import AlertMessage from '../../components/member/elements/AlertMessage';
+import AlertCustom from '../../components/member/elements/AlertCustom';
 
 function CustomFish({ countUp, setCountUp }) {
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ function CustomFish({ countUp, setCountUp }) {
   const { requestApi } = useAxios();
   const tabs = ['커스텀', '메세지', '완성'];
   const [activeTab, setActiveTab] = useState(tabs[0]);
+
   const [inputs, setInputs] = useState({
     dough: '밀가루',
     message: '',
@@ -28,6 +31,9 @@ function CustomFish({ countUp, setCountUp }) {
     sediment: '',
   });
   const [message, setMessage] = useState('앙금을 고르라냥');
+
+  const [customAlert, setCustomAlert] = useState(false);
+  const [messageAlert, setMessageAlert] = useState(false);
 
   // 저장
   const onClickSave = async () => {
@@ -57,9 +63,7 @@ function CustomFish({ countUp, setCountUp }) {
   const onClickNav = (tab, direction) => {
     // 커스텀 페이지 이전 버튼 클릭 시
     if (tab === '커스텀' && direction === 'prev') {
-      if (window.confirm('붕어빵 만들기를 취소하시겠습니까?')) {
-        navigate(`/${recipient.uuid}`);
-      }
+      setCustomAlert(true);
     }
 
     // 커스텀 페이지 다음 버튼 클릭 시
@@ -78,9 +82,8 @@ function CustomFish({ countUp, setCountUp }) {
 
     // 메세지 페이지 이전 버튼 클릭 시
     if (tab === '메세지' && direction === 'prev') {
-      if (window.confirm('내용 작성을 취소하시겠습니까?')) {
-        setActiveTab(tabs[0]);
-      }
+      setMessageAlert(true);
+      // setActiveTab(tabs[0]);
     }
 
     // 메세지 페이지 다음 버튼 클릭 시
@@ -151,22 +154,30 @@ function CustomFish({ countUp, setCountUp }) {
         </ContentsArea>
       </Header>
       <Contents>
-        <img src={`/assets/customfish/${imgs.cat}.svg`} alt="고양이" className="cat" />
+        <img
+          src={`../public/assets/images/customFish/cat/${imgs.cat}.png`}
+          alt="고양이"
+          className="cat"
+        />
         {imgs.sediment && (
           <img
-            src={`/assets/customfish/${imgs.sediment}_wide.png`}
+            src={`../public/assets/images/customFish/sediment/${imgs.sediment}_wide.png`}
             alt="앙금"
             className="sediment"
           />
         )}
         {activeTab === tabs[0] && (
           <FishFrame>
-            <img src={`/assets/customfish/${imgs.dough}.svg`} alt="반죽" className="dough" />
+            <img
+              src={`../public/assets/images/customFish/fishDough/${imgs.dough}.png`}
+              alt="반죽"
+              className="dough"
+            />
             <Types>
               <article>
                 {doughs.map((dough) => (
                   <button key={dough.label} onClick={() => onClickType('dough', dough)}>
-                    <img src={`/assets/customfish/d_${dough.img}.svg`} />
+                    <img src={`../public/assets/images/customFish/menuIcon/d_${dough.img}.png`} />
                     {dough.label} 반죽
                   </button>
                 ))}
@@ -174,7 +185,9 @@ function CustomFish({ countUp, setCountUp }) {
               <article>
                 {sediments.map((sediment) => (
                   <button key={sediment.label} onClick={() => onClickType('sediment', sediment)}>
-                    <img src={`/assets/customfish/s_${sediment.img}.svg`} />
+                    <img
+                      src={`../public/assets/images/customFish/menuIcon/s_${sediment.img}.png`}
+                    />
                     {sediment.label} 앙금
                   </button>
                 ))}
@@ -186,6 +199,10 @@ function CustomFish({ countUp, setCountUp }) {
           <CustomMessage inputs={inputs} onChangeMessage={onChangeMessage} />
         )}
       </Contents>
+      {customAlert && <AlertCustom setCustomAlert={setCustomAlert} />}
+      {messageAlert && (
+        <AlertMessage setMessageAlert={setMessageAlert} setActiveTab={setActiveTab} />
+      )}
     </Main>
   );
 }
@@ -245,7 +262,7 @@ const Main = styled.main`
 
 const LeftBtn = styled.button`
   background: none;
-  background: url('/assets/customfish/leftBtn.svg') no-repeat;
+  background: url('../public/assets/images/breadDetail/prev.png') no-repeat;
   background-size: contain;
 
   width: 36.25px;
@@ -263,7 +280,7 @@ const LeftBtn = styled.button`
 `;
 
 const RightBtn = styled(LeftBtn)`
-  background-image: url('/assets/customfish/rightBtn.svg');
+  background-image: url('../public/assets/images/breadDetail/next.png');
 `;
 
 const Header = styled.header`

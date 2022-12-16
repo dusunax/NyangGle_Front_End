@@ -14,6 +14,9 @@ const GlobalStyle = createGlobalStyle`
 
   body, button, input, textarea {
     font-family:'kotra',"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    outline: none;
+    letter-spacing: 2px;
+    line-height: 1.3;
   }
 
   *::-webkit-scrollbar {

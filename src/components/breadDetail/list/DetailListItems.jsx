@@ -78,7 +78,7 @@ const DetailListItemsWrapper = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  padding: 20% 5%;
+  padding: 24% 13%;
 `;
 
 const DetailListItemsContainer = styled.ul`
@@ -87,5 +87,5 @@ const DetailListItemsContainer = styled.ul`
   grid-template-rows: repeat(3, 1fr);
   width: 100%;
   height: 100%;
-  gap: 10% 1%;
+  gap: 12% 2%;
 `;
