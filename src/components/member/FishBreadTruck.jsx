@@ -8,7 +8,7 @@ function FishBreadTruck({ displayFishImage, isMyPage, pageUuid }) {
     <FishBreadTruckWrap>
       <FishBreadTruckBox>
         <img
-          src={`./assets/images/member/catTruck/${displayFishImage}`}
+          src={`/assets/images/member/catTruck/${displayFishImage}`}
           alt="고양이 트럭이다냥"
           className={isMyPage ? 'catTruck clickable' : 'catTruck '}
           onClick={isMyPage ? setPage.bind(this, `/list/${pageUuid}`) : null}

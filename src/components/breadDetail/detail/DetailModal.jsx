@@ -111,7 +111,7 @@ const ModalContainer = styled.div`
   align-items: center;
 
   ${({ backSrc }) => css`
-    background: #fff url('../../../assets/images/breadDetail/${backSrc}.png') no-repeat center/cover;
+    background: #fff url('/assets/images/breadDetail/${backSrc}.png') no-repeat center/cover;
   `}
 `;
 
@@ -144,8 +144,7 @@ const MessageWrapper = styled.div`
   margin-top: 30px;
 
   ${({ letterSrc }) => css`
-    background: url('../../../assets/images/breadDetail/${letterSrc}.png') no-repeat center /
-      contain;
+    background: url('/assets/images/breadDetail/${letterSrc}.png') no-repeat center / contain;
   `}
 `;
 

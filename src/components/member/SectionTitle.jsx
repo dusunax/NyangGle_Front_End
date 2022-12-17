@@ -100,7 +100,7 @@ function SectionTitle({ fishData, isMyPage, logout, user, saveUser, isLoggedUser
           <CopyUrlWrap>
             <input id="copyUrl" type="text" ref={copyUrlRef} defaultValue={window.location.href} />
             <img
-              src="./assets/images/member/link_button.png"
+              src="/assets/images/member/link_button.png"
               alt="링크 복사 버튼"
               onClick={copyUrl}
             />
@@ -108,7 +108,7 @@ function SectionTitle({ fishData, isMyPage, logout, user, saveUser, isLoggedUser
           {isLoggedUser && isMyPage && (
             <LogoutWrap>
               <img
-                src="./assets/images/member/logout_button.png"
+                src="/assets/images/member/logout_button.png"
                 alt="로그아웃 버튼"
                 onClick={onClickLogOut}
               />

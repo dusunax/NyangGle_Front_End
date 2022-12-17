@@ -39,7 +39,7 @@ function DetailListItem({ data, onClickBread }) {
     <ItemWrapper>
       <ItemNickname>{senderNickname}</ItemNickname>
       <ItemImage
-        src={`../../../../assets/images/breadDetail/${breadType}.png`}
+        src={`/assets/images/breadDetail/${breadType}.png`}
         onClick={() => onClickBread(fishId)}
       />
     </ItemWrapper>

@@ -40,7 +40,7 @@ function CustomMessage({ inputs, onChangeMessage }) {
       <Paper>
         <div className="contents_area">
           <img
-            src={`../public/assets/images/customFish/paper/${imgs}.png`}
+            src={`/assets/images/customFish/paper/${imgs}.png`}
             alt="편지지"
             className="paper_image"
           />
@@ -65,7 +65,7 @@ function CustomMessage({ inputs, onChangeMessage }) {
               onChange={onChangeMessage}
               placeholder="익명"
               value={inputs.senderNickname}
-              maxLength="6"
+              maxLength={12}
             />
           </div>
         </div>
@@ -182,6 +182,7 @@ const Paper = styled.div`
     font-size: 16px;
     align-self: flex-end;
     background: none;
+    outline: none;
 
     text-align: right;
     width: 50%;
