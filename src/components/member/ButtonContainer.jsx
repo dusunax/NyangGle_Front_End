@@ -19,7 +19,9 @@ function ButtonContainer({ isMyPage, myUid, isLoggedUser, fishData }) {
     />
   );
   const buttonToMyLogin = <ButtonText goTo="/" text="로그인 하러 가기" type="text" />;
-  const buttonToNyangle = <ButtonText goTo="/nyangle" text="사장에게 붕어빵 보내기" type="text" />;
+  const buttonToNyangle = (
+    <ButtonText goTo="/customFish/nyangle" text="사장에게 붕어빵 보내기" type="text" />
+  );
 
   return (
     <>
