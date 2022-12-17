@@ -40,7 +40,7 @@ function CustomMessage({ inputs, onChangeMessage }) {
       <Paper>
         <div className="contents_area">
           <img
-            src={`../public/assets/images/customFish/paper/${imgs}.png`}
+            src={`/assets/images/customFish/paper/${imgs}.png`}
             alt="편지지"
             className="paper_image"
           />

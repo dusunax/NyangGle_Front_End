@@ -58,7 +58,7 @@ function Login() {
         <div className="button_container">
           <KakaoLogin onClick={onClickKakaoLoginButton}>
             <KakaoLoginImage
-              src="./assets/images/logos/kakao_login_large_wide.png"
+              src="/assets/images/logos/kakao_login_large_wide.png"
               alt="카카오 로그인 버튼"
             />
           </KakaoLogin>

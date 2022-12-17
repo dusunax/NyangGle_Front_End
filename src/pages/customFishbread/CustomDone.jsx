@@ -43,11 +43,11 @@ function CustomDone({ uuid, dough }) {
         <p className="message">노릇노릇해지고 있다냥</p>
       </Header>
       <Main>
-        <img src="../public/assets/images/customFish/cat/cat4.png" className="cat" />
+        <img src="/assets/images/customFish/cat/cat4.png" className="cat" />
         <Fish>
           <div className="prev_area">
             <img
-              src={`../public/assets/images/customFish/fishDone/${doughImg}1.png`}
+              src={`/assets/images/customFish/fishDone/${doughImg}1.png`}
               alt="반죽"
               className="dough_prev"
               id="dough_prev"
@@ -55,7 +55,7 @@ function CustomDone({ uuid, dough }) {
           </div>
           <div className="next_area">
             <img
-              src={`../public/assets/images/customFish/fishDone/${doughImg}2.png`}
+              src={`/assets/images/customFish/fishDone/${doughImg}2.png`}
               alt="반죽"
               className="dough_next"
               id="dough_next"
