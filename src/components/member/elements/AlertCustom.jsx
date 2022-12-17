@@ -4,6 +4,8 @@ import { useRecoilValue } from 'recoil';
 
 function AlertCopy({ setCustomAlert }) {
   // const recipient = useRecoilValue(fishCartState);
+  const pathname = location.pathname;
+  const fishId = pathname.split('/')[2];
   const navigate = useNavigate();
   return (
     <Wrapper>
@@ -12,8 +14,7 @@ function AlertCopy({ setCustomAlert }) {
         <BtnWrapper>
           <Button
             onClick={() => {
-              // navigate(`/${recipient.uuid}`);
-              navigate(`/U184bdf21eb90001`);
+              navigate(`/${fishId}`);
             }}
             btnType="confirm"
           >
