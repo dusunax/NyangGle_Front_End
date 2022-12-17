@@ -117,6 +117,7 @@ const Button = styled.div`
   height: 40px;
   font-size: 22px;
   color: #000;
+  cursor: pointer;
 
   ${({ btnType }) =>
     btnType === 'delete' &&
