@@ -128,7 +128,7 @@ const Paper = styled.div`
     width: 100%;
     height: 100%;
     padding: 10% 17% 18%;
-    border: 1px solid black;
+
     position: absolute;
     top: 0;
 
@@ -184,10 +184,6 @@ const Paper = styled.div`
     border: none;
     resize: none;
     background: none;
-    border: 1px solid black;
-    /* @media (min-width: 1000px) {
-      height: 50%;
-    } */
   }
 
   .senderNickname {
