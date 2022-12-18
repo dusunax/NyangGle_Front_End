@@ -86,7 +86,7 @@ const StLayout = styled.main`
       position: fixed;
       left: 50%;
       top: 10px;
-      z-index: -9;
+      /* z-index: -9; */
       transform: translateX(calc(-100% - 220px));
 
       .logo {
