@@ -20,11 +20,11 @@ export default Button;
 
 const StButton = styled(ButtonText)``;
 
-const UnReadText = styled.span`
+const UnReadText = styled.div`
   position: absolute;
   top: 50%;
   right: 0;
-  transform: translate(240%, -60%) !important;
+  transform: translate(-60%, -60%) !important;
   width: 33px;
   height: 34px;
   text-align: center;
@@ -49,7 +49,7 @@ const UnReadText = styled.span`
   @media (max-width: 280px) {
     width: 28px;
     height: 29px;
-    transform: translate(240%, -60%) !important;
+    transform: translate(-30%, -60%) !important;
 
     span {
       padding-top: 18px;
