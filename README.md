@@ -22,6 +22,8 @@
 
 | 역할 | 닉네임 | 링크 |
 | --- | --- | --- |
+| DE | 굥 | 여기에 링크를 입력하세요. |
+| BE | 둠칫 | https://github.com/beetrbgus |
 | FE | 뚜뚜 | https://github.com/dduddu92 |
 | FE | 베아 | https://github.com/suu0321 |
 | FE | 수야 | https://github.com/trondi |
@@ -32,7 +34,7 @@
 ## 배포 링크
 
 - 배포 주소 : [https://nyangnyang-letter.me/](https://nyangnyang-letter.me/)
-- 시연 영상 : 유투브 주소 링크
+- 시연 영상 : [https://www.youtube.com/watch?v=CaybAzvcRGo](https://www.youtube.com/watch?v=CaybAzvcRGo)
 
 ## 냥냥편지 소개
 
@@ -49,7 +51,14 @@
 | --- | --- |
 | FE 기술 스택 | Javascript, React, Recoil, Axios, Styled-components, Vite |
 | FE 배포 | Cloudflare Pages, Cloudflare Analytics |
+| BE 기술 스택 | Java 11, Spring boot. Spring Data. JPA Spring Security, Querydsl |
+| BE 배포 | AWS EC2, Route 53 |
+| BE DB | AWS RDS (MySQL) |
 
 ## FE
 
 <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/> <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=Vite&logoColor=white"/></a> <img src="https://img.shields.io/badge/styled-components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/></a> <img src="https://img.shields.io/badge/Axios-CB3837?style=flat-square&logo=npm&logoColor=white"/></a> <img src="https://img.shields.io/badge/Cloudflare Analytics-CB3837?style=flat-square&logo=npm&logoColor=white"/></a> <img src="https://img.shields.io/badge/Cloudflare Pages-CB3837?style=flat-square&logo=npm&logoColor=white"/></a>
+
+## BE
+
+<img src="https://img.shields.io/badge/JAVA-007396?style=flat-square&logo=JAVA&logoColor=white"> <img src="https://img.shields.io/badge/Spring Boot-007396?style=flat-square&logo=Spring Boot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Security-007396?style=flat-square&logo=Spring Security&logoColor=white"> <img src="https://img.shields.io/badge/Querydsl-007396?style=flat-square&logo=Querydsl&logoColor=white"> <img src="https://img.shields.io/badge/Amazon EC2-007396?style=flat-square&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/Amazon RDS-007396?style=flat-square&logo=Amazon RDS&logoColor=white"> <img src="https://img.shields.io/badge/Hibernate-007396?style=flat-square&logo=Hibernate&logoColor=white">
