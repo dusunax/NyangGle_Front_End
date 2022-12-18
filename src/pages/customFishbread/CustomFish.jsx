@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
 import { useRecoilValue } from 'recoil';
 import { fishCartState } from '../../atoms/fishCartData';
-import AlertMessage from '../../components/member/elements/AlertMessage';
+
 import AlertCustom from '../../components/member/elements/AlertCustom';
 
 function CustomFish({ countUp, setCountUp }) {
@@ -33,7 +33,6 @@ function CustomFish({ countUp, setCountUp }) {
   const [message, setMessage] = useState('앙금을 고르라냥');
 
   const [customAlert, setCustomAlert] = useState(false);
-  const [messageAlert, setMessageAlert] = useState(false);
 
   // 저장
   const onClickSave = async () => {
@@ -82,8 +81,7 @@ function CustomFish({ countUp, setCountUp }) {
 
     // 메세지 페이지 이전 버튼 클릭 시
     if (tab === '메세지' && direction === 'prev') {
-      setMessageAlert(true);
-      // setActiveTab(tabs[0]);
+      setActiveTab(tabs[0]);
     }
 
     // 메세지 페이지 다음 버튼 클릭 시
@@ -155,7 +153,7 @@ function CustomFish({ countUp, setCountUp }) {
       </Header>
       <Contents>
         <img src={`/assets/images/customFish/cat/${imgs.cat}.png`} alt="고양이" className="cat" />
-        {imgs.sediment && (
+        {activeTab === tabs[0] && imgs.sediment && (
           <img
             src={`/assets/images/customFish/sediment/${imgs.sediment}_wide.png`}
             alt="앙금"
@@ -194,9 +192,6 @@ function CustomFish({ countUp, setCountUp }) {
         )}
       </Contents>
       {customAlert && <AlertCustom setCustomAlert={setCustomAlert} />}
-      {messageAlert && (
-        <AlertMessage setMessageAlert={setMessageAlert} setActiveTab={setActiveTab} />
-      )}
     </Main>
   );
 }

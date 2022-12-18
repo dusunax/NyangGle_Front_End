@@ -14,18 +14,18 @@ function AlertCopy({ setCustomAlert }) {
         <BtnWrapper>
           <Button
             onClick={() => {
+              setCustomAlert(false);
+            }}
+          >
+            취소
+          </Button>
+          <Button
+            onClick={() => {
               navigate(`/${fishId}`);
             }}
             btnType="confirm"
           >
             확인
-          </Button>
-          <Button
-            onClick={() => {
-              setCustomAlert(false);
-            }}
-          >
-            취소
           </Button>
         </BtnWrapper>
       </AlertContainer>
