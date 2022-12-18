@@ -83,7 +83,7 @@ const DetailListItemsWrapper = styled.div`
 
 const DetailListItemsContainer = styled.ul`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, calc((100% - 4%) / 3));
   grid-template-rows: repeat(3, 1fr);
   width: 100%;
   height: 100%;

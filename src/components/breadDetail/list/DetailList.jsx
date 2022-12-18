@@ -148,14 +148,19 @@ const Wrapper = styled.div`
 
 const DetailListWrapper = styled.div`
   height: 100%;
-  padding: 2% 50px;
   margin: 0 auto;
 
   @media screen and (min-width: 1000px) {
-    padding: 2% 14px;
+    padding: 2% 32px;
+  }
+
+  padding: 2% 120px;
+
+  @media screen and (max-width: 800px) {
+    padding: 2% 50px;
   }
   @media screen and (max-width: 500px) {
-    padding: 2% 14px;
+    padding: 2% 32px;
   }
 
   .contents_area {
