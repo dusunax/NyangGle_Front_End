@@ -153,7 +153,7 @@ function CustomFish({ countUp, setCountUp }) {
       </Header>
       <Contents>
         <img src={`/assets/images/customFish/cat/${imgs.cat}.png`} alt="고양이" className="cat" />
-        {imgs.sediment && (
+        {activeTab === tabs[0] && imgs.sediment && (
           <img
             src={`/assets/images/customFish/sediment/${imgs.sediment}_wide.png`}
             alt="앙금"
