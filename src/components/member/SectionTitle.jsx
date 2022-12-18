@@ -167,6 +167,7 @@ const NickNameChangeForm = styled.form`
     padding: 5px 0;
     white-space: nowrap;
     transform: translateX(-50%);
+    cursor: pointer;
   }
 
   input.username {
