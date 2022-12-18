@@ -65,7 +65,7 @@ const StLayout = styled.main`
   & > .contents_area {
     width: 100%;
     max-width: 550px;
-    height: calc(100% - 15vh);
+    height: calc(100% - 20vh);
 
     margin-bottom: 5vh;
 
@@ -81,6 +81,7 @@ const StLayout = styled.main`
   @media (min-width: 1000px) {
     & > .contents_area {
       max-width: 390px;
+      max-height: 800px;
     }
     .site_title {
       position: fixed;
@@ -88,6 +89,7 @@ const StLayout = styled.main`
       top: 10px;
       z-index: -9;
       transform: translateX(calc(-100% - 220px));
+      margin-top: 80px;
 
       .logo {
         height: 50px;
